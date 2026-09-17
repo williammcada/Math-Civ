@@ -1,96 +1,84 @@
-# Project Brief — Math Civ
+# Project Brief — Math Civ — Sekigahara
 
-**Brief status:** Migration baseline / requires source verification where noted  
-**Brief version:** 0.1  
-**Last updated:** 18 September 2026  
-**Owner:** William McAda  
-**Product credit:** A WILLIAM MCADA PRODUCT  
-**Handbook repository:** `williammcada/mcada-project-handbook`  
-**Handbook baseline:** `6557a45aaa6d29d7d1abde808e6d0ac248b08820 (AI-START-HERE.md); UNIVERSAL-RULES.md @ aed6fe311aa2e88983f862a30a2d8f05d2ffc04d`  
-**Repository:** `williammcada/Math-Civ`  
-**Canonical source status:** Latest discussed development target/build is v0.3; exact latest known-good source artifact is TO ESTABLISH from the local project files.  
-**Current project state:** Playable foundational prototype with ongoing battle-length, gameplay-engagement, rounding/estimation, and mobile-compatibility revisions.
+**Brief version:** 0.2 — audited documentation revision  
+**Owner:** William McAda · **Credit:** A WILLIAM MCADA PRODUCT  
+**Status:** Revised record for owner review; not an application release or fresh feature approval.  
+**Repository destination:** williammcada/Math-Civ (verify existence/current branch before source edits).  
+**Current running version:** Not independently verified in this documentation task.  
+**Source/baseline:** Known SEKIGAHARA_V03_WORKING_CHECKPOINT.zip is a working checkpoint, not automatically a verified release. v0.3 proposal was accepted.  
+**Next work:** Recover v0.3 checkpoint; assess accepted proposal coverage and requested iPhone HTML-app compatibility.
 
-## 1. Purpose and audience
+## 1. Purpose, audience and detailed scope
 
-Math Civ is a retro turn-based mathematics-and-civilization strategy game combining contextualized resource mathematics, city/economic decisions, tactical battle, and branching campaign outcomes.
+- Offline turn-based historical strategy/mathematics game, Japan/Tokugawa leading to Sekigahara. Preserve TypeScript/Phaser source architecture, Windows and landscape iPad targets; iPhone HTML-wrapper support is a separate unresolved request.
+- Four chapters, three Command Seals per chapter, 17 orders, policy/world phases; Rice, Treasury, Materials, Authority plus city/army/diplomacy statistics.
+- Retain 24 question templates/two authored variants each, three attempts in every assistance mode (help changes, attempts do not), diminishing rewards and visible math-resource consequences.
+- Preserve five crisis types (famine, rebellion, flood, plague, raid), at most one major crisis per chapter, tactical grid/formations/terrain/deployment/practice and Good/Normal/Bad endings.
+- Accepted v0.3 removes forced five-round battle finish; two consecutive uncontested camp checks or all opposing cores defeated/routed earn victory. Round 12 offers optional council, not a mandatory ending.
+- Add Chapter-1 Granary Convoy after second resolved order without spending another Seal or replaying world/production phases; loss continues campaign. Select one earned tactical plan: Flanking March, Engineer Corps, Fire Discipline; Standard Deployment remains available.
+- Rebalance sustainable rations/ammunition, explicit supply ledger, battle saves, readable enemy intent/capture progress and Kobayakawa decision timing. Exact values and supersessions belong to SEKIGAHARA_V0.3_PROPOSAL.md.
+- Math audit: two supply questions need explicit issued-ration tables; deliberate final provisioning rounding must state boundary rule. Accept equivalent decimals; reject malformed numeric forms. Preserve correctly purchased supplies rather than applying misleading percentage losses.
+- Local deterministic AI; no model API/backend/accounts/telemetry or external runtime assets. No new nation, leader campaign, multiplayer, larger map or wholesale engine rewrite in v0.3.
 
-**Primary audience / operator:** Student player using desktop or supported touch/mobile browser.
+## 2. This task and boundaries
 
-## 2. Standards selection
+This revision repairs documentation only. It does not implement features, run application tests, upload source, deploy a site, or alter a repository. Retain the exact current source before implementation. Historical reported functionality is a preservation checklist to reconcile against that source, not permission to recreate the program from prose.
 
-**Universal baseline:** U-01 through U-08 where applicable.
+## 3. Standards and adoption
 
-**Conditional modules:** S-02 Curriculum/Assessment/Evidence; S-03 Live Classroom and Educational Games; S-04 Distribution/Deployment
+[Canonical handbook](https://github.com/williammcada/mcada-project-handbook). File blob revisions consulted: AI-START-HERE.md 6557a45aaa6d29d7d1abde808e6d0ac248b08820; UNIVERSAL-RULES.md aed6fe311aa2e88983f862a30a2d8f05d2ffc04d; CONDITIONAL-STANDARDS.md dad2d3a05ca0f18260196ea51ac6351bffffdc1c; PROJECT-TEMPLATE.md 574f4c6fcf19ecc2f9e27582fd856fb08123e8da. These are file blobs, not repository commit SHAs.
 
-Apply only the selected modules and project-local requirements. Do not import restrictions from unrelated projects.
+Relevant rules: U-01 identity, U-02 help, U-03 input validation, U-04 unambiguous math/text where applicable, U-05 reader/device, U-06 preservation, U-07 verification, U-08 local scope. Conditional selection: S-02, S-03, S-04.
+Baseline adoption: selected for this documentation task within existing user instructions. Handbook still labels shared scope/modules seeded/draft; no new global rule ratification is inferred. Project-specific approved decisions control their own scope.
 
-## 3. Project-specific requirements
+## 4. Must-retain behavior
 
-- Do not require rounding or estimation unless the prompt intentionally teaches or specifies it.
-- Resource calculations, displayed adviser solutions, and scoring must agree.
-- Battles must provide enough tactical duration to feel meaningful.
-- Math success/failure should affect resources without collapsing the game into a worksheet wrapper.
-- Preserve the SNES/ROTK/Civ-inspired strategic identity without copying protected game assets.
-- Target browser/device support must be tested rather than assumed.
+The detailed scope above is the feature-preservation inventory. Preserve existing settings, data, accepted content, assets, exports and compatibility confirmed in source. Distinguish implemented behavior, accepted pending changes and historical requests during intake. A missing entry in this brief is not authorization to remove working behavior. Preserve valid user work during migrations and failures.
 
-## 4. Preserve from the current accepted project
+## 5. Source, release and deployment discipline
 
-- Turn-based civilization/resource layer.
-- Math success → resource consequences and diminishing returns on failures.
-- Chaotic/strategic consequences of resource pressure.
-- Branching Good/Normal/Bad-style outcomes where retained in the current design.
-- Tactical-grid battle concept.
-- Initial Japan/Tokugawa/Sekigahara campaign identity.
+Known SEKIGAHARA_V03_WORKING_CHECKPOINT.zip is a working checkpoint, not automatically a verified release. v0.3 proposal was accepted.
 
-## 5. Relationship to other projects
+Record exact selected source filename/hash and repository commit when importing it; record live URL/version only after actually opening it. Unknown commit does not mean the product is unbuilt.
 
-- Independent educational strategy game; not a MathQuest cartridge.
-- Future ROTK-math remake work should not silently overwrite this source without an explicit migration plan.
+DESIGN → CHANGE SPEC → IMPLEMENT → CHECKPOINT → VERIFY → VERIFIED CHECKPOINT → RELEASE → DEPLOY.
 
-A conceptual relationship is not proof of an implemented integration. Do not invent a shared API, data schema, identity layer, or deployment dependency without an explicit integration task.
+Use “implementation checkpoint” or “release candidate” before verification. Preserve candidate bytes and logs before packaging; recover that checkpoint after a ZIP/upload failure. Do not rebuild a verified implementation to fix delivery. Repository upload and website deployment are different operations; existing automatic deployments may run when main changes.
 
-## 6. Source and version discipline
+## 6. Known issues, conflicts and open evidence
 
-The exact current source artifact or repository commit must be identified before a substantive build. If the field above says the source is not yet established, first locate the latest known-good local file/ZIP or existing repository state and record its exact identity here.
+Known feedback: Submit Revision after wrong answer, troop movement/deployment ambiguity, battle too short, hidden rounding, iPhone HTML-app failure. Resolve against checkpoint rather than assuming every historical defect persists.
 
-For substantial revisions use:
+| Conflict or risk | Required handling |
+| --- | --- |
+| Historical claim versus current source | Inspect exact source; keep historical claim labeled until verified. |
+| Proposed next scope versus working baseline | Use the approved version-specific specification; do not silently promote proposals. |
+| Other project rules | Do not import AAC quotas, other-game retry counts, or a shared backend without explicit scope. |
+| Handbook proposals | No additional exception or proposal is adopted by this brief. |
 
-**DESIGN → CHANGE SPEC → IMPLEMENT → CHECKPOINT → VERIFY → VERIFIED CHECKPOINT → RELEASE → DEPLOY (when applicable)**
+## 7. Verification contract
 
-A packaging/export/deployment failure must not force reconstruction of an already verified build.
+Check all templates/variants plus dynamic inputs, three-attempt flow, supply receipts, convoy return/save, all tactical plans, camp checks/council/endings; document iPad and iPhone wrapper separately.
 
-## 7. Definition of done
+| Evidence required | Result in this task |
+| --- | --- |
+| Exact source candidate/commit identified and preserved | Not run — documentation revision only |
+| Project-specific checks above, with inputs and expected/actual results | Not run |
+| Save/import/export and malformed-input regression | Not run |
+| Intended devices and real deployment path, where applicable | Not run |
+| Version, release notes and delivered bytes agree | Not run |
 
-| # | Requirement / check | Result | Evidence / limitation |
-| ---: | --- | --- | --- |
-| 1 | Representative mathematics contains no unintended rounding ambiguity. | Not run | |
-| 2 | Resource calculations reproduce independently. | Not run | |
-| 3 | Battle pacing is long enough under the approved design. | Not run | |
-| 4 | Failure paths remain playable and strategically meaningful. | Not run | |
-| 5 | Target desktop/touch/iPhone behavior is verified where claimed. | Not run | |
+The next build report must name the candidate, environment and test results; historical reports of passing tests do not transfer to a changed candidate.
 
-Allowed results: **Passed / Failed / Not run / Not applicable**. A "Passed" result requires an actual check against the identified candidate.
+## 8. Handoff and provenance
 
-## 8. Known issues and migration notes
+Required project records: SEKIGAHARA_V0.3_PROPOSAL.md (read for this revision); SEKIGAHARA_V03_WORKING_CHECKPOINT.zip; math audit and feedback.
 
-The next migration step is to identify the exact v0.3 local source package and place it beside these docs before retiring the long Math Civ chat.
+Provenance: previous migration brief and project-history audit in this conversation; directly read dossier/proposal where explicitly stated above. Records not explicitly marked read here are retrieval targets, not claims of fresh inspection. No current app code was tested for this brief.
 
-## 9. Handoff files
+Before substantive implementation retrieve these records, the current source, approved change spec and applicable handbook. If an indispensable spec is inaccessible, report the gap instead of filling it with invented details. Do not delete unique historical chats/assets until their contents are independently preserved.
 
-A substantive AI implementation task should retrieve or receive:
+## 9. Ecosystem boundary
 
-1. `AI-START-HERE.md`;
-2. `UNIVERSAL-RULES.md`;
-3. the relevant sections of `CONDITIONAL-STANDARDS.md`;
-4. this project brief;
-5. the exact current source artifact/commit;
-6. the approved version-specific change specification;
-7. applicable assets and deployment configuration.
+Shared principles do not establish shared code, accounts or interfaces. MathQuest is engagement, TestForge assessment design, GradePal learner-level evidence, and DataDiver institutional analytics. Integration remains separately specified unless confirmed in source. Other projects remain independent unless their brief explicitly says otherwise.
 
-Do not reconstruct the current implementation from a historical chat summary when the actual source should be available.
-
-## 10. Ownership
-
-**William McAda**  
-**A WILLIAM MCADA PRODUCT**
