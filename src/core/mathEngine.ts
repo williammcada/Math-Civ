@@ -1,4 +1,4 @@
-import {template,text} from '../content/registry';
+import {campaign,template,text} from '../content/registry';
 import type {Answer,Challenge,State} from './types';
 import {sum,round} from './fixedPoint';
 import {roll} from './rng';
@@ -41,29 +41,49 @@ export function solve(id:string,op:Record<string,unknown>):Answer{
  }
  if(typeof value==='number'&&(!Number.isSafeInteger(value)||value<0))throw Error('Content error: invalid exact quantity');return {[f[0]]:value};
 }
+// v0.4 (M8): the audit uses this chapter's real Rice ledger.
+export function riceLedger(s:State){const prior=s.reportSnapshots.find(p=>p.chapter===s.chapterIndex-1)?.resources.food??campaign.startingState.resources.food;let inflow=0,outflow=0;for(const e of s.eventLog.slice(s.chapterStart))if(e.type==='RESOURCE_CHANGED'&&e.detail?.path==='resources.food'&&e.delta){if(e.delta>0)inflow+=e.delta;else outflow-=e.delta;}return {opening:prior,inflow,outflow};}
 function bind(s:State,id:string,original:Record<string,unknown>,context:Challenge['context']){
  const t=template(id),op=structuredClone(original);
+ if(id==='math_audit_stores'){const l=riceLedger(s);if(l.opening+l.inflow-l.outflow===s.resources.food)Object.assign(op,l);}
  if(t.stateBindings?.some(b=>b.includes('formations')))op.troops=s.playerArmy.formations.map(f=>f.troops);
  if(id==='math_c2_provisions'||id==='math_c4_granaries')op.issuedRations=rationSchedule(op.troops as number[],id==='math_c2_provisions'?100:rules.battle.rationCapacity);
  if(context==='provision'){op.rounds=s.prep.rounds;op.troopsPerRice=rules.battle.rationCapacity;}
- if(context==='warchest'){op.opening=s.resources.currency;op.itemCount=sum(s.prep.equipment);op.itemCost=80;}
+ if(context==='warchest'){op.opening=s.resources.currency;op.itemCount=sum(s.prep.equipment);op.itemCost=rules.battle.equipmentCost;}
  return op;
 }
 export function supplyOrderAffordable(s:State,id:string){return template(id).variants.some(v=>Number(solve(id,bind(s,id,v.operands,'order')).rice)<=s.resources.food);}
-export function generate(s:State,id:string,context:Challenge['context'],orderId:string,now=0):Challenge{
+export function generate(s:State,id:string,context:Challenge['context'],orderId:string,now=0,preferredVariant?:string):Challenge{
  const key=s.chapterIndex+':'+orderId,old=s.variants[key],t=template(id);
  if(old&&(old.attempts>0||old.resolved))return structuredClone(old);
  let variants:Array<{id:string;operands:Record<string,unknown>;answer:Answer}>=t.variants;
  if(id==='math_c2_provisions'||id==='math_c4_granaries')variants=variants.filter(v=>Number(solve(id,bind(s,id,v.operands,context)).rice)<=s.resources.food);
  if(!variants.length)throw Error('Not enough Rice for a full issued-ration plan. Restore stores before issuing it.');
- const v=variants.find(v=>v.id===old?.variantId)??variants[roll(s,0,variants.length-1)],op=bind(s,id,v.operands,context);
+ const v=variants.find(v=>v.id===old?.variantId)??variants.find(v=>v.id===preferredVariant)??variants[roll(s,0,variants.length-1)],op=bind(s,id,v.operands,context);
  const c:Challenge={answerPolicy:answerPolicy(id),id:key,templateId:id,variantId:v.id,operands:op,answer:solve(id,op),fields:t.answerFields,attempts:0,floor:old?.floor??1,submitted:[],hints:old?.hints??0,adviserShown:false,paid:{},context,orderId,resolved:false,openedAt:now,firstSubmittedAt:null};
  s.variants[key]=structuredClone(c);return c;
 }
 export function prompt(c:Challenge){const op={...c.operands};(op.ratio as number[]|undefined)?.forEach((v,i)=>op['ratio'+i]=v);if(op.troops)op.troopList=(op.troops as number[]).join(', ');if(op.issuedRations)op.rationList=(op.issuedRations as number[]).join(', ');return text(template(c.templateId).promptStringId).replace(/\{(\w+)\}/g,(_,k)=>String(op[k]??'?'));}
-export function worked(c:Challenge):string[]{const op=c.operands,vals=Object.entries(c.answer).map(([k,v])=>`${k}: ${v}`).join(' · ');
- if(op.issuedRations)return [`Issued Rice per period: ${(op.issuedRations as number[]).join(' + ')} = ${sum(op.issuedRations as number[])}.`,`${sum(op.issuedRations as number[])} × ${op.rounds??op.travelPeriods} = ${c.answer.rice} Rice.`,vals];
- if(c.templateId==='math_battle_provision'){const packs=rationSchedule(op.troops as number[],Number(op.troopsPerRice));return [`Complete packs per formation: ${packs.join(' + ')} = ${sum(packs)}.`,`${sum(packs)} × ${op.rounds} = ${c.answer.rice} Rice.`,vals];}
- return [text(template(c.templateId).hintStringIds[0]),text(template(c.templateId).hintStringIds[1]),vals];
+const fmt=(n:number)=>n.toLocaleString('en-US');
+// v0.4 (M2, M3): worked solutions use the student's own numbers. `label` turns field keys into words.
+export function worked(c:Challenge,label:(k:string)=>string=k=>k):string[]{
+ const op=c.operands,a=c.answer,n=(k:string)=>Number(op[k]),t=template(c.templateId),field=t.answerFields[0],unit=text(t.unitStringId);
+ switch(t.workedMethod){
+ case 'ratio_share':{const r=op.ratio as number[],parts=sum(r),share=n('total')/parts;return [`Add the ratio parts: ${r.join(' + ')} = ${parts} equal shares.`,`One share: ${fmt(n('total'))} ÷ ${parts} = ${fmt(share)}.`,...t.answerFields.map((k,i)=>`${label(k)}: ${r[i]} × ${fmt(share)} = ${fmt(Number(a[k]))}.`),`Check: ${t.answerFields.map(k=>fmt(Number(a[k]))).join(' + ')} = ${fmt(n('total'))}.`];}
+ case 'percent_and_remainder':{const [f1,f2]=t.answerFields;return [`${n('firstPercent')}% of ${fmt(n('total'))} = ${fmt(n('total'))} × ${n('firstPercent')} ÷ 100 = ${fmt(Number(a[f1]))}.`,`${label(f2)}: ${fmt(n('total'))} − ${fmt(Number(a[f1]))} = ${fmt(Number(a[f2]))}.`];}
+ case 'percent_of':return [`${n('percent')}% means ${n('percent')} out of every 100.`,`${fmt(n('whole'))} × ${n('percent')} = ${fmt(n('whole')*n('percent'))}.`,`${fmt(n('whole')*n('percent'))} ÷ 100 = ${fmt(Number(a[field]))} ${unit}.`];
+ case 'area_then_unit_rate':return [`Area: ${n('length')} × ${n('width')} = ${n('length')*n('width')} square sections.`,`Bundles: ${n('length')*n('width')} ÷ ${n('coveragePerBundle')} = ${fmt(Number(a[field]))}.`];
+ case 'area_times_rate':return [`Area: ${n('length')} × ${n('width')} = ${n('length')*n('width')} square sections.`,`${n('length')*n('width')} × ${n('materialsPerSquare')} = ${fmt(Number(a[field]))} ${unit}.`];
+ case 'rectangle_perimeter':return [`Add one length and one width: ${n('length')} + ${n('width')} = ${n('length')+n('width')}.`,`Double it for all four sides: 2 × ${n('length')+n('width')} = ${fmt(Number(a[field]))}.`];
+ case 'issued_supply':{const issued=op.issuedRations as number[],per=sum(issued),periods=Number(op.rounds??op.travelPeriods);return [`Rice issued each ${op.rounds!==undefined?'round':'period'}: ${issued.join(' + ')} = ${per}.`,`${per} × ${periods} = ${fmt(Number(a.rice))} Rice.`];}
+ case 'formation_supply':{const troops=op.troops as number[],cap=Number(op.troopsPerRice),packs=rationSchedule(troops,cap);return [...troops.map((tr,i)=>{const exact=tr/cap;return `Formation ${i+1}: ${fmt(tr)} ÷ ${cap} = ${Number.isInteger(exact)?exact+' (exact, unchanged)':exact.toFixed(2)+' → round up to '+packs[i]}.`;}),`Add the formations: ${packs.join(' + ')} = ${sum(packs)} Rice per round.`,`${sum(packs)} × ${op.rounds} rounds = ${fmt(Number(a.rice))} Rice.`];}
+ case 'distance_rate_time':return [`Days = distance ÷ distance per day.`,`${fmt(n('distance'))} ÷ ${n('distancePerDay')} = ${fmt(Number(a[field]))} days.`];
+ case 'purchase_lots':{const lots=n('budget')/n('lotCost');return [`Complete lots: ${n('budget')} ÷ ${n('lotCost')} = ${lots}.`,`Rice: ${lots} × ${n('ricePerLot')} = ${fmt(Number(a[field]))}.`];}
+ case 'ledger_balance':return [`Start with the opening balance and add what came in: ${fmt(n('opening'))} + ${fmt(n('inflow'))} = ${fmt(n('opening')+n('inflow'))}.`,`Subtract what went out: ${fmt(n('opening')+n('inflow'))} − ${fmt(n('outflow'))} = ${fmt(Number(a[field]))}.`];
+ case 'purchase_remainder':return [`Equipment cost: ${n('itemCount')} × ${n('itemCost')} = ${fmt(n('itemCount')*n('itemCost'))} Treasury.`,`Remaining: ${fmt(n('opening'))} − ${fmt(n('itemCount')*n('itemCost'))} = ${fmt(Number(a[field]))}.`];
+ case 'affordable_unit_rate_compare':{const opts=op.options as Array<{id:string;cost:number;cohesion:number}>;return [...opts.map(o=>o.cost>n('budget')?`${label(o.id)} costs ${o.cost}, more than the ${n('budget')} budget: not affordable.`:`${label(o.id)}: ${o.cohesion} ÷ ${o.cost} = ${(o.cohesion/o.cost).toFixed(3)} Cohesion per Treasury.`),`The best affordable plan is ${label(String(a[field]))}.`];}
+ case 'percent_product_compare':{const opts=op.options as Array<{id:string;reliabilityPercent:number;rainPercent:number}>;return [...opts.map(o=>`${label(o.id)}: ${o.reliabilityPercent} × ${o.rainPercent} = ${fmt(o.reliabilityPercent*o.rainPercent)}.`),`The greatest product is ${label(String(a[field]))}.`];}
+ default:return [text(t.hintStringIds[0]),text(t.hintStringIds[1])];
+ }
 }
 export function estimateQuality(c:Challenge){if(typeof c.answer[c.fields[0]]==='string')return 250;let accuracy=0;for(const k of c.fields){const correct=Number(c.answer[k]),entered=normalize(c.submitted.at(-1)?.[k])??0;accuracy+=Math.max(0,1000-Math.floor(Math.abs(entered-correct)*1000/Math.max(Math.abs(correct),1)));}return 250+round(accuracy,300,1000*c.fields.length);}

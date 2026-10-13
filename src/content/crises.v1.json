@@ -23,12 +23,7 @@
         "preventionPerThousand": 1000,
         "successEffects": { "publicOrder": 4 }
       },
-      "partialResponse": {
-        "id": "famine_ration",
-        "baseCost": { "food": 80 },
-        "preventionPerThousand": 500,
-        "sideEffects": { "publicOrder": -6 }
-      },
+      "partialResponse": { "id": "famine_ration", "baseCost": { "food": 80 }, "preventionPerThousand": 500, "sideEffects": { "publicOrder": -6 } },
       "acceptResponse": { "id": "famine_accept" },
       "baseHarmAtSeverity2": { "food": -120, "publicOrder": -14, "prosperity": -8 }
     },
@@ -47,17 +42,12 @@
       "fullResponse": {
         "id": "rebellion_relief_negotiate",
         "challengeTemplateId": "math_crisis_rebellion",
-        "baseCost": { "food": 100, "currency": 80, "authority": 10 },
+        "baseCost": { "food": 100, "currency": 80, "authority": 12 },
         "primaryCost": "currency",
         "preventionPerThousand": 1000,
         "successEffects": { "publicOrder": 5 }
       },
-      "partialResponse": {
-        "id": "rebellion_suppress",
-        "baseCost": { "currency": 70 },
-        "preventionPerThousand": 500,
-        "sideEffects": { "defense": -5, "authority": -8 }
-      },
+      "partialResponse": { "id": "rebellion_suppress", "baseCost": { "currency": 72 }, "preventionPerThousand": 500, "sideEffects": { "defense": -5, "authority": -8 } },
       "acceptResponse": { "id": "rebellion_accept" },
       "baseHarmAtSeverity2": { "publicOrder": -18, "authority": -12, "currency": -80 }
     },
@@ -66,11 +56,7 @@
       "titleStringId": "crisis.flood.title",
       "eventAssetId": "EVENT_CRISIS_FLOOD",
       "baseWeight": 5,
-      "weightRules": [
-        { "source": "infrastructurePoints", "multiply": 2 },
-        { "whenFlag": "heavy_rain", "add": 25 },
-        { "whenFlag": "route_damaged", "add": 10 }
-      ],
+      "weightRules": [{ "source": "infrastructurePoints", "multiply": 2 }, { "whenFlag": "heavy_rain", "add": 25 }, { "whenFlag": "route_damaged", "add": 10 }],
       "fullResponse": {
         "id": "flood_reinforce_levees",
         "challengeTemplateId": "math_crisis_flood",
@@ -79,12 +65,7 @@
         "preventionPerThousand": 1000,
         "successEffects": { "infrastructure": 3 }
       },
-      "partialResponse": {
-        "id": "flood_evacuate",
-        "baseCost": { "currency": 70 },
-        "preventionPerThousand": 500,
-        "sideEffects": { "prosperity": -5 }
-      },
+      "partialResponse": { "id": "flood_evacuate", "baseCost": { "currency": 72 }, "preventionPerThousand": 500, "sideEffects": { "prosperity": -5 } },
       "acceptResponse": { "id": "flood_accept" },
       "baseHarmAtSeverity2": { "infrastructure": -16, "food": -120, "routeDamage": 1 }
     },
@@ -102,17 +83,12 @@
       "fullResponse": {
         "id": "plague_clinics_isolation",
         "challengeTemplateId": "math_crisis_plague",
-        "baseCost": { "currency": 110, "materials": 60 },
+        "baseCost": { "currency": 120, "materials": 60 },
         "primaryCost": "currency",
         "preventionPerThousand": 1000,
         "successEffects": { "publicOrder": 2 }
       },
-      "partialResponse": {
-        "id": "plague_close_routes",
-        "baseCost": { "currency": 70 },
-        "preventionPerThousand": 500,
-        "sideEffects": { "coalitionCohesion": -4 }
-      },
+      "partialResponse": { "id": "plague_close_routes", "baseCost": { "currency": 72 }, "preventionPerThousand": 500, "sideEffects": { "coalitionCohesion": -4 } },
       "acceptResponse": { "id": "plague_accept" },
       "baseHarmAtSeverity2": { "estimatedHouseholds": -120, "prosperity": -10, "readiness": -5 }
     },
@@ -130,17 +106,12 @@
       "fullResponse": {
         "id": "raid_fortify_depots",
         "challengeTemplateId": "math_crisis_raid",
-        "baseCost": { "materials": 100, "currency": 50 },
+        "baseCost": { "materials": 120, "currency": 48 },
         "primaryCost": "materials",
         "preventionPerThousand": 1000,
         "successEffects": { "defense": 3 }
       },
-      "partialResponse": {
-        "id": "raid_pay_withdraw",
-        "baseCost": { "currency": 100, "authority": 5 },
-        "preventionPerThousand": 500,
-        "sideEffects": {}
-      },
+      "partialResponse": { "id": "raid_pay_withdraw", "baseCost": { "currency": 100, "authority": 4 }, "preventionPerThousand": 500, "sideEffects": {} },
       "acceptResponse": { "id": "raid_accept" },
       "baseHarmAtSeverity2": { "food": -100, "materials": -60, "defense": -10 }
     }

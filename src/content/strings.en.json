@@ -81,12 +81,12 @@
     "math.c4.granaries.prompt": "The three formations are issued {rationList} Rice for each battle round. Using these issued rations, how much Rice must the granaries reserve for {rounds} rounds? No rounding is needed.",
     "math.c4.fieldworks.prompt": "The fieldwork is {length} sections long and {width} sections wide. Each square section requires {materialsPerSquare} Materials. How many Materials are required?",
     "math.c4.weather.prompt": "Each report lists reliability and predicted rain. Multiply the two percentages and choose the report with the greatest combined evidence for rain.",
-    "math.audit.prompt": "The ledger opened at {opening}, received {inflow}, and spent {outflow}. What is the closing balance?",
+    "math.audit.prompt": "This chapter's Rice ledger opened at {opening}, received {inflow}, and paid out {outflow}. What is the closing balance?",
     "math.crisis.famine.prompt": "Distribute {total} Rice among three districts in a ratio of {ratio0}:{ratio1}:{ratio2}.",
     "math.crisis.rebellion.prompt": "Relief requires {percent}% of a {whole}-Treasury fund. How much Treasury is assigned to relief?",
     "math.crisis.flood.prompt": "A flooded rectangle is {length} by {width} sections. At {materialsPerSquare} Materials per square section, how many Materials reinforce it?",
-    "math.crisis.plague.prompt": "Isolation space is needed for {percent}% of {whole} households. How many households must be accommodated?",
-    "math.crisis.raid.prompt": "A depot is {length} sections long and {width} sections wide. How many sections of palisade surround it?",
+    "math.crisis.plague.prompt": "Clinics and isolation houses need {percent}% of the {whole}-Treasury relief budget. How much Treasury goes to the clinics?",
+    "math.crisis.raid.prompt": "A depot is {length} sections long and {width} sections wide. One Material builds one section of palisade. How many Materials enclose the depot?",
     "math.battle.provision.prompt": "One whole Rice ration supports up to {troopsPerRice} soldiers for one battle round. Rations cannot be shared between formations. Divide each formation’s soldiers by {troopsPerRice} and round UP to a whole ration; keep exact whole-number results unchanged. Add those rations, then multiply by {rounds} rounds. How much Rice is required?",
     "math.battle.warchest.prompt": "The war chest holds {opening} Treasury. You selected {itemCount} equipment points at {itemCost} each. How much remains?",
     "hint.ratio.total_parts": "Add the ratio parts to find how many equal shares the total contains.",
@@ -163,6 +163,7 @@
     "ui.crisis_pressure.high": "Crisis pressure: High",
     "ui.crisis_pressure.severe": "Crisis pressure: Severe",
     "ui.rotate_device": "Turn the iPad to landscape to continue. Your campaign is safe.",
-    "ui.no_network_required": "No network connection is required."
+    "ui.no_network_required": "No network connection is required.",
+    "formation.aux_hidetada": "Hidetada’s Column"
   }
 }

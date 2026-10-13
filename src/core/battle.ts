@@ -12,6 +12,7 @@ const eq=(a:Point,b:Point)=>a.x===b.x&&a.y===b.y;
 const distance=(a:Point,b:Point)=>Math.abs(a.x-b.x)+Math.abs(a.y-b.y);
 export const alive=(f:Formation)=>!f.exited&&!f.shattered&&!f.pendingReserve;
 const undefeated=(f:Formation)=>!!f.pendingReserve||alive(f)&&!f.routed;
+export function kobayakawaBand(commitment:number){return rules.kobayakawa.bands.find(b=>commitment>=b.min&&commitment<=b.max)??rules.kobayakawa.bands.at(-1)!;}
 export function terrain(s:State,p:Point){return s.battle?.terrain[p.y]?.[p.x]??'stream';}
 export function weather(s:State){return s.battle?.scenarioId==='convoy'?{id:'clear'}:data.weatherByRound[(s.battle?.round??1)-1]??{id:'clear'};}
 export function occupant(s:State,p:Point){return s.battle!.formations.find(f=>alive(f)&&eq(f,p));}
@@ -61,7 +62,7 @@ function emptyBattle(formations:Formation[],grid:string[][],supply:Record<Side,n
 }
 export function createBattle(s:State){
  const a=clamp(floor(s.resources.authority-50,1,5),-10,10),r=clamp(floor(s.playerArmy.readiness-50,1,10),-5,5),coh=balance.battle.cohesionMoraleBands.find(b=>s.diplomacy.coalitionCohesion>=b.min&&s.diplomacy.coalitionCohesion<=b.max)!.morale;
- const total=nearest10(s.westernState.troopGain),recruits=[nearest10(round(total,3400,9000)),nearest10(round(total,3000,9000)),0];recruits[2]=total-recruits[0]-recruits[1];let wi=0;
+ const momentumTroops=clamp((s.threats.westernMomentum-rules.westernMomentum.neutral)*rules.westernMomentum.troopsPerPoint,0,rules.westernMomentum.maxTroops),total=nearest10(s.westernState.troopGain+momentumTroops),recruits=[nearest10(round(total,3400,9000)),nearest10(round(total,3000,9000)),0];recruits[2]=total-recruits[0]-recruits[1];let wi=0;
  const formations:Formation[]=data.formations.filter(f=>f.side!=='conditional').map(f=>{
   const east=f.side==='east',i=s.playerArmy.formations.findIndex(u=>u.id===f.id),p=(data.defaultDeployment as Record<string,Point>)[f.id];
   const troops=nearest10(clamp(east?s.playerArmy.formations[i].troops:f.baseTroops+recruits[wi++],f.baseTroops/2,Math.floor(f.baseTroops*1.25/10)*10));
@@ -69,9 +70,10 @@ export function createBattle(s:State){
  const grid=structuredClone(data.terrainGrid);for(const p of (data.fieldworkTilesByTier as Record<string,Point[]>)[String(s.playerArmy.fieldworkTier)]??[])grid[p.y][p.x]='fieldworks';
  const west=s.westernState.resources,quota=battleQuota(formations.filter(f=>f.side==='west').map(f=>f.troops)),packs=Math.min(west.food>=quota*16?12:10,Math.floor(west.food/quota)),ammo=Math.min(12,Math.floor(west.materials/10));
  west.food-=packs*quota;west.materials-=ammo*10;
- const gun=formations.find(f=>f.side==='west'&&f.archetype==='arquebus')!;if(west.currency>=80){west.currency-=80;gun.equipmentPoints=1;}
+ const gun=formations.find(f=>f.side==='west'&&f.archetype==='arquebus')!;if(west.currency>=rules.battle.equipmentCost){west.currency-=rules.battle.equipmentCost;gun.equipmentPoints=1;}
  s.battle=emptyBattle(formations,grid,{east:s.prep.supply,west:packs},{east:s.prep.ammo,west:ammo},'sekigahara');
- event(s,'WESTERN_PURCHASES','battle.preparation',{rice:packs*quota,materials:ammo*10,equipment:gun.equipmentPoints*80,rounds:packs});
+ event(s,'WESTERN_PURCHASES','battle.preparation',{rice:packs*quota,materials:ammo*10,equipment:gun.equipmentPoints*rules.battle.equipmentCost,rounds:packs,momentumTroops});
+ if(s.flags.hidetada_delay_risk){const chanceBp=s.playerArmy.routeState==='prepared'?rules.hidetada.arrivalWithRoadPerThousand:rules.hidetada.arrivalPerThousand;s.flags.hidetada_arrives=roll(s,0,999)<chanceBp;event(s,'HIDETADA_ROUTE',s.flags.hidetada_arrives?'on_time':'delayed',{chancePerThousand:chanceBp});}
  // Authored, deterministic priorities; every unlock comes from funded campaign preparation.
  const plan:TacticalPlan=s.westernState.ogakiDefense>0?'engineer':!s.westernState.routeDamaged&&!s.flags.gifu_controlled?'flanking':gun.equipmentPoints?'fire_discipline':'standard';
  setPlan(s,'west',plan,formations.find(f=>f.side==='west'&&f.archetype==='spears')!.id);
@@ -105,13 +107,16 @@ function startRound(s:State){const b=s.battle!;
  if(b.scenarioId==='sekigahara'){
   if(b.round>=3)for(const side of sides)for(const f of b.formations.filter(f=>f.side===side&&f.pendingReserve)){const x=side==='east'?3:6,preferred={x,y:b.reserveEntries[side]==='south'?7:0},p=entryTile(s,preferred,side)??entryTile(s,{x,y:7},side);if(p){Object.assign(f,p);f.pendingReserve=false;event(s,'RESERVE_ENTERED',f.id,{round:b.round,side,source:'flanking'});}else event(s,'RESERVE_DELAYED',f.id,{side,entry:b.reserveEntries[side],reason:'No free passable tile on its own bank'});}
   if(b.round===4)event(s,'AUXILIARY_WARNING','kobayakawa.round5',{round:5});
-  if(b.round>=5&&(b.auxSide===null||s.flags.auxiliary_delayed)){
-   const side=b.auxSide??(s.diplomacy.kobayakawaCommitment<40?'west':s.diplomacy.kobayakawaCommitment>=70?'east':'inactive');b.auxSide=side;b.dispatchPending=true;
-   if(side!=='inactive'){const f=data.formations.find(f=>f.id==='aux_kobayakawa')!,p=entryTile(s,f.entryBySide![side]);s.flags.auxiliary_delayed=!p;if(p&&!b.formations.some(u=>u.id===f.id))b.formations.push({id:f.id,side,archetype:'spears',baseTroops:f.baseTroops,troops:f.baseTroops,startTroops:f.baseTroops,morale:f.baseMorale,equipmentPoints:0,commanderRating:f.commanderRating,move:f.move,range:f.range,...p,ap:0,attacked:false,brace:false,forced:false,routed:false,exited:false,shattered:false,auxiliary:true,auxiliaryRounds:12});}
-   event(s,'AUXILIARY_RESOLVED','kobayakawa.'+side,{delayed:s.flags.auxiliary_delayed??false,ownRations:12});}
+  if(b.round>=5&&(b.auxSide===null||s.flags.auxiliary_delayed||(b.auxEntryRound!==undefined&&b.round>=b.auxEntryRound&&!b.formations.some(u=>u.id==='aux_kobayakawa')&&b.auxSide!=='inactive'))){
+   const first=b.auxSide===null,band=kobayakawaBand(s.diplomacy.kobayakawaCommitment),side=b.auxSide??band.side as Side|'inactive';
+   if(first){b.auxSide=side;b.auxEntryRound=band.entryRound;b.auxTroopsPerThousand=band.troopsPerThousand;b.dispatchPending=true;}
+   const due=side!=='inactive'&&b.round>=(b.auxEntryRound??5);
+   if(due){const f=data.formations.find(f=>f.id==='aux_kobayakawa')!,p=entryTile(s,f.entryBySide![side as Side]);s.flags.auxiliary_delayed=!p;const troops=nearest10(round(f.baseTroops,b.auxTroopsPerThousand??1000,1000));if(p&&!b.formations.some(u=>u.id===f.id)){b.formations.push({id:f.id,side:side as Side,archetype:'spears',baseTroops:f.baseTroops,troops,startTroops:troops,morale:f.baseMorale,equipmentPoints:0,commanderRating:f.commanderRating,move:f.move,range:f.range,...p,ap:0,attacked:false,brace:false,forced:false,routed:false,exited:false,shattered:false,auxiliary:true,auxiliaryRounds:12});if(!first)b.dispatchPending=true;}}
+   if(first||due)event(s,'AUXILIARY_RESOLVED','kobayakawa.'+side,{delayed:s.flags.auxiliary_delayed??false,ownRations:12,band:band.id,entryRound:b.auxEntryRound,entered:b.formations.some(u=>u.id==='aux_kobayakawa')});}
+  if(s.flags.hidetada_arrives&&b.round>=rules.hidetada.entryRound&&!b.formations.some(u=>u.id==='aux_hidetada')){const p=entryTile(s,rules.hidetada.entry,'east');if(p){const h=rules.hidetada;b.formations.push({id:'aux_hidetada',side:'east',archetype:'spears',baseTroops:h.troops,troops:h.troops,startTroops:h.troops,morale:h.morale,equipmentPoints:0,commanderRating:h.commanderRating,move:2,range:1,...p,ap:0,attacked:false,brace:false,forced:false,routed:false,exited:false,shattered:false,auxiliary:true,auxiliaryRounds:12});event(s,'RESERVE_ENTERED','aux_hidetada',{round:b.round,side:'east',source:'hidetada'});}}
  }
  allocateRound(s);
- const list=b.formations.filter(alive).sort((a,b)=>a.id.localeCompare(b.id)).map(f=>({id:f.id,score:f.commanderRating*50+f.morale+5*((b.round===1?(f.side==='east'?(s.playerArmy.routeState==='prepared'?5:0)+(s.flags.battle_initiative_plus_one?1:0):(!s.flags.gifu_controlled?5:0)):0)+(terrain(s,f)==='road'?3:0)+roll(s,0,2))}));
+ const list=b.formations.filter(alive).sort((a,b)=>a.id.localeCompare(b.id)).map(f=>({id:f.id,score:f.commanderRating*50+f.morale+5*((b.round===1?(f.side==='east'?(s.playerArmy.routeState==='prepared'?5:0)+(s.flags.battle_initiative_plus_one?1:0)+(s.flags.main_force_tokaido?3:0):(!s.flags.gifu_controlled?5:0)):0)+(terrain(s,f)==='road'?3:0)+roll(s,0,2))}));
  list.sort((a,b)=>b.score-a.score||a.id.localeCompare(b.id));b.queue=list.map(f=>f.id);b.activeIndex=0;
  for(const f of b.formations.filter(f=>f.side==='west'&&alive(f)&&!f.routed))b.intents[f.id]=chooseIntent(s,{...f,ap:2,attacked:false,defended:false,brace:false,forced:false});
  activate(s);
@@ -165,7 +170,7 @@ export function combatPreview(s:State,a:Formation,d:Formation,kind='attack',dv=0
  const fortification=d.side==='west'&&terrain(s,d)==='west_camp'?1000+10*Math.min(30,(b.plans.west==='engineer'?0:s.westernState.ogakiDefense)+(s.flags.gifu_controlled?0:s.westernState.gifuDefense)):1000;
  const defensePower=power(d.troops,[def.defensePerThousand,700+d.morale*5,supplied(s,d)?1000:850,900+40*d.commanderRating,1000+50*d.equipmentPoints,terrain(s,d)==='fieldworks'&&d.side!=='east'?1000:td.defensePerThousand??1000,fortification,d.brace?1300:1000,d.brace&&kind==='charge'?1200:1000]);
  const ratio=round(attackPower,10000,Math.max(1,defensePower)),defBp=clamp(800+round(ratio-10000,1000,10000)+dv,300,2200);let atkBp=clamp(400+round(600,10000,Math.max(ratio,2500))+av,200,1400);if(kind==='charge')atkBp=round(atkBp,1150,1000);
- const fullLoss=nearest10(round(d.troops,defBp,10000)),defenderLoss=Math.min(d.troops,kind==='suppress'?nearest10(round(fullLoss,1,2)):fullLoss),defenderMoraleLoss=round(4*10000+defBp*70,1,10000)+(support?4:0),retaliation=retaliationEligible(s,d,a,defenderLoss,defenderMoraleLoss,kind);
+ const fullLoss=nearest10(round(d.troops,defBp,10000)),defenderLoss=Math.min(d.troops,kind==='suppress'?nearest10(round(fullLoss,1,2)):fullLoss),defenderMoraleLoss=round(rules.battle.moraleHitBase*10000+defBp*rules.battle.moraleHitPerBp,1,10000)+(support?4:0),retaliation=retaliationEligible(s,d,a,defenderLoss,defenderMoraleLoss,kind);
  return {attackPower:round(attackPower,1,1000000),defensePower:round(defensePower,1,1000000),powerRatioMilli:round(ratio,1,10),defenderLoss,attackerLoss:retaliation?Math.min(a.troops,nearest10(round(a.troops,atkBp,10000))):0,defenderMoraleLoss,attackerMoraleLoss:retaliation?round(2*10000+atkBp*40,1,10000):0,support,retaliation};
 }
 export function combatRange(s:State,a:Formation,d:Formation,kind='attack'){

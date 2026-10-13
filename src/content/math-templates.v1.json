@@ -114,11 +114,7 @@
           "id": "a",
           "operands": {
             "budget": 100,
-            "options": [
-              { "id": "plan_a", "cost": 90, "cohesion": 16 },
-              { "id": "plan_b", "cost": 80, "cohesion": 12 },
-              { "id": "plan_c", "cost": 110, "cohesion": 22 }
-            ],
+            "options": [{ "id": "plan_a", "cost": 90, "cohesion": 16 }, { "id": "plan_b", "cost": 80, "cohesion": 12 }, { "id": "plan_c", "cost": 110, "cohesion": 22 }],
             "criterion": "highest_cohesion_per_cost_affordable"
           },
           "answer": { "choiceId": "plan_a" }
@@ -127,11 +123,7 @@
           "id": "b",
           "operands": {
             "budget": 95,
-            "options": [
-              { "id": "plan_a", "cost": 90, "cohesion": 16 },
-              { "id": "plan_b", "cost": 75, "cohesion": 13 },
-              { "id": "plan_c", "cost": 100, "cohesion": 24 }
-            ],
+            "options": [{ "id": "plan_a", "cost": 90, "cohesion": 16 }, { "id": "plan_b", "cost": 75, "cohesion": 13 }, { "id": "plan_c", "cost": 100, "cohesion": 24 }],
             "criterion": "highest_cohesion_per_cost_affordable"
           },
           "answer": { "choiceId": "plan_a" }
@@ -297,8 +289,9 @@
       "answerFields": ["district_a", "district_b", "district_c"],
       "unitStringId": "unit.rice",
       "variants": [
-        { "id": "a", "operands": { "total": 180, "ratio": [4, 3, 2] }, "answer": { "district_a": 80, "district_b": 60, "district_c": 40 } },
-        { "id": "b", "operands": { "total": 225, "ratio": [5, 3, 1] }, "answer": { "district_a": 125, "district_b": 75, "district_c": 25 } }
+        { "id": "s1", "operands": { "total": 135, "ratio": [4, 3, 2] }, "answer": { "district_a": 60, "district_b": 45, "district_c": 30 } },
+        { "id": "s2", "operands": { "total": 180, "ratio": [4, 3, 2] }, "answer": { "district_a": 80, "district_b": 60, "district_c": 40 } },
+        { "id": "s3", "operands": { "total": 225, "ratio": [4, 3, 2] }, "answer": { "district_a": 100, "district_b": 75, "district_c": 50 } }
       ],
       "hintStringIds": ["hint.ratio.total_parts", "hint.allocation.check_total"],
       "workedMethod": "ratio_share"
@@ -311,8 +304,9 @@
       "answerFields": ["relief"],
       "unitStringId": "unit.treasury",
       "variants": [
-        { "id": "a", "operands": { "whole": 400, "percent": 20 }, "answer": { "relief": 80 } },
-        { "id": "b", "operands": { "whole": 500, "percent": 20 }, "answer": { "relief": 100 } }
+        { "id": "s1", "operands": { "whole": 300, "percent": 20 }, "answer": { "relief": 60 } },
+        { "id": "s2", "operands": { "whole": 400, "percent": 20 }, "answer": { "relief": 80 } },
+        { "id": "s3", "operands": { "whole": 500, "percent": 20 }, "answer": { "relief": 100 } }
       ],
       "hintStringIds": ["hint.percent.as_fraction", "hint.percent.multiply_then_divide"],
       "workedMethod": "percent_of"
@@ -325,8 +319,9 @@
       "answerFields": ["materials"],
       "unitStringId": "unit.materials",
       "variants": [
-        { "id": "a", "operands": { "length": 10, "width": 6, "materialsPerSquare": 2 }, "answer": { "materials": 120 } },
-        { "id": "b", "operands": { "length": 15, "width": 5, "materialsPerSquare": 2 }, "answer": { "materials": 150 } }
+        { "id": "s1", "operands": { "length": 9, "width": 5, "materialsPerSquare": 2 }, "answer": { "materials": 90 } },
+        { "id": "s2", "operands": { "length": 10, "width": 6, "materialsPerSquare": 2 }, "answer": { "materials": 120 } },
+        { "id": "s3", "operands": { "length": 15, "width": 5, "materialsPerSquare": 2 }, "answer": { "materials": 150 } }
       ],
       "hintStringIds": ["hint.area.length_width", "hint.unit_rate.multiply"],
       "workedMethod": "area_times_rate"
@@ -336,11 +331,12 @@
       "operation": "percent_of",
       "skillTags": ["percent", "proportion"],
       "promptStringId": "math.crisis.plague.prompt",
-      "answerFields": ["households"],
-      "unitStringId": "unit.households",
+      "answerFields": ["clinicFund"],
+      "unitStringId": "unit.treasury",
       "variants": [
-        { "id": "a", "operands": { "whole": 2400, "percent": 15 }, "answer": { "households": 360 } },
-        { "id": "b", "operands": { "whole": 2200, "percent": 20 }, "answer": { "households": 440 } }
+        { "id": "s1", "operands": { "whole": 600, "percent": 15 }, "answer": { "clinicFund": 90 } },
+        { "id": "s2", "operands": { "whole": 800, "percent": 15 }, "answer": { "clinicFund": 120 } },
+        { "id": "s3", "operands": { "whole": 1000, "percent": 15 }, "answer": { "clinicFund": 150 } }
       ],
       "hintStringIds": ["hint.percent.as_fraction", "hint.percent.multiply_then_divide"],
       "workedMethod": "percent_of"
@@ -353,8 +349,9 @@
       "answerFields": ["palisade"],
       "unitStringId": "unit.length_sections",
       "variants": [
-        { "id": "a", "operands": { "length": 20, "width": 12 }, "answer": { "palisade": 64 } },
-        { "id": "b", "operands": { "length": 24, "width": 14 }, "answer": { "palisade": 76 } }
+        { "id": "s1", "operands": { "length": 25, "width": 20 }, "answer": { "palisade": 90 } },
+        { "id": "s2", "operands": { "length": 36, "width": 24 }, "answer": { "palisade": 120 } },
+        { "id": "s3", "operands": { "length": 45, "width": 30 }, "answer": { "palisade": 150 } }
       ],
       "hintStringIds": ["hint.perimeter.all_sides", "hint.perimeter.double_sum"],
       "workedMethod": "rectangle_perimeter"

@@ -7,12 +7,7 @@
   "subtitleStringId": "campaign.sekigahara.subtitle",
   "playerFactionId": "eastern_coalition",
   "playerLeaderId": "tokugawa_ieyasu",
-  "displayResourceNames": {
-    "food": "resource.rice",
-    "currency": "resource.treasury",
-    "materials": "resource.materials",
-    "authority": "resource.authority"
-  },
+  "displayResourceNames": { "food": "resource.rice", "currency": "resource.treasury", "materials": "resource.materials", "authority": "resource.authority" },
   "historicalFrame": {
     "startYear": 1598,
     "endYear": 1600,
@@ -32,12 +27,7 @@
     { "id": "kobayakawa_hideaki", "portraitAssetId": "PORTRAIT_KOBAYAKAWA", "role": "uncertain_actor" }
   ],
   "startingState": {
-    "resources": {
-      "food": 720,
-      "currency": 520,
-      "materials": 360,
-      "authority": 62
-    },
+    "resources": { "food": 720, "currency": 520, "materials": 360, "authority": 62 },
     "edo": {
       "estimatedHouseholds": 2400,
       "prosperity": 58,
@@ -46,21 +36,10 @@
       "infrastructure": 44,
       "taxRatePercent": 20,
       "garrisonTroops": 800,
-      "laborAllocation": {
-        "farms": 2400,
-        "workshops": 1440,
-        "works": 960
-      }
+      "laborAllocation": { "farms": 2400, "workshops": 1440, "works": 960 }
     },
-    "diplomacy": {
-      "coalitionCohesion": 52,
-      "kobayakawaCommitment": 42,
-      "intelligence": 25
-    },
-    "threats": {
-      "uesugiPressure": 55,
-      "westernMomentum": 48
-    },
+    "diplomacy": { "coalitionCohesion": 52, "kobayakawaCommitment": 42, "intelligence": 25 },
+    "threats": { "uesugiPressure": 55, "westernMomentum": 48 },
     "playerArmy": {
       "locationId": "edo",
       "active": false,
@@ -118,28 +97,19 @@
           "id": "c1_policy_granaries",
           "titleStringId": "policy.c1.granaries",
           "cost": { "food": 60 },
-          "effects": [
-            { "path": "edo.publicOrder", "delta": 6 },
-            { "flag": "famine_weight_relief_active", "value": true }
-          ]
+          "effects": [{ "path": "edo.publicOrder", "delta": 6 }, { "flag": "famine_weight_relief_active", "value": true }]
         },
         {
           "id": "c1_policy_stipends",
           "titleStringId": "policy.c1.stipends",
           "cost": { "currency": 70 },
-          "effects": [
-            { "path": "diplomacy.coalitionCohesion", "delta": 6 },
-            { "path": "resources.authority", "delta": 3 }
-          ]
+          "effects": [{ "path": "diplomacy.coalitionCohesion", "delta": 6 }, { "path": "resources.authority", "delta": 3 }]
         },
         {
           "id": "c1_policy_reserves",
           "titleStringId": "policy.c1.reserves",
           "cost": {},
-          "effects": [
-            { "path": "resources.currency", "delta": 25 },
-            { "path": "resources.authority", "delta": -2 }
-          ]
+          "effects": [{ "path": "resources.currency", "delta": 25 }, { "path": "resources.authority", "delta": -2 }]
         }
       ],
       "orderIds": ["c1_labor_ledger", "c1_tax_register", "c1_repair_tokaido", "c1_court_letters", "audit_stores"],
@@ -167,20 +137,13 @@
           "id": "c2_policy_guarded",
           "titleStringId": "policy.c2.guarded",
           "cost": { "food": 40 },
-          "effects": [
-            { "path": "playerArmy.readiness", "delta": 5 },
-            { "path": "edo.defense", "delta": 3 }
-          ]
+          "effects": [{ "path": "playerArmy.readiness", "delta": 5 }, { "path": "edo.defense", "delta": 3 }]
         },
         {
           "id": "c2_policy_delay",
           "titleStringId": "policy.c2.delay",
           "cost": {},
-          "effects": [
-            { "path": "resources.authority", "delta": -5 },
-            { "path": "diplomacy.intelligence", "delta": 12 },
-            { "path": "threats.uesugiPressure", "delta": 8 }
-          ]
+          "effects": [{ "path": "resources.authority", "delta": -5 }, { "path": "diplomacy.intelligence", "delta": 12 }, { "path": "threats.uesugiPressure", "delta": 8 }]
         }
       ],
       "orderIds": ["c2_march_provisions", "c2_reinforce_edo", "c2_muster_bands", "c2_secure_allies", "audit_stores"],
@@ -198,19 +161,13 @@
       "titleStringId": "chapter.3.title",
       "chronicleStringId": "chapter.3.chronicle",
       "eventAssetId": "EVENT_CH3_FUSHIMI",
-      "openingEffects": [
-        { "nodeId": "fushimi", "status": "western" },
-        { "flag": "fushimi_fallen", "value": true }
-      ],
+      "openingEffects": [{ "nodeId": "fushimi", "status": "western" }, { "flag": "fushimi_fallen", "value": true }],
       "policyChoices": [
         {
           "id": "c3_policy_tokaido",
           "titleStringId": "policy.c3.tokaido",
           "cost": { "currency": 30 },
-          "effects": [
-            { "path": "playerArmy.readiness", "delta": 4 },
-            { "flag": "main_force_tokaido", "value": true }
-          ]
+          "effects": [{ "path": "playerArmy.readiness", "delta": 4 }, { "flag": "main_force_tokaido", "value": true }]
         },
         {
           "id": "c3_policy_divide",
@@ -226,11 +183,7 @@
           "id": "c3_policy_consolidate",
           "titleStringId": "policy.c3.consolidate",
           "cost": {},
-          "effects": [
-            { "path": "resources.food", "delta": 50 },
-            { "path": "threats.westernMomentum", "delta": 10 },
-            { "path": "playerArmy.readiness", "delta": 3 }
-          ]
+          "effects": [{ "path": "resources.food", "delta": 50 }, { "path": "threats.westernMomentum", "delta": 10 }, { "path": "playerArmy.readiness", "delta": 3 }]
         }
       ],
       "orderIds": ["c3_oyama_march", "c3_kiyosu_stores", "c3_secure_gifu", "c3_home_relief", "audit_stores"],
@@ -248,37 +201,24 @@
           "id": "c4_policy_quick_battle",
           "titleStringId": "policy.c4.quick",
           "cost": {},
-          "effects": [
-            { "path": "threats.westernMomentum", "delta": -4 },
-            { "path": "playerArmy.readiness", "delta": 4 },
-            { "flag": "no_final_crisis_reroll", "value": true }
-          ]
+          "effects": [{ "path": "threats.westernMomentum", "delta": -4 }, { "path": "playerArmy.readiness", "delta": 4 }, { "flag": "no_final_crisis_reroll", "value": true }]
         },
         {
           "id": "c4_policy_intelligence",
           "titleStringId": "policy.c4.intelligence",
           "cost": { "food": 50 },
-          "effects": [
-            { "path": "diplomacy.intelligence", "delta": 12 },
-            { "path": "threats.westernMomentum", "delta": 5 }
-          ]
+          "effects": [{ "path": "diplomacy.intelligence", "delta": 12 }, { "path": "threats.westernMomentum", "delta": 5 }]
         },
         {
           "id": "c4_policy_homeland",
           "titleStringId": "policy.c4.homeland",
           "cost": {},
-          "effects": [
-            { "path": "edo.publicOrder", "delta": 5 },
-            { "path": "resources.authority", "delta": 3 },
-            { "path": "playerArmy.readiness", "delta": -5 }
-          ]
+          "effects": [{ "path": "edo.publicOrder", "delta": 5 }, { "path": "resources.authority", "delta": 3 }, { "path": "playerArmy.readiness", "delta": -5 }]
         }
       ],
       "orderIds": ["c4_kobayakawa", "c4_forward_granaries", "c4_fieldworks", "c4_weather_scouts", "audit_stores"],
-      "milestoneEffects": [
-        { "path": "playerArmy.locationId", "set": "sekigahara" },
-        { "phase": "battle_review" }
-      ]
+      "milestoneEffects": [{ "path": "playerArmy.locationId", "set": "sekigahara" }, { "phase": "battle_review" }],
+      "openingEffects": [{ "flag": "heavy_rain", "value": true }]
     }
   ],
   "orders": [
@@ -355,10 +295,7 @@
       "cost": { "materials": 100, "currency": 70 },
       "resolutionMode": "scale_positive",
       "precisionMode": "refund_primary_cost",
-      "effects": [
-        { "path": "edo.defense", "delta": 16, "scalable": true },
-        { "flag": "homeland_guarded", "value": true }
-      ]
+      "effects": [{ "path": "edo.defense", "delta": 16, "scalable": true }, { "flag": "homeland_guarded", "value": true }]
     },
     {
       "id": "c2_muster_bands",
@@ -448,7 +385,7 @@
       "cost": { "currency": 120, "authority": 12 },
       "resolutionMode": "scale_positive",
       "precisionMode": "extra_effect",
-      "effects": [{ "path": "diplomacy.kobayakawaCommitment", "delta": 24, "scalable": true }]
+      "effects": [{ "path": "diplomacy.kobayakawaCommitment", "delta": 28, "scalable": true }]
     },
     {
       "id": "c4_forward_granaries",
@@ -481,10 +418,7 @@
       "cost": { "currency": 60 },
       "resolutionMode": "scale_positive",
       "precisionMode": "extra_effect",
-      "effects": [
-        { "path": "diplomacy.intelligence", "delta": 20, "scalable": true },
-        { "flagAtEffectPerThousand": { "min": 650, "flag": "weather_scouted", "value": true } }
-      ]
+      "effects": [{ "path": "diplomacy.intelligence", "delta": 20, "scalable": true }, { "flagAtEffectPerThousand": { "min": 650, "flag": "weather_scouted", "value": true } }]
     },
     {
       "id": "audit_stores",
@@ -495,48 +429,36 @@
       "oncePerChapter": true,
       "resolutionMode": "player_selected_scaled_recovery",
       "precisionMode": "extra_effect",
-      "rewardOptions": {
-        "food": 50,
-        "currency": 40,
-        "materials": 35
-      }
+      "rewardOptions": { "food": 50, "currency": 40, "materials": 35 }
     }
   ],
   "alliedContributions": [
-    {
-      "id": "kiyosu_staging",
-      "chapters": [3, 4],
-      "minimumCoalitionCohesion": 40,
-      "effects": { "food": 90, "currency": 40 }
-    },
-    {
-      "id": "gifu_stores",
-      "once": true,
-      "requiresFlag": "gifu_controlled",
-      "effects": { "materials": 50 }
-    },
-    {
-      "id": "resolute_coalition_battle",
-      "phase": "battle_review",
-      "minimumCoalitionCohesion": 70,
-      "effects": { "food": 40 }
-    }
+    { "id": "kiyosu_staging", "chapters": [3, 4], "minimumCoalitionCohesion": 40, "effects": { "food": 90, "currency": 40 } },
+    { "id": "gifu_stores", "once": true, "requiresFlag": "gifu_controlled", "effects": { "materials": 50 } },
+    { "id": "resolute_coalition_battle", "phase": "battle_review", "minimumCoalitionCohesion": 70, "effects": { "food": 40 } }
   ],
   "strategicAiActions": [
     { "id": "ai_buy_rice", "cost": { "currency": 80 }, "effects": { "food": 150 }, "priority": "supply" },
     { "id": "ai_fortify_gifu", "cost": { "materials": 90 }, "effects": { "gifuDefense": 12 }, "priority": "fortification" },
     { "id": "ai_fortify_ogaki", "cost": { "materials": 90 }, "effects": { "ogakiDefense": 12 }, "priority": "fortification" },
     { "id": "ai_raise_troops", "cost": { "currency": 110, "food": 70 }, "effects": { "troops": 700 }, "priority": "force" },
-    { "id": "ai_pressure_kiyosu", "cost": { "food": 60 }, "effects": { "westernMomentum": 9, "playerReadiness": -4, "signal": "western_scout_activity" }, "priority": "pressure" },
-    { "id": "ai_influence_kobayakawa", "oncePerCampaign": true, "cost": { "currency": 100, "authority": 8 }, "effects": { "kobayakawaCommitment": -12 }, "priority": "coalition" },
+    {
+      "id": "ai_pressure_kiyosu",
+      "cost": { "food": 60 },
+      "effects": { "westernMomentum": 9, "playerReadiness": -4, "signal": "western_scout_activity" },
+      "priority": "pressure"
+    },
+    {
+      "id": "ai_influence_kobayakawa",
+      "oncePerCampaign": true,
+      "cost": { "currency": 100, "authority": 8 },
+      "effects": { "kobayakawaCommitment": -12 },
+      "priority": "coalition"
+    },
     { "id": "ai_repair_route", "cost": { "materials": 70 }, "effects": { "routeRepair": 1 }, "priority": "supply" },
     { "id": "ai_depot_raid", "cost": { "food": 50 }, "requiresPriorSignal": "western_scout_activity", "effects": { "playerFood": -60 }, "priority": "pressure" },
     { "id": "ai_preserve", "cost": {}, "effects": { "food": 25, "currency": 20 }, "priority": "survival" }
   ],
   "battleId": "sekigahara_grid_v1",
-  "endingIds": {
-    "good": "realm_pacified",
-    "normal": "narrow_ascendancy",
-    "bad": "realm_divides_again"
-  }
+  "endingIds": { "good": "realm_pacified", "normal": "narrow_ascendancy", "bad": "realm_divides_again" }
 }
