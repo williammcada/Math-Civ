@@ -6,7 +6,8 @@
 **Repository:** `williammcada/Math-Civ`, branch `main`.  
 **Current running version:** Not independently verified. Exact committed v0.3.1 source identity and byte preservation are established.  
 **Source/baseline:** Canonical preserved source: `PLAY-SEKIGAHARA-0.3.1.html`, Git blob `ccffe181677be2334d6ff16678f696c5f85a3e66`, at source checkpoint `b4095e8be208de5aae95706ec4e4c62c08ef753e`. This is a preserved v0.3.1 implementation source, not a verified release claim.  
-**Next work:** Use the committed v0.3.1 source as the baseline; verify proposal coverage, math fixes, battle flow and iPhone-wrapper compatibility before release.  
+**TypeScript source:** recovered 13 Oct 2026 from `SEKIGAHARA_V03_WORKING_CHECKPOINT.zip` (preserved in `archive/`), reconciled to v0.3.1 at commit `0dd89cb`; see `docs/SOURCE-CHECKPOINT.md`. Offline build: `npm run build:offline`.  
+**Next work:** v0.4 per the approved `docs/change-specs/v0.4.md` (approved 13 Oct 2026), implemented in the TypeScript source.  
 
 ## 1. Purpose, audience and detailed scope
 
@@ -74,7 +75,7 @@ The next build report must name the candidate, environment and test results; his
 
 Current source identity is recorded in [`MIGRATION-BASELINE.md`](MIGRATION-BASELINE.md). That manifest supersedes earlier unknown-source or pre-upload statements while preserving the original migration note as history.
 
-Required project records: SEKIGAHARA_V0.3_PROPOSAL.md (read for this revision); SEKIGAHARA_V03_WORKING_CHECKPOINT.zip; math audit and feedback.
+Required project records: `source-spec/SEKIGAHARA_V0.3_PROPOSAL.md` and `archive/SEKIGAHARA_V03_WORKING_CHECKPOINT.zip` (both in the repository since 13 Oct 2026); v0.3.1 audit (13 Oct 2026); `docs/art-handoff/v0.4/`.
 
 Provenance: previous migration brief and project-history audit in this conversation; directly read dossier/proposal where explicitly stated above. Records not explicitly marked read here are retrieval targets, not claims of fresh inspection. No current app code was tested for this brief.
 

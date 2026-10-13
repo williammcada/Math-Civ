@@ -26,6 +26,10 @@ The checkpoint above identifies the application/planning source immediately befo
 | Functional workflow | Not run | Source preservation does not establish that imports, gameplay, reports, storage or exports work. |
 | Hosted/running application | Not run | Not verified; the standalone HTML file was not functionally tested in this normalization. |
 
+## Source code
+
+The TypeScript/Phaser source was recovered on 13 Oct 2026 and reconciled to this v0.3.1 file at commit `0dd89cb`. See [`SOURCE-CHECKPOINT.md`](SOURCE-CHECKPOINT.md).
+
 ## Documentation authority
 
 - [`PROJECT-BRIEF.md`](PROJECT-BRIEF.md) records purpose, scope, must-retain behavior and verification requirements.
