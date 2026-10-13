@@ -1,7 +1,7 @@
 // Campaign and battle bot used by the v0.3.1 audit and v0.4 balance checks.
 const E=require(process.env.SIM_ENGINE||'../../.parity/sim-engine.cjs');
 // Adapter: the v0.3.1 audit bot used minified names; map them to the source engine.
-const M={nn:E.reduce,qt:E.createState,y:E.chapter,Xt:E.legalOrders,q:E.battleQuota,Ye:E.activeUnit,et:E.reachable,kt:E.combatPreview,Ke:E.terrain,We:E.alive,d:E.battleData,ct:E.createBattle};
+const M={nn:E.reduce,qt:E.createState,y:E.chapter,Xt:E.legalOrders,q:E.battleQuota,Ye:E.activeUnit,et:E.reachable,kt:E.combatPreview,Ke:E.terrain,We:E.alive,d:E.battleData,ct:E.createBattle,rules:E.rules};
 const dist=(a,b)=>Math.abs(a.x-b.x)+Math.abs(a.y-b.y);
 function step(s,cmd){const r=M.nn(s,cmd); if(r.events[0]?.type==='RULE_VIOLATION'){const e=new Error('RV '+r.events[0].key+' '+JSON.stringify(cmd));e.state=s;throw e;} return r.state;}
 // ---------- East battle policy (mirror of the West AI's scoring, aimed at the West camp) ----------
@@ -87,8 +87,8 @@ function campaign(seed,cfg={}){
   const maxR=Math.min(cfg.rounds??12,Math.floor((s.resources.food+s.playerArmy.protectedBattleRice)/quota));
   if(maxR>=1){ s=step(s,{type:'PREP_PROVISION',rounds:maxR,now:0}); answerOrder(); } else s=step(s,{type:'SKIP_PROVISION'});
   // warchest
-  let eq=[...cfg.equip]; while(eq.reduce((a,b)=>a+b)*80>s.resources.currency) {const i=eq.lastIndexOf(Math.max(...eq)); eq[i]--;}
-  let ammo=Math.min(cfg.ammo,Math.floor(s.resources.materials/10));
+  let eq=[...cfg.equip]; while(eq.reduce((a,b)=>a+b)*M.rules.battle.equipmentCost>s.resources.currency) {const i=eq.lastIndexOf(Math.max(...eq)); eq[i]--;}
+  let ammo=Math.min(cfg.ammo,Math.floor(s.resources.materials/M.rules.battle.ammoCost));
   s=step(s,{type:'PREP_WARCHEST',equipment:eq,ammo,now:0}); answerOrder();
   // plan
   if(cfg.plan!=='standard'){ for(const p of (cfg.plan==='auto'?['fire_discipline','flanking','engineer']:[cfg.plan])){ const r=M.nn(s,{type:'PLAN',plan:p,reserve:'east_fukushima',entry:'north'}); if(r.events[0]?.type!=='RULE_VIOLATION'){s=r.state;break} } }

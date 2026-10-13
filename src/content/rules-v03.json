@@ -17,8 +17,8 @@
     "resupplyMax": 4,
     "suppressionDamage": 500,
     "equipmentCost": 120,
-    "moraleHitBase": 6,
-    "moraleHitPerBp": 100
+    "moraleHitBase": 9,
+    "moraleHitPerBp": 140
   },
   "dividendPerThousand": { "attempt1": 100, "attempt2": 50, "attempt3": 20, "adviser": 0, "proceedEstimate": 0, "abandon": 0 },
   "exactTemplates": [
@@ -83,7 +83,8 @@
       { "min": 0, "max": 29, "side": "west", "entryRound": 5, "troopsPerThousand": 1000, "id": "west_full" }
     ],
     "ishidaLetterPerChapter": -3,
-    "ishidaLettersFromChapter": 2
+    "ishidaLettersFromChapter": 2,
+    "entryMoraleShock": 10
   },
   "hidetada": {
     "troops": 2400,
@@ -94,5 +95,7 @@
     "arrivalWithRoadPerThousand": 750,
     "entry": { "x": 0, "y": 6 }
   },
-  "westernMomentum": { "neutral": 50, "troopsPerPoint": 25, "maxTroops": 1200 }
+  "westernMomentum": { "neutral": 50, "troopsPerPoint": 25, "maxTroops": 1200, "baseTroops": 800 },
+  "gifu": { "garrisonTroops": 600 },
+  "intelligence": { "precise": 60, "broad": 35 }
 }

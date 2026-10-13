@@ -24,7 +24,7 @@ const result=await esbuild.build({
 });
 let js='',css='';
 for(const f of result.outputFiles){if(f.path.endsWith('.js'))js=f.text;else if(f.path.endsWith('.css'))css=f.text;}
-const mime={webp:'image/webp',png:'image/png',woff2:'font/woff2',wav:'audio/wav'};
+const mime={webp:'image/webp',png:'image/png',woff2:'font/woff2',wav:'audio/wav',mp3:'audio/mpeg'};
 async function walk(dir){let out=[];for(const e of await readdir(dir,{withFileTypes:true})){const p=dir+'/'+e.name;if(e.isDirectory())out.push(...await walk(p));else out.push(p);}return out;}
 const map={};
 for(const p of (await walk('public')).sort()){const ext=p.split('.').at(-1);if(mime[ext])map['./'+p.slice(7)]='data:'+mime[ext]+';base64,'+(await readFile(p)).toString('base64');}

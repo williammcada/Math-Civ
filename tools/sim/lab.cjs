@@ -6,13 +6,14 @@ function lab(seed,o){
   n.resources={food:1000,currency:500,materials:300,authority:o.authority}; n.diplomacy.kobayakawaCommitment=o.ally; n.diplomacy.coalitionCohesion=o.cohesion; n.playerArmy.readiness=o.readiness;
   n.playerArmy.active=true; n.playerArmy.locationId='sekigahara'; n.playerArmy.fieldworkTier=o.fieldworks;
   if(o.troops) n.playerArmy.formations.forEach((f,i)=>f.troops=o.troops[i]);
-  n.westernState.troopGain=o.westGain; n.westernState.ogakiDefense=o.ogaki; n.westernState.gifuDefense=o.gifuDef;
+  n.westernState.troopGain=o.westGain; if(o.westRouteDamaged)n.westernState.routeDamaged=true; if(o.momentum!==undefined)n.threats.westernMomentum=o.momentum; n.westernState.ogakiDefense=o.ogaki; n.westernState.gifuDefense=o.gifuDef;
   n.westernState.resources={food:9999,currency:0,materials:9999,authority:50};
   n.prep={rounds:o.supply,supply:o.supply,equipment:o.equipment,ammo:o.ammo};
   M.ct(n); n.phase='battle_deployment';
   n.battle.supply.west=o.enemySupply; n.battle.ammo.west=o.enemyAmmo;
   n.westernState.resources.food=o.westFood??460; // what's left for West resupply
   if(o.plan!=='standard'){ const r=M.nn(n,{type:'PLAN',plan:o.plan,reserve:'east_fukushima',entry:'north'}); if(r.events[0]?.type==='RULE_VIOLATION') return null; n=r.state; }
+  if(o.deploy==='back'){for(const [id,pt] of [['east_ii',{x:0,y:2}],['east_fukushima',{x:0,y:4}],['east_kuroda',{x:0,y:5}]]){const r=M.nn(n,{type:'DEPLOY',id,point:pt});if(r.events[0]?.type!=='RULE_VIOLATION')n=r.state;}}
   n=step(n,{type:'BEGIN_BATTLE'});
   n=playBattle(n,o.battle??{});
   const b=n.battle;

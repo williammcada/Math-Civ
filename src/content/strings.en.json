@@ -164,6 +164,10 @@
     "ui.crisis_pressure.severe": "Crisis pressure: Severe",
     "ui.rotate_device": "Turn the iPad to landscape to continue. Your campaign is safe.",
     "ui.no_network_required": "No network connection is required.",
-    "formation.aux_hidetada": "Hidetada’s Column"
+    "formation.aux_hidetada": "Hidetada’s Column",
+    "ending.defeat.title": "The Field Is Lost",
+    "ending.defeat.opening": "Sekigahara ends with the Western banners still standing. Your home domain survives, and with it the means to fight another year, but the Eastern coalition must now bargain rather than command.",
+    "ending.withdrawal.title": "A Withdrawal to Fight Again",
+    "ending.withdrawal.opening": "You pulled the army back before it broke. No one will call Sekigahara a victory, but the formations that marched home can still defend the realm while both coalitions count their losses."
   }
 }
