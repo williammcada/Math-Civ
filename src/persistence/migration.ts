@@ -18,7 +18,7 @@ export function migrateState(original:State):State {
    s.resources.food+=paid;
    if(c.attempts>0){if(s.commandSeals>=3||!s.usedOrders.includes(c.orderId))throw Error('Cannot reconstruct the legacy spent Seal. Keep the original save.');s.commandSeals++;s.usedOrders=s.usedOrders.filter(id=>id!==c.orderId);}
    delete s.variants[c.id];s.activeOrder=null;s.flags['repaired:'+c.id]=true;event(s,'LEGACY_CHALLENGE_REPAIRED',c.id,{refundedRice:paid,sealReturned:c.attempts>0});
-  }else if(c&&c.attempts===0){delete s.variants[c.id];s.activeOrder=null;}
+  }else if(c&&c.attempts===0&&c.context==='order'){s.variants[c.id]=structuredClone(c);s.activeOrder=null;}
   else if(c?.context==='provision')s.flags.legacy_provision_pending=true;
   else if(c?.context==='warchest')s.flags.legacy_ammo_price=30;
   // Completed purchases keep the reserve that was actually delivered, with no retroactive dividend.
@@ -29,7 +29,7 @@ export function migrateState(original:State):State {
   const oldQuota=campaignQuota(troops),quota=battleQuota(troops),rice=packs*oldQuota,newPacks=Math.floor(rice/quota),remainder=rice%quota,stores=side==='east'?s.resources:s.westernState.resources;
   if(stores.food+remainder>9999)throw Error('No safe space for the legacy ration remainder. Keep the original save.');stores.food+=remainder;event(s,'LEGACY_SUPPLY_CONVERTED',side,{rice,oldQuota,quota,packs:newPacks,remainder});return {packs:newPacks,quota};
  };
- if(s.battle){const b=s.battle as Battle;b.rulesVersion=2;b.scenarioId='sekigahara';b.quota={east:1,west:1};b.currentSupply={east:false,west:false};b.rallies={east:{uses:b.rallyUsed?1:0,lastRound:b.rallyUsed?b.round:-2},west:{uses:0,lastRound:-2}};b.resupplied={east:false,west:false};b.campChecks={east:0,west:0};b.councilPending=false;b.reviewSeen=b.round>12;b.finalized=!!b.result;b.outcomeReason=b.result?'legacy_result':'';b.plans={east:'standard',west:'standard'};b.planLocked=s.phase!=='battle_deployment';b.pontoonUsed={east:false,west:false};b.intents={};
+ if(s.battle){const b=s.battle as Battle;b.rulesVersion=2;b.scenarioId='sekigahara';b.quota={east:1,west:1};b.currentSupply={east:false,west:false};b.rallies={east:{uses:b.rallyUsed?1:0,lastRound:b.rallyUsed?b.round:-2},west:{uses:0,lastRound:-2}};b.resupplied={east:false,west:false};b.campChecks={east:0,west:0};b.councilPending=false;b.reviewSeen=b.round>12;b.finalized=!!b.result;b.outcomeReason=b.result?'legacy_result':'';b.plans={east:'standard',west:'standard'};b.reserveEntries={east:'north',west:'north'};b.planLocked=s.phase!=='battle_deployment';b.pontoonUsed={east:false,west:false};b.intents={};
   for(const side of ['east','west'] as Side[]){const troops=b.formations.filter(f=>f.side===side&&!f.auxiliary).map(f=>f.startTroops);
    if(complete)b.quota[side]=battleQuota(troops);
    else{const hadCurrent=s.phase==='battle_round'&&b.supply[side]>0,{packs,quota}=convert(b.supply[side],troops,side);b.quota[side]=quota;b.currentSupply[side]=hadCurrent&&packs>0;b.supply[side]=packs-(b.currentSupply[side]?1:0);if(side==='east')b.initialSupply=b.suppliedRounds+packs;}

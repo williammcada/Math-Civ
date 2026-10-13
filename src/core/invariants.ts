@@ -6,7 +6,14 @@ export function saveStructure(s:State){
  for(const r of ['food','currency','materials','authority'] as const)if(!Number.isInteger(s.resources[r])||!Number.isInteger(s.westernState.resources[r]))throw Error('Incomplete resource ledger');
  for(const n of campaign.map.nodes)if(typeof s.map[n.id]!=='string')throw Error('Incomplete campaign map');
  if(s.playerArmy.formations.length!==3||new Set(s.playerArmy.formations.map(f=>f.id)).size!==3||s.playerArmy.formations.some(f=>!battleData.formations.some(b=>b.id===f.id&&b.side==='east')||!Number.isInteger(f.troops)||f.troops<0||f.troops%10))throw Error('Invalid campaign formations');
- if(s.battle){const b=s.battle;if(b.terrain.length!==(b.scenarioId==='convoy'?6:8)||b.terrain.some(row=>row.length!==(b.scenarioId==='convoy'?8:10)||row.some(t=>!(t in battleData.terrainDefinitions))))throw Error('Invalid battle terrain');if(b.round<1||b.round>1000000||!Number.isInteger(b.round))throw Error('Invalid battle round');if(new Set(b.formations.map(f=>f.id)).size!==b.formations.length)throw Error('Duplicate formation');for(const f of b.formations)if(!Number.isInteger(f.morale)||f.morale<0||f.morale>100||!Number.isInteger(f.ap)||f.ap<0||f.ap>2||!['east','west'].includes(f.side))throw Error('Invalid formation status');}
+ if(s.battle){const b=s.battle;
+  if(s.schemaVersion===2){
+   if(b.rulesVersion!==2||!['sekigahara','convoy'].includes(b.scenarioId))throw Error('Unsupported battle rules');
+   if(!Array.isArray(b.queue)||new Set(b.queue).size!==b.queue.length||b.queue.some(id=>!b.formations.some(f=>f.id===id))||!Number.isInteger(b.activeIndex)||b.activeIndex<0||b.activeIndex>b.queue.length)throw Error('Invalid activation queue');
+   for(const side of ['east','west'] as const)if(!['standard','flanking','engineer','fire_discipline'].includes(b.plans?.[side])||!Number.isInteger(b.campChecks?.[side])||b.campChecks[side]<0||b.campChecks[side]>2)throw Error('Invalid tactical plan or capture streak');
+   if(b.scenarioId==='convoy'&&(!b.wagon||!b.convoySnapshot))throw Error('Missing convoy return context');
+  }
+  if(b.terrain.length!==(b.scenarioId==='convoy'?6:8)||b.terrain.some(row=>row.length!==(b.scenarioId==='convoy'?8:10)||row.some(t=>!(t in battleData.terrainDefinitions))))throw Error('Invalid battle terrain');if(b.round<1||b.round>1000000||!Number.isInteger(b.round))throw Error('Invalid battle round');if(new Set(b.formations.map(f=>f.id)).size!==b.formations.length)throw Error('Duplicate formation');for(const f of b.formations)if(!Number.isInteger(f.morale)||f.morale<0||f.morale>100||!Number.isInteger(f.ap)||f.ap<0||f.ap>2||!['east','west'].includes(f.side))throw Error('Invalid formation status');}
  if(['battle_deployment','battle_round','battle_result','ending','campaign_report'].includes(s.phase)&&!s.battle)throw Error('Missing battlefield');
  if(['ending','campaign_report'].includes(s.phase)&&!s.ending)throw Error('Missing ending');
 }

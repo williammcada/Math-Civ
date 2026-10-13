@@ -1,5 +1,5 @@
 import {battle as data,balance} from '../content/registry';
-import type {State,Formation,Point,Side,BattleAction,Result,Battle,TacticalPlan,Intent} from './types';
+import type {State,Formation,Point,Side,BattleAction,Result,Battle,TacticalPlan,Intent,ReserveEntry} from './types';
 import {floor,round,clamp,nearest10,sum} from './fixedPoint';
 import {roll} from './rng';
 import {delta,event} from './effects';
@@ -57,7 +57,7 @@ export function deploymentBlocked(s:State,id:string,p:Point):string|null {
  const f=occupant(s,p);return f&&f.id!==id?'That starting square is occupied.':null;
 }
 function emptyBattle(formations:Formation[],grid:string[][],supply:Record<Side,number>,ammo:Record<Side,number>,scenarioId:Battle['scenarioId']):Battle {
- return {rulesVersion:2,scenarioId,round:1,formations,queue:[],activeIndex:0,supply,quota:{east:battleQuota(formations.filter(f=>f.side==='east').map(f=>f.troops)),west:battleQuota(formations.filter(f=>f.side==='west').map(f=>f.troops))},currentSupply:{east:false,west:false},ammo,initialSupply:supply.east,suppliedRounds:0,terrain:grid,rallyUsed:false,rallies:{east:{uses:0,lastRound:-2},west:{uses:0,lastRound:-2}},resupplied:{east:false,west:false},auxSide:null,dispatchPending:false,result:null,scores:{east:0,west:0},campChecks:{east:0,west:0},councilPending:false,reviewSeen:false,finalized:false,outcomeReason:'',plans:{east:'standard',west:'standard'},planLocked:false,pontoonUsed:{east:false,west:false},intents:{}};
+ return {rulesVersion:2,scenarioId,round:1,formations,queue:[],activeIndex:0,supply,quota:{east:battleQuota(formations.filter(f=>f.side==='east').map(f=>f.troops)),west:battleQuota(formations.filter(f=>f.side==='west').map(f=>f.troops))},currentSupply:{east:false,west:false},ammo,initialSupply:supply.east,suppliedRounds:0,terrain:grid,rallyUsed:false,rallies:{east:{uses:0,lastRound:-2},west:{uses:0,lastRound:-2}},resupplied:{east:false,west:false},auxSide:null,dispatchPending:false,result:null,scores:{east:0,west:0},campChecks:{east:0,west:0},councilPending:false,reviewSeen:false,finalized:false,outcomeReason:'',plans:{east:'standard',west:'standard'},reserveEntries:{east:'north',west:'north'},planLocked:false,pontoonUsed:{east:false,west:false},intents:{}};
 }
 export function createBattle(s:State){
  const a=clamp(floor(s.resources.authority-50,1,5),-10,10),r=clamp(floor(s.playerArmy.readiness-50,1,10),-5,5),coh=balance.battle.cohesionMoraleBands.find(b=>s.diplomacy.coalitionCohesion>=b.min&&s.diplomacy.coalitionCohesion<=b.max)!.morale;
@@ -67,7 +67,7 @@ export function createBattle(s:State){
   const troops=nearest10(clamp(east?s.playerArmy.formations[i].troops:f.baseTroops+recruits[wi++],f.baseTroops/2,Math.floor(f.baseTroops*1.25/10)*10));
   return {id:f.id,side:f.side as Side,archetype:f.archetype as Formation['archetype'],baseTroops:f.baseTroops,troops,startTroops:troops,morale:clamp(f.baseMorale+(east?a+r+coh:0)),equipmentPoints:east?s.prep.equipment[i]:0,commanderRating:f.commanderRating,move:f.move,range:f.range,x:east&&!s.flags.gifu_controlled?0:p.x,y:p.y,ap:0,attacked:false,brace:false,forced:false,routed:false,exited:false,shattered:false,auxiliary:false};});
  const grid=structuredClone(data.terrainGrid);for(const p of (data.fieldworkTilesByTier as Record<string,Point[]>)[String(s.playerArmy.fieldworkTier)]??[])grid[p.y][p.x]='fieldworks';
- const west=s.westernState.resources,quota=battleQuota(formations.filter(f=>f.side==='west').map(f=>f.troops)),packs=Math.min(10,Math.floor(west.food/quota)),ammo=Math.min(12,Math.floor(west.materials/10));
+ const west=s.westernState.resources,quota=battleQuota(formations.filter(f=>f.side==='west').map(f=>f.troops)),packs=Math.min(west.food>=quota*16?12:10,Math.floor(west.food/quota)),ammo=Math.min(12,Math.floor(west.materials/10));
  west.food-=packs*quota;west.materials-=ammo*10;
  const gun=formations.find(f=>f.side==='west'&&f.archetype==='arquebus')!;if(west.currency>=80){west.currency-=80;gun.equipmentPoints=1;}
  s.battle=emptyBattle(formations,grid,{east:s.prep.supply,west:packs},{east:s.prep.ammo,west:ammo},'sekigahara');
@@ -84,12 +84,13 @@ export function planBlocked(s:State,side:Side,plan:TacticalPlan):string|null {
  if(plan==='fire_discipline')return b.formations.some(f=>f.side===side&&f.archetype==='arquebus'&&f.equipmentPoints>=1)?null:'Equip your gunners with at least one paid equipment point.';
  return 'Unknown tactical plan.';
 }
-export function setPlan(s:State,side:Side,plan:TacticalPlan,reserve?:string){
+export function setPlan(s:State,side:Side,plan:TacticalPlan,reserve?:string,entry:ReserveEntry='north'){
  const b=s.battle!;if(b.planLocked)throw Error('Plans are locked after deployment.');const reason=planBlocked(s,side,plan);if(reason)throw Error(reason);
- const units=b.formations.filter(f=>f.side===side&&!f.auxiliary);for(const f of units){if(f.pendingReserve){f.pendingReserve=false;const home=(data.defaultDeployment as Record<string,Point>)[f.id];const p=entryTile(s,side==='east'&&!s.flags.gifu_controlled?{x:0,y:home.y}:home);if(!p)throw Error('No place for the returning reserve.');Object.assign(f,p);}f.engineer=false;}
+ const units=b.formations.filter(f=>f.side===side&&!f.auxiliary);for(const f of units){if(f.pendingReserve){f.pendingReserve=false;const home=(data.defaultDeployment as Record<string,Point>)[f.id];const p=side==='east'?deploymentTiles(s).find(t=>vacant(s,t))??null:entryTile(s,home);if(!p)throw Error('No place for the returning reserve.');Object.assign(f,p);}f.engineer=false;}
  if(side==='east'){for(const p of Object.values(data.fieldworkTilesByTier).flat())if(b.terrain[p.y][p.x]==='fieldworks')b.terrain[p.y][p.x]=data.terrainGrid[p.y][p.x];if(plan!=='engineer')for(const p of (data.fieldworkTilesByTier as Record<string,Point[]>)[String(s.playerArmy.fieldworkTier)]??[])b.terrain[p.y][p.x]='fieldworks';}
  if(plan==='flanking'){const unit=units.find(f=>f.id===reserve)??units.find(f=>f.archetype==='spears')!;unit.pendingReserve=true;unit.ap=0;}
  if(plan==='engineer')units.find(f=>f.archetype==='spears')!.engineer=true;
+ if(!['north','south'].includes(entry))throw Error('Choose north or south for reserve entry.');b.reserveEntries[side]=entry;
  b.plans[side]=plan;event(s,'PLAN_SELECTED',side+'.'+plan,{side,plan,source:plan==='flanking'?'road + Gifu':plan==='engineer'?'funded fieldworks':plan==='fire_discipline'?'paid gunner equipment':'always available'});
 }
 export function deploy(s:State,id:string,p:Point){const reason=deploymentBlocked(s,id,p);if(reason)throw Error(reason);Object.assign(s.battle!.formations.find(f=>f.id===id)!,p);}
@@ -102,7 +103,7 @@ function consumeRound(s:State,endingEarly=false){const b=s.battle!;for(const sid
  for(const f of b.formations)if(f.auxiliary&&f.auxiliaryRounds)f.auxiliaryRounds--;}
 function startRound(s:State){const b=s.battle!;
  if(b.scenarioId==='sekigahara'){
-  if(b.round>=3)for(const side of sides)for(const f of b.formations.filter(f=>f.side===side&&f.pendingReserve)){const x=side==='east'?3:6,preferred={x,y:0},p=entryTile(s,preferred,side)??entryTile(s,{x,y:7},side);if(p){Object.assign(f,p);f.pendingReserve=false;event(s,'RESERVE_ENTERED',f.id,{round:b.round,side,source:'flanking'});}}
+  if(b.round>=3)for(const side of sides)for(const f of b.formations.filter(f=>f.side===side&&f.pendingReserve)){const x=side==='east'?3:6,preferred={x,y:b.reserveEntries[side]==='south'?7:0},p=entryTile(s,preferred,side)??entryTile(s,{x,y:7},side);if(p){Object.assign(f,p);f.pendingReserve=false;event(s,'RESERVE_ENTERED',f.id,{round:b.round,side,source:'flanking'});}else event(s,'RESERVE_DELAYED',f.id,{side,entry:b.reserveEntries[side],reason:'No free passable tile on its own bank'});}
   if(b.round===4)event(s,'AUXILIARY_WARNING','kobayakawa.round5',{round:5});
   if(b.round>=5&&(b.auxSide===null||s.flags.auxiliary_delayed)){
    const side=b.auxSide??(s.diplomacy.kobayakawaCommitment<40?'west':s.diplomacy.kobayakawaCommitment>=70?'east':'inactive');b.auxSide=side;b.dispatchPending=true;
@@ -134,7 +135,8 @@ function allRouted(s:State){const b=s.battle!;const east=b.formations.filter(f=>
  else if(east||west){finish(s,east&&west?'draw':east?'defeat':'victory','core_rout');return true;}return false;
 }
 export function campHeld(s:State,side:Side){if(s.battle!.scenarioId==='convoy')return false;const p=side==='east'?data.objectives.westCamp:data.objectives.eastCamp,u=occupant(s,p);return !!u&&u.side===side&&!u.routed&&!s.battle!.formations.some(f=>alive(f)&&!f.routed&&f.side!==side&&distance(f,p)===1);}
-export function score(s:State,side:Side){const b=s.battle!,own=b.formations.filter(f=>f.side===side&&!f.auxiliary),enemy=b.formations.filter(f=>f.side!==side&&!f.auxiliary);return (campHeld(s,side)?40:0)+15*enemy.filter(f=>!undefeated(f)).length+round(sum(own.filter(undefeated).map(f=>f.troops)),15,Math.max(1,sum(own.map(f=>f.startTroops))));}
+export function scoreParts(s:State,side:Side){const b=s.battle!,own=b.formations.filter(f=>f.side===side),enemy=b.formations.filter(f=>f.side!==side&&!f.auxiliary);return {camp:campHeld(s,side)?40:0,defeated:15*enemy.filter(f=>!undefeated(f)).length,strength:round(sum(own.filter(f=>alive(f)||f.pendingReserve).map(f=>f.troops)),15,Math.max(1,sum(own.map(f=>f.startTroops))))};}
+export function score(s:State,side:Side){return sum(Object.values(scoreParts(s,side)));}
 function updateRouts(s:State){const b=s.battle!;let changed=true;while(changed){changed=false;for(const f of b.formations){if(!alive(f))continue;if(f.troops*5<f.startTroops){f.shattered=true;event(s,'FORMATION_SHATTERED',f.id,{cause:'below one fifth of starting troops'});continue;}if(f.morale<25&&!f.routed){f.routed=true;changed=true;event(s,'FORMATION_ROUTED',f.id,{cause:'morale below 25'});b.formations.filter(g=>alive(g)&&g.side===f.side&&g.id!==f.id&&distance(g,f)===1).forEach(g=>g.morale=clamp(g.morale-8));}}}}
 function endRound(s:State){const b=s.battle!;consumeRound(s);updateRouts(s);if(allRouted(s))return;
  if(b.scenarioId==='convoy'){
@@ -163,7 +165,7 @@ export function combatPreview(s:State,a:Formation,d:Formation,kind='attack',dv=0
  const fortification=d.side==='west'&&terrain(s,d)==='west_camp'?1000+10*Math.min(30,(b.plans.west==='engineer'?0:s.westernState.ogakiDefense)+(s.flags.gifu_controlled?0:s.westernState.gifuDefense)):1000;
  const defensePower=power(d.troops,[def.defensePerThousand,700+d.morale*5,supplied(s,d)?1000:850,900+40*d.commanderRating,1000+50*d.equipmentPoints,terrain(s,d)==='fieldworks'&&d.side!=='east'?1000:td.defensePerThousand??1000,fortification,d.brace?1300:1000,d.brace&&kind==='charge'?1200:1000]);
  const ratio=round(attackPower,10000,Math.max(1,defensePower)),defBp=clamp(800+round(ratio-10000,1000,10000)+dv,300,2200);let atkBp=clamp(400+round(600,10000,Math.max(ratio,2500))+av,200,1400);if(kind==='charge')atkBp=round(atkBp,1150,1000);
- const defenderLoss=Math.min(d.troops,nearest10(round(d.troops,defBp*(kind==='suppress'?500:1000),10000000))),defenderMoraleLoss=round(4*10000+defBp*70,1,10000)+(support?4:0),retaliation=retaliationEligible(s,d,a,defenderLoss,defenderMoraleLoss,kind);
+ const fullLoss=nearest10(round(d.troops,defBp,10000)),defenderLoss=Math.min(d.troops,kind==='suppress'?nearest10(round(fullLoss,1,2)):fullLoss),defenderMoraleLoss=round(4*10000+defBp*70,1,10000)+(support?4:0),retaliation=retaliationEligible(s,d,a,defenderLoss,defenderMoraleLoss,kind);
  return {attackPower:round(attackPower,1,1000000),defensePower:round(defensePower,1,1000000),powerRatioMilli:round(ratio,1,10),defenderLoss,attackerLoss:retaliation?Math.min(a.troops,nearest10(round(a.troops,atkBp,10000))):0,defenderMoraleLoss,attackerMoraleLoss:retaliation?round(2*10000+atkBp*40,1,10000):0,support,retaliation};
 }
 export function combatRange(s:State,a:Formation,d:Formation,kind='attack'){
@@ -192,12 +194,12 @@ export function battleAction(s:State,id:string,action:BattleAction){
   const target=b.formations.find(f=>f.id===action.target);if(!target)throw Error('Choose an enemy formation.');const reason=attackBlocked(s,u,target,action.kind);if(reason)throw Error(reason);
   if(action.kind==='volley'||action.kind==='suppress')b.ammo[u.side]--;const dv=roll(s,-200,200),av=roll(s,-150,150),packet=combatPreview(s,u,target,action.kind,dv,av);
   target.troops-=packet.defenderLoss;target.morale=clamp(target.morale-packet.defenderMoraleLoss);
-  if(action.kind==='suppress'){target.suppressionUntilActivation=(target.activations??0)+1;usePlan(s,u,'suppress');}
+  if(action.kind==='suppress'&&target.troops*5>=target.startTroops&&target.morale>=25){target.suppressionUntilActivation=(target.activations??0)+1;usePlan(s,u,'suppress');}
   if(packet.retaliation){target.retaliationRound=b.round;if(target.archetype==='arquebus')b.ammo[target.side]--;u.troops-=packet.attackerLoss;u.morale=clamp(u.morale-packet.attackerMoraleLoss);}
   if(action.kind==='charge')u.morale=clamp(u.morale-6);u.attacked=true;event(s,'COMBAT_RESOLVED',action.kind,{attackerId:u.id,defenderId:target.id,...packet,rolls:{defenderVarianceBp:dv,attackerVarianceBp:av}});break;
  }
  }
- u.ap--;updateRouts(s);if(allRouted(s))return;if(u.ap===0||u.routed||!alive(u))next(s);
+ u.ap--;updateRouts(s);for(const side of sides)if(b.campChecks[side]&&!campHeld(s,side))b.campChecks[side]=0;if(allRouted(s))return;if(u.ap===0||u.routed||!alive(u))next(s);
 }
 function chooseIntent(s:State,a:Formation,reason?:string):Intent {
  const b=s.battle!,camp=b.scenarioId==='convoy'?b.wagon!:data.objectives.eastCamp,own=data.objectives.westCamp,candidates:Array<{action:BattleAction;score:number;id:string;goal:string}>=[];
