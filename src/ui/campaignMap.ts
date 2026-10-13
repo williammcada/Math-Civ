@@ -76,6 +76,7 @@ export function stateTokens(s:State):MapToken[]{
  if(ch<=2)tokens.push({id:'uesugi',side:'west',label:'Uesugi',place:'aizu',portrait:'PORTRAIT_UESUGI',status:'Fortifying Aizu.'});
  else tokens.push({id:'uesugi',side:'west',label:'Uesugi',place:'aizu',portrait:'PORTRAIT_UESUGI',status:'Held in the north by your allies.'});
  tokens.push(ch>=3?{id:'ishida',side:'west',label:'Ishida',place:'ogaki',portrait:'PORTRAIT_ISHIDA',strength:west,status:'The main Western army.'}:{id:'ishida',side:'west',label:'Ishida',place:'osaka',portrait:'PORTRAIT_ISHIDA',status:'Gathering allies in the heir’s name.'});
+ if(ch>=3)tokens.push({id:'mori',side:'west',label:'Mōri',place:'osaka',status:'Mōri Terumoto holds Osaka castle as the Western commander-in-chief.'});
  if(ch>=3)tokens.push({id:'ukita',side:'west',label:'Ukita',place:'sekigahara',portrait:'PORTRAIT_UKITA',status:'Western vanguard.',offset:[-1,4]});
  if(ch>=4){const koba=s.diplomacy.kobayakawaCommitment;tokens.push({id:'kobayakawa',side:koba>=60?'east':koba<45?'west':'ochre',label:'Kobayakawa',place:'matsuo',portrait:'PORTRAIT_KOBAYAKAWA',status:kobaBandText(koba)});}
  if(ch>=3&&s.flags.hidetada_delay_risk)tokens.push({id:'hidetada',side:'east',label:'Hidetada',place:'ueda',portrait:'PORTRAIT_HONDA',status:'Marching by the Nakasendō; may arrive late.'});
