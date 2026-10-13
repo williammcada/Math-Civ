@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://math-civilization.local/schemas/campaign.schema.json",
+  "title": "Math & Civilization Campaign Package",
+  "type": "object",
+  "required": ["schemaVersion", "packageVersion", "id", "playerFactionId", "playerLeaderId", "startingState", "map", "chapters", "orders", "battleId", "endingIds"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "packageVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "id": { "type": "string", "minLength": 1 },
+    "titleStringId": { "type": "string" },
+    "subtitleStringId": { "type": "string" },
+    "playerFactionId": { "type": "string" },
+    "playerLeaderId": { "type": "string" },
+    "displayResourceNames": { "type": "object" },
+    "historicalFrame": { "type": "object" },
+    "cast": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "portraitAssetId", "role"],
+        "properties": {
+          "id": { "type": "string" },
+          "portraitAssetId": { "type": "string" },
+          "role": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "startingState": { "type": "object", "required": ["resources", "edo", "diplomacy", "threats", "playerArmy", "westernState"] },
+    "map": {
+      "type": "object",
+      "required": ["nodes", "routes"],
+      "properties": {
+        "nodes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } },
+        "routes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/route" } }
+      },
+      "additionalProperties": false
+    },
+    "chapters": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": { "$ref": "#/$defs/chapter" }
+    },
+    "orders": { "type": "array", "minItems": 17, "items": { "$ref": "#/$defs/order" } },
+    "alliedContributions": { "type": "array" },
+    "strategicAiActions": { "type": "array" },
+    "battleId": { "type": "string" },
+    "endingIds": {
+      "type": "object",
+      "required": ["good", "normal", "bad"],
+      "properties": {
+        "good": { "type": "string" },
+        "normal": { "type": "string" },
+        "bad": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": ["id", "type", "openingStatus", "x", "y"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string" },
+        "openingStatus": { "type": "string" },
+        "x": { "type": "integer", "minimum": 0, "maximum": 640 },
+        "y": { "type": "integer", "minimum": 0, "maximum": 480 }
+      },
+      "additionalProperties": false
+    },
+    "route": {
+      "type": "object",
+      "required": ["id", "a", "b", "travelPoints"],
+      "properties": {
+        "id": { "type": "string" },
+        "a": { "type": "string" },
+        "b": { "type": "string" },
+        "travelPoints": { "type": "integer", "minimum": 1 },
+        "tag": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "chapter": {
+      "type": "object",
+      "required": ["index", "id", "dateStringId", "titleStringId", "chronicleStringId", "eventAssetId", "policyChoices", "orderIds", "milestoneEffects"],
+      "properties": {
+        "index": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "id": { "type": "string" },
+        "dateStringId": { "type": "string" },
+        "titleStringId": { "type": "string" },
+        "chronicleStringId": { "type": "string" },
+        "eventAssetId": { "type": "string" },
+        "openingEffects": { "type": "array" },
+        "policyChoices": { "type": "array", "minItems": 3, "maxItems": 3 },
+        "orderIds": { "type": "array", "minItems": 5, "maxItems": 5, "items": { "type": "string" } },
+        "milestoneEffects": { "type": "array" }
+      },
+      "additionalProperties": false
+    },
+    "order": {
+      "type": "object",
+      "required": ["id", "titleStringId", "family", "challengeTemplateId", "cost", "resolutionMode", "precisionMode"],
+      "properties": {
+        "id": { "type": "string" },
+        "titleStringId": { "type": "string" },
+        "family": { "enum": ["govern", "develop", "diplomacy", "march"] },
+        "challengeTemplateId": { "type": "string" },
+        "cost": { "type": "object" },
+        "prerequisites": { "type": "array" },
+        "oncePerChapter": { "type": "boolean" },
+        "resolutionMode": { "type": "string" },
+        "precisionMode": { "type": "string" },
+        "effects": { "type": "array" },
+        "rewardOptions": { "type": "object" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

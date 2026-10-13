@@ -1,0 +1,198 @@
+{
+  "$schema": "../schemas/battle.schema.json",
+  "schemaVersion": 1,
+  "id": "sekigahara_grid_v1",
+  "titleStringId": "battle.sekigahara.title",
+  "historicalStatus": "game_scaled_counterfactual",
+  "columns": 10,
+  "rows": 8,
+  "coordinateOrigin": "upper_left",
+  "movement": "orthogonal",
+  "directionTieOrder": ["up", "left", "right", "down"],
+  "roundLimit": null,
+  "actionPointsPerActivation": 2,
+  "terrainDefinitions": {
+    "plain": { "moveCost": 1, "defensePerThousand": 1000 },
+    "road": { "moveCost": 1, "defensePerThousand": 950, "initiativeBonus": 3 },
+    "mud": { "moveCost": 2, "defensePerThousand": 1050, "cavalryAttackPerThousand": 850 },
+    "forest": { "moveCost": 2, "defensePerThousand": 1150, "blocksVolleyLine": true, "cavalryAttackPerThousand": 850 },
+    "hill": { "moveCost": 2, "defensePerThousand": 1250, "rangedAttackPerThousand": 1100, "blocksVolleyLine": true },
+    "stream": { "passable": false },
+    "bridge": { "moveCost": 1, "defensePerThousand": 850, "singleOccupant": true },
+    "east_camp": { "moveCost": 1, "defensePerThousand": 1200, "objectiveSide": "east" },
+    "west_camp": { "moveCost": 1, "defensePerThousand": 1200, "objectiveSide": "west" },
+    "fieldworks": { "moveCost": 1, "defensePerThousand": 1250, "benefitSide": "east" }
+  },
+  "terrainGrid": [
+    ["forest", "forest", "hill", "hill", "plain", "plain", "hill", "hill", "forest", "forest"],
+    ["forest", "plain", "hill", "plain", "plain", "plain", "plain", "hill", "plain", "forest"],
+    ["plain", "plain", "plain", "mud", "mud", "stream", "plain", "plain", "plain", "plain"],
+    ["east_camp", "road", "road", "road", "road", "bridge", "road", "road", "road", "west_camp"],
+    ["plain", "plain", "plain", "mud", "mud", "stream", "mud", "plain", "plain", "plain"],
+    ["plain", "forest", "forest", "plain", "plain", "stream", "plain", "forest", "forest", "plain"],
+    ["plain", "forest", "hill", "plain", "plain", "bridge", "plain", "hill", "forest", "plain"],
+    ["plain", "plain", "hill", "plain", "plain", "stream", "plain", "hill", "plain", "plain"]
+  ],
+  "deploymentZones": {
+    "east": [
+      { "x": 0, "y": 1 }, { "x": 1, "y": 1 },
+      { "x": 0, "y": 2 }, { "x": 1, "y": 2 },
+      { "x": 0, "y": 4 }, { "x": 1, "y": 4 },
+      { "x": 0, "y": 5 }
+    ],
+    "west": [
+      { "x": 8, "y": 1 }, { "x": 9, "y": 1 },
+      { "x": 8, "y": 2 }, { "x": 9, "y": 2 },
+      { "x": 8, "y": 4 }, { "x": 9, "y": 4 },
+      { "x": 9, "y": 5 }
+    ]
+  },
+  "defaultDeployment": {
+    "east_ii": { "x": 1, "y": 2 },
+    "east_fukushima": { "x": 1, "y": 4 },
+    "east_kuroda": { "x": 0, "y": 5 },
+    "west_ukita": { "x": 8, "y": 2 },
+    "west_ishida": { "x": 8, "y": 4 },
+    "west_otani": { "x": 9, "y": 5 }
+  },
+  "fieldworkTilesByTier": {
+    "0": [],
+    "1": [{ "x": 2, "y": 4 }],
+    "2": [{ "x": 2, "y": 4 }, { "x": 3, "y": 5 }]
+  },
+  "formations": [
+    {
+      "id": "east_ii",
+      "side": "east",
+      "nameStringId": "formation.east_ii",
+      "commanderId": "ii_naomasa",
+      "archetype": "cavalry",
+      "baseTroops": 3200,
+      "baseMorale": 82,
+      "commanderRating": 4,
+      "move": 3,
+      "range": 1,
+      "spriteAssetId": "UNIT_EAST"
+    },
+    {
+      "id": "east_fukushima",
+      "side": "east",
+      "nameStringId": "formation.east_fukushima",
+      "commanderId": "fukushima_masanori",
+      "archetype": "spears",
+      "baseTroops": 3400,
+      "baseMorale": 76,
+      "commanderRating": 3,
+      "move": 2,
+      "range": 1,
+      "spriteAssetId": "UNIT_EAST"
+    },
+    {
+      "id": "east_kuroda",
+      "side": "east",
+      "nameStringId": "formation.east_kuroda",
+      "commanderId": "kuroda_nagamasa",
+      "archetype": "arquebus",
+      "baseTroops": 3000,
+      "baseMorale": 78,
+      "commanderRating": 4,
+      "move": 2,
+      "range": 2,
+      "spriteAssetId": "UNIT_EAST"
+    },
+    {
+      "id": "west_ukita",
+      "side": "west",
+      "nameStringId": "formation.west_ukita",
+      "commanderId": "ukita_hideie",
+      "archetype": "spears",
+      "baseTroops": 3400,
+      "baseMorale": 76,
+      "commanderRating": 3,
+      "move": 2,
+      "range": 1,
+      "spriteAssetId": "UNIT_WEST"
+    },
+    {
+      "id": "west_ishida",
+      "side": "west",
+      "nameStringId": "formation.west_ishida",
+      "commanderId": "ishida_mitsunari",
+      "archetype": "arquebus",
+      "baseTroops": 3000,
+      "baseMorale": 72,
+      "commanderRating": 3,
+      "move": 2,
+      "range": 2,
+      "spriteAssetId": "UNIT_WEST"
+    },
+    {
+      "id": "west_otani",
+      "side": "west",
+      "nameStringId": "formation.west_otani",
+      "commanderId": "otani_yoshitsugu",
+      "archetype": "spears",
+      "baseTroops": 2600,
+      "baseMorale": 84,
+      "commanderRating": 4,
+      "move": 2,
+      "range": 1,
+      "spriteAssetId": "UNIT_WEST"
+    },
+    {
+      "id": "aux_kobayakawa",
+      "side": "conditional",
+      "nameStringId": "formation.aux_kobayakawa",
+      "commanderId": "kobayakawa_hideaki",
+      "archetype": "spears",
+      "baseTroops": 2200,
+      "baseMorale": 68,
+      "commanderRating": 3,
+      "move": 2,
+      "range": 1,
+      "spriteAssetId": "UNIT_AUXILIARY",
+      "entryRound": 5,
+      "entryBySide": {
+        "east": { "x": 4, "y": 7 },
+        "west": { "x": 7, "y": 7 },
+        "inactive": null
+      }
+    }
+  ],
+  "archetypes": {
+    "cavalry": {
+      "attackPerThousand": 1100,
+      "defensePerThousand": 850,
+      "tactics": ["charge", "forced_step"]
+    },
+    "spears": {
+      "attackPerThousand": 950,
+      "defensePerThousand": 1150,
+      "tactics": ["brace", "forced_step"]
+    },
+    "arquebus": {
+      "attackPerThousand": 1050,
+      "defensePerThousand": 900,
+      "tactics": ["volley", "forced_step"]
+    }
+  },
+  "weatherByRound": [
+    { "round": 1, "id": "rain_fog", "visibility": 2, "unscoutedVolleyPerThousand": 800 },
+    { "round": 2, "id": "light_rain", "visibility": 3, "unscoutedVolleyPerThousand": 1000 },
+    { "round": 3, "id": "lifting_fog", "visibility": 99, "unscoutedVolleyPerThousand": 1000 },
+    { "round": 4, "id": "overcast", "visibility": 99, "unscoutedVolleyPerThousand": 1000 },
+    { "round": 5, "id": "overcast", "visibility": 99, "unscoutedVolleyPerThousand": 1000 }
+  ],
+  "battleScore": {
+    "enemyCampHeld": 40,
+    "enemyCoreFormationRoutedOrShattered": 15,
+    "remainingTroopsMax": 15,
+    "victoryDifference": 10
+  },
+  "objectives": {
+    "eastCamp": { "x": 0, "y": 3 },
+    "westCamp": { "x": 9, "y": 3 },
+    "holdCheck": "end_of_round",
+    "mustBeUncontested": true
+  }
+}

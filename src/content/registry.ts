@@ -1,0 +1,12 @@
+import campaign from './campaign-sekigahara.v1.json';
+import balance from './balance.v1.json';
+import battle from './battle-sekigahara.v1.json';
+import math from './math-templates.v1.json';
+import crises from './crises.v1.json';
+import endings from './endings.v1.json';
+import strings from './strings.en.json';
+export {campaign,balance,battle,math,crises,endings};
+export const text=(id:string)=> (strings.strings as Record<string,string>)[id]??id;
+export const order=(id:string)=>{const o=campaign.orders.find(o=>o.id===id);if(!o)throw Error('Unknown order '+id);return o;};
+export const template=(id:string)=>{const t=math.templates.find(t=>t.id===id);if(!t)throw Error('Unknown challenge '+id);return t;};
+export const chapter=(index:number)=>campaign.chapters[index-1];

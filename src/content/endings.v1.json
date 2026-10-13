@@ -1,0 +1,171 @@
+{
+  "$schema": "../schemas/endings.schema.json",
+  "schemaVersion": 1,
+  "id": "sekigahara_endings_v1",
+  "tiers": [
+    {
+      "id": "realm_pacified",
+      "tier": "good",
+      "titleStringId": "ending.good.title",
+      "openingStringId": "ending.good.opening",
+      "assetId": "ENDING_GOOD"
+    },
+    {
+      "id": "narrow_ascendancy",
+      "tier": "normal",
+      "titleStringId": "ending.normal.title",
+      "openingStringId": "ending.normal.opening",
+      "assetId": "ENDING_NORMAL"
+    },
+    {
+      "id": "realm_divides_again",
+      "tier": "bad",
+      "titleStringId": "ending.bad.title",
+      "openingStringId": "ending.bad.opening",
+      "assetId": "ENDING_BAD"
+    }
+  ],
+  "clauseSelection": {
+    "maximumClauses": 3,
+    "priorityGroups": ["crisis", "welfare", "coalition", "infrastructure", "homeland", "battle"],
+    "maximumPerGroup": 1
+  },
+  "clauses": [
+    {
+      "id": "crises_mastered",
+      "group": "crisis",
+      "priority": 100,
+      "condition": { "path": "summary.unmitigatedCrises", "operator": "eq", "value": 0 },
+      "stringId": "epilogue.crises_mastered"
+    },
+    {
+      "id": "crises_unanswered",
+      "group": "crisis",
+      "priority": 90,
+      "condition": { "path": "summary.unmitigatedSeverity", "operator": "gte", "value": 2 },
+      "stringId": "epilogue.crises_unanswered"
+    },
+    {
+      "id": "granaries_full",
+      "group": "welfare",
+      "priority": 80,
+      "condition": { "path": "summary.foodReserveTurnsMilli", "operator": "gte", "value": 2000 },
+      "stringId": "epilogue.granaries_full"
+    },
+    {
+      "id": "granaries_empty",
+      "group": "welfare",
+      "priority": 79,
+      "condition": { "path": "summary.foodReserveTurnsMilli", "operator": "lt", "value": 500 },
+      "stringId": "epilogue.granaries_empty"
+    },
+    {
+      "id": "fair_register",
+      "group": "welfare",
+      "priority": 70,
+      "condition": { "path": "flags.fair_register", "operator": "eq", "value": true },
+      "stringId": "epilogue.fair_register"
+    },
+    {
+      "id": "hard_taxation",
+      "group": "welfare",
+      "priority": 69,
+      "condition": { "path": "summary.maximumTaxRate", "operator": "gte", "value": 30 },
+      "stringId": "epilogue.hard_taxation"
+    },
+    {
+      "id": "coalition_resolute",
+      "group": "coalition",
+      "priority": 80,
+      "condition": { "path": "diplomacy.coalitionCohesion", "operator": "gte", "value": 80 },
+      "stringId": "epilogue.coalition_resolute"
+    },
+    {
+      "id": "coalition_fractured",
+      "group": "coalition",
+      "priority": 79,
+      "condition": { "path": "diplomacy.coalitionCohesion", "operator": "lt", "value": 40 },
+      "stringId": "epilogue.coalition_fractured"
+    },
+    {
+      "id": "kobayakawa_east",
+      "group": "coalition",
+      "priority": 75,
+      "condition": { "path": "summary.kobayakawaBattleSide", "operator": "eq", "value": "east" },
+      "stringId": "epilogue.kobayakawa_east"
+    },
+    {
+      "id": "kobayakawa_inactive",
+      "group": "coalition",
+      "priority": 74,
+      "condition": { "path": "summary.kobayakawaBattleSide", "operator": "eq", "value": "inactive" },
+      "stringId": "epilogue.kobayakawa_inactive"
+    },
+    {
+      "id": "kobayakawa_west",
+      "group": "coalition",
+      "priority": 73,
+      "condition": { "path": "summary.kobayakawaBattleSide", "operator": "eq", "value": "west" },
+      "stringId": "epilogue.kobayakawa_west"
+    },
+    {
+      "id": "road_restored",
+      "group": "infrastructure",
+      "priority": 70,
+      "condition": { "path": "flags.road_restored", "operator": "eq", "value": true },
+      "stringId": "epilogue.road_restored"
+    },
+    {
+      "id": "road_broken",
+      "group": "infrastructure",
+      "priority": 69,
+      "condition": { "path": "playerArmy.routeState", "operator": "eq", "value": "damaged" },
+      "stringId": "epilogue.road_broken"
+    },
+    {
+      "id": "homeland_guarded",
+      "group": "homeland",
+      "priority": 70,
+      "condition": { "path": "flags.homeland_guarded", "operator": "eq", "value": true },
+      "stringId": "epilogue.homeland_guarded"
+    },
+    {
+      "id": "homeland_exposed",
+      "group": "homeland",
+      "priority": 69,
+      "condition": { "path": "edo.defense", "operator": "lt", "value": 45 },
+      "stringId": "epilogue.homeland_exposed"
+    },
+    {
+      "id": "army_supplied",
+      "group": "battle",
+      "priority": 80,
+      "condition": { "path": "summary.battleSupplyCoverageMilli", "operator": "gte", "value": 1000 },
+      "stringId": "epilogue.army_supplied"
+    },
+    {
+      "id": "army_starved",
+      "group": "battle",
+      "priority": 79,
+      "condition": { "path": "summary.battleSupplyCoverageMilli", "operator": "lt", "value": 600 },
+      "stringId": "epilogue.army_starved"
+    },
+    {
+      "id": "measured_command",
+      "group": "battle",
+      "priority": 70,
+      "condition": { "path": "summary.easternRemainingTroopPercent", "operator": "gte", "value": 65 },
+      "stringId": "epilogue.measured_command"
+    },
+    {
+      "id": "costly_victory",
+      "group": "battle",
+      "priority": 69,
+      "all": [
+        { "path": "battle.result", "operator": "eq", "value": "victory" },
+        { "path": "summary.easternRemainingTroopPercent", "operator": "lt", "value": 50 }
+      ],
+      "stringId": "epilogue.costly_victory"
+    }
+  ]
+}

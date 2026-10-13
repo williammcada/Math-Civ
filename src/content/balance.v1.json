@@ -1,0 +1,400 @@
+{
+  "$schema": "../schemas/balance.schema.json",
+  "schemaVersion": 1,
+  "id": "prototype_balance_v1",
+  "limits": {
+    "resourceMin": 0,
+    "resourceMax": 9999,
+    "statMin": 0,
+    "statMax": 100,
+    "commandSealsPerChapter": 3,
+    "majorCrisesPerChapter": 1,
+    "battleColumns": 10,
+    "battleRows": 8,
+    "battleReviewRound": 12
+  },
+  "attempts": {
+    "attempt1": {
+      "effectPerThousand": 1100,
+      "masteryPoints": 100,
+      "precisionPerThousand": 100
+    },
+    "attempt2": {
+      "effectPerThousand": 850,
+      "masteryPoints": 75,
+      "precisionPerThousand": 0
+    },
+    "attempt3": {
+      "effectPerThousand": 650,
+      "masteryPoints": 50,
+      "precisionPerThousand": 0
+    },
+    "adviser": {
+      "effectPerThousand": 500,
+      "masteryPoints": 25,
+      "precisionPerThousand": 0
+    },
+    "proceedEstimate": {
+      "minimumEffectPerThousand": 250,
+      "accuracyRangePerThousand": 300,
+      "masteryPoints": 0
+    },
+    "abandon": {
+      "refundPerThousand": 750,
+      "masteryPoints": 0
+    }
+  },
+  "economy": {
+    "peoplePerHousehold": 5,
+    "registeredLaborPerHousehold": 2,
+    "orderFactorBasePerThousand": 750,
+    "orderFactorStatDivisor": 400,
+    "prosperityFactorBasePerThousand": 750,
+    "prosperityFactorStatDivisor": 400,
+    "farmRicePer100EffectiveLabor": 8,
+    "workshopMaterialsPer100EffectiveLabor": 6,
+    "worksProgressPer100EffectiveLabor": 2,
+    "worksMaintenanceLaborPerInfrastructure": 800,
+    "maxPassiveInfrastructureGain": 2,
+    "treasuryPerFullyTaxedHouseholdPerThousand": 500,
+    "civilianPeoplePerRice": 100,
+    "troopsPerRice": 100,
+    "troopsPerTreasuryWage": 100,
+    "preparedRouteSupplyPerThousand": 1000,
+    "unpreparedRouteSupplyPerThousand": 1250,
+    "damagedRouteSupplyPerThousand": 1500,
+    "taxOrderDelta": {
+      "15": 4,
+      "20": 0,
+      "25": -4,
+      "30": -9
+    }
+  },
+  "shortage": {
+    "civilianUnderFull": {
+      "publicOrder": -8,
+      "prosperity": -5
+    },
+    "civilianUnderHalf": {
+      "additionalPublicOrder": -8,
+      "famineWeight": 30
+    },
+    "garrisonUnderFull": {
+      "defense": -6
+    },
+    "fieldUnderFull": {
+      "readiness": -10
+    },
+    "fieldUnderHalf": {
+      "additionalReadiness": -10,
+      "troopLossBasisPoints": 300
+    },
+    "unpaidWages": {
+      "readiness": -8,
+      "authority": -5,
+      "rebellionWeight": 10,
+      "raidWeight": 10
+    }
+  },
+  "relationshipBands": {
+    "general": [
+      {
+        "min": 0,
+        "max": 19,
+        "id": "fractured"
+      },
+      {
+        "min": 20,
+        "max": 39,
+        "id": "uneasy"
+      },
+      {
+        "min": 40,
+        "max": 59,
+        "id": "steady"
+      },
+      {
+        "min": 60,
+        "max": 79,
+        "id": "united"
+      },
+      {
+        "min": 80,
+        "max": 100,
+        "id": "resolute"
+      }
+    ],
+    "kobayakawa": [
+      {
+        "min": 0,
+        "max": 39,
+        "id": "opposed",
+        "battleSide": "west"
+      },
+      {
+        "min": 40,
+        "max": 69,
+        "id": "uncertain",
+        "battleSide": "inactive"
+      },
+      {
+        "min": 70,
+        "max": 100,
+        "id": "committed",
+        "battleSide": "east"
+      }
+    ]
+  },
+  "crisis": {
+    "chanceBands": [
+      {
+        "min": 0,
+        "max": 24,
+        "chanceBasisPoints": 500
+      },
+      {
+        "min": 25,
+        "max": 49,
+        "chanceBasisPoints": 1500
+      },
+      {
+        "min": 50,
+        "max": 74,
+        "chanceBasisPoints": 3000
+      },
+      {
+        "min": 75,
+        "max": 100,
+        "chanceBasisPoints": 5000
+      }
+    ],
+    "riceTurnsPoints": [
+      {
+        "minPerThousand": 2000,
+        "maxPerThousand": 999999,
+        "points": 0
+      },
+      {
+        "minPerThousand": 1000,
+        "maxPerThousand": 1999,
+        "points": 10
+      },
+      {
+        "minPerThousand": 500,
+        "maxPerThousand": 999,
+        "points": 25
+      },
+      {
+        "minPerThousand": 0,
+        "maxPerThousand": 499,
+        "points": 40
+      }
+    ],
+    "treasuryPoints": [
+      {
+        "min": 300,
+        "max": 9999,
+        "points": 0
+      },
+      {
+        "min": 150,
+        "max": 299,
+        "points": 10
+      },
+      {
+        "min": 1,
+        "max": 149,
+        "points": 20
+      },
+      {
+        "min": 0,
+        "max": 0,
+        "points": 30
+      }
+    ],
+    "authorityPoints": [
+      {
+        "min": 60,
+        "max": 100,
+        "points": 0
+      },
+      {
+        "min": 40,
+        "max": 59,
+        "points": 10
+      },
+      {
+        "min": 20,
+        "max": 39,
+        "points": 20
+      },
+      {
+        "min": 0,
+        "max": 19,
+        "points": 35
+      }
+    ],
+    "publicOrderPoints": [
+      {
+        "min": 70,
+        "max": 100,
+        "points": 0
+      },
+      {
+        "min": 55,
+        "max": 69,
+        "points": 10
+      },
+      {
+        "min": 40,
+        "max": 54,
+        "points": 25
+      },
+      {
+        "min": 0,
+        "max": 39,
+        "points": 40
+      }
+    ],
+    "infrastructurePoints": [
+      {
+        "min": 60,
+        "max": 100,
+        "points": 0
+      },
+      {
+        "min": 40,
+        "max": 59,
+        "points": 8
+      },
+      {
+        "min": 0,
+        "max": 39,
+        "points": 18
+      }
+    ],
+    "activeEnemyPressurePoints": 10,
+    "unresolvedPriorPoints": 15,
+    "baseTypeWeight": 5,
+    "severityDivisor": 35,
+    "severityMin": 1,
+    "severityMax": 3,
+    "severityCostAndHarmPerThousand": {
+      "1": 750,
+      "2": 1000,
+      "3": 1250
+    },
+    "partialPreventionPerThousand": 500,
+    "emergencySubstitution": {
+      "oncePerCampaign": true,
+      "authorityCost": 10,
+      "maxTreasuryOrMaterials": 60
+    }
+  },
+  "battle": {
+    "actionPoints": 2,
+    "moraleFactorBasePerThousand": 700,
+    "moraleFactorPerPoint": 5,
+    "suppliedFactorPerThousand": 1000,
+    "unsuppliedFactorPerThousand": 850,
+    "commanderFactorBasePerThousand": 900,
+    "commanderFactorPerRating": 40,
+    "equipmentFactorPerPointPerThousand": 50,
+    "supportFactorPerThousand": 1200,
+    "routeInitiativeBonus": 5,
+    "precisionInitiativeBonus": 1,
+    "noGifuWesternInitiativeBonus": 5,
+    "roadInitiativeBonus": 3,
+    "initiativeTieBreakMax": 2,
+    "authorityMorale": {
+      "center": 50,
+      "divisor": 5,
+      "minimum": -10,
+      "maximum": 10
+    },
+    "readinessMorale": {
+      "center": 50,
+      "divisor": 10,
+      "minimum": -5,
+      "maximum": 5
+    },
+    "cohesionMoraleBands": [
+      {
+        "min": 0,
+        "max": 39,
+        "morale": -6
+      },
+      {
+        "min": 40,
+        "max": 59,
+        "morale": 0
+      },
+      {
+        "min": 60,
+        "max": 79,
+        "morale": 4
+      },
+      {
+        "min": 80,
+        "max": 100,
+        "morale": 7
+      }
+    ],
+    "equipmentTreasuryCost": 80,
+    "equipmentMaxPerFormation": 2,
+    "ammoMaterialsCost": 10,
+    "ammoMax": 12,
+    "rallyAuthorityCost": 10,
+    "rallyMoraleGain": 15,
+    "unsuppliedEndRoundMoraleLoss": 4,
+    "routMoraleThreshold": 25,
+    "shatterRemainingBasisPoints": 2000,
+    "chargeAttackPerThousand": 1250,
+    "chargeAttackerLossPerThousand": 1150,
+    "chargeMoraleCost": 6,
+    "braceDefensePerThousand": 1300,
+    "braceVsChargeAdditionalPerThousand": 1200,
+    "unscoutedRainVolleyPerThousand": 800,
+    "adjacentVolleyPerThousand": 800,
+    "hillRangedAttackPerThousand": 1100,
+    "forcedStepMoraleCost": 5,
+    "westernStartingSupplyRounds": 10,
+    "battleResultDifference": 10
+  },
+  "realmScore": {
+    "maxSupply": 15,
+    "maxTreasury": 10,
+    "maxPublicOrder": 15,
+    "maxAuthority": 15,
+    "maxCrisis": 10,
+    "maxCoalition": 15,
+    "maxBattle": 20,
+    "treasuryFullScoreAt": 400,
+    "supplyTurnsForFullScore": 2,
+    "crisisUnmitigatedPenaltyPerSeverity": 3,
+    "crisisPartialPenalty": 1,
+    "battlePoints": {
+      "victory": 20,
+      "draw": 12,
+      "orderly_withdrawal": 10,
+      "disordered_withdrawal": 5,
+      "defeat": 0
+    }
+  },
+  "endings": {
+    "good": {
+      "requiredBattleResult": "victory",
+      "minimumMathMastery": 75,
+      "minimumRealmScore": 70,
+      "maximumUnmitigatedCrises": 1,
+      "collapseAllowed": false
+    },
+    "bad": {
+      "collapseConditionsRequired": 2,
+      "battleDefeatRealmBelow": 60,
+      "lowMathBelow": 35,
+      "lowMathRealmBelow": 50,
+      "disorderedWithdrawalAuthorityBelow": 25
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+ "version":"0.3.0",
+ "battle":{"rationCapacity":300,"provisionMax":12,"defaultCoverage":10,"reviewRound":12,"captureChecks":2,"auxiliaryRound":5,"auxiliaryAllowance":12,"ammoCost":10,"ammoMax":12,"rallyUses":3,"rallySpacing":2,"unsuppliedFactor":850,"unsuppliedMoraleLoss":4,"resupplyMax":4,"suppressionDamage":500},
+ "dividendPerThousand":{"attempt1":100,"attempt2":50,"attempt3":20,"adviser":0,"proceedEstimate":0,"abandon":0},
+ "exactTemplates":["math_c1_labor","math_c1_tax","math_c1_road","math_c1_letters","math_c2_provisions","math_c2_perimeter","math_c2_muster","math_c2_allies","math_c3_march","math_c3_stores","math_c3_gifu","math_c3_relief","math_c4_kobayakawa","math_c4_granaries","math_c4_fieldworks","math_c4_weather","math_audit_stores","math_crisis_famine","math_crisis_rebellion","math_crisis_flood","math_crisis_plague","math_crisis_raid","math_battle_warchest"],
+ "roundingPolicy":{"templateId":"math_battle_provision","skill":"rounding_up","direction":"up","precision":"whole ration","grouping":"each formation separately","stage":"before adding formations and multiplying rounds","exactBoundary":"unchanged"},
+ "convoy":{"columns":8,"rows":6,"triggerAfterOrders":2,"riceCost":30,"ammoCost":20,"supplyRounds":10,"ammo":2,"firstCorrectAmmo":1,"cargoIntact":60,"cargoDamaged":30,"authorityIntact":4,"authorityDamaged":2,"integrity":3,"wagonStart":{"x":1,"y":2},"wagonExit":{"x":7,"y":2},"streamColumn":4,"roadRow":2}
+}

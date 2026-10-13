@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://math-civilization.local/schemas/battle.schema.json",
+  "title": "Math & Civilization Battle",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "id",
+    "columns",
+    "rows",
+    "roundLimit",
+    "terrainDefinitions",
+    "terrainGrid",
+    "deploymentZones",
+    "defaultDeployment",
+    "formations",
+    "archetypes",
+    "weatherByRound",
+    "battleScore",
+    "objectives"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "id": {
+      "type": "string"
+    },
+    "titleStringId": {
+      "type": "string"
+    },
+    "historicalStatus": {
+      "const": "game_scaled_counterfactual"
+    },
+    "columns": {
+      "const": 10
+    },
+    "rows": {
+      "const": 8
+    },
+    "coordinateOrigin": {
+      "const": "upper_left"
+    },
+    "movement": {
+      "const": "orthogonal"
+    },
+    "directionTieOrder": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "roundLimit": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "actionPointsPerActivation": {
+      "const": 2
+    },
+    "terrainDefinitions": {
+      "type": "object",
+      "minProperties": 9
+    },
+    "terrainGrid": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "array",
+        "minItems": 10,
+        "maxItems": 10,
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "deploymentZones": {
+      "type": "object"
+    },
+    "defaultDeployment": {
+      "type": "object"
+    },
+    "fieldworkTilesByTier": {
+      "type": "object"
+    },
+    "formations": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "side",
+          "nameStringId",
+          "commanderId",
+          "archetype",
+          "baseTroops",
+          "baseMorale",
+          "commanderRating",
+          "move",
+          "range",
+          "spriteAssetId"
+        ]
+      }
+    },
+    "archetypes": {
+      "type": "object"
+    },
+    "weatherByRound": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5
+    },
+    "battleScore": {
+      "type": "object"
+    },
+    "objectives": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}

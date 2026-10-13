@@ -16,6 +16,7 @@ The repository is the canonical home for the current source, permanent project b
 
 - [`docs/PROJECT-BRIEF.md`](docs/PROJECT-BRIEF.md)
 - [`docs/change-specs/`](docs/change-specs/)
+- [`docs/SOURCE-CHECKPOINT.md`](docs/SOURCE-CHECKPOINT.md): the TypeScript/Phaser source recovered on 13 Oct 2026 and how it relates to the v0.3.1 build
 - [McAda Project Handbook](https://github.com/williammcada/mcada-project-handbook)
 
 Use the project brief for permanent project-local rules and the change-spec directory for version-specific approved decisions.

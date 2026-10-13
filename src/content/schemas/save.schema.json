@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://math-civilization.local/schemas/save.schema.json",
+  "title": "Math & Civilization Save Envelope",
+  "type": "object",
+  "required": ["format", "schemaVersion", "buildVersion", "savedAt", "slotLabel", "checksum", "state"],
+  "properties": {
+    "format": { "const": "math-civilization-save" },
+    "schemaVersion": { "enum": [1, 2] },
+    "buildVersion": { "type": "string" },
+    "savedAt": { "type": "string", "format": "date-time" },
+    "slotLabel": { "type": "string", "maxLength": 40 },
+    "checksum": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "state": {
+      "type": "object",
+      "required": ["schemaVersion", "buildVersion", "campaignId", "runId", "seed", "rngStep", "mode", "phase", "chapterIndex", "commandSeals", "resources", "edo", "map", "diplomacy", "threats", "playerArmy", "westernState", "crises", "challengeRecords", "decisions", "flags", "eventLog", "createdAt", "updatedAt"],
+      "properties": {
+        "schemaVersion": { "enum": [1, 2] },
+        "buildVersion": { "type": "string" },
+        "campaignId": { "const": "jp_tokugawa_sekigahara" },
+        "runId": { "type": "string" },
+        "seed": { "type": "integer", "minimum": 0, "maximum": 4294967295 },
+        "rngStep": { "type": "integer", "minimum": 0 },
+        "mode": { "enum": ["guided", "campaign", "scholar"] },
+        "phase": { "type": "string" },
+        "chapterIndex": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "commandSeals": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "resources": { "type": "object" },
+        "edo": { "type": "object" },
+        "map": { "type": "object" },
+        "diplomacy": { "type": "object" },
+        "threats": { "type": "object" },
+        "playerArmy": { "type": "object" },
+        "westernState": { "type": "object" },
+        "projects": { "type": "array" },
+        "activeOrder": { "type": ["object", "null"] },
+        "crises": { "type": "array" },
+        "challengeRecords": { "type": "array" },
+        "decisions": { "type": "array" },
+        "flags": { "type": "object" },
+        "battle": { "type": ["object", "null"] },
+        "ending": { "type": ["object", "null"] },
+        "eventLog": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

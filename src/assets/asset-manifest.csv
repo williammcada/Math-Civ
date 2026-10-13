@@ -1,0 +1,40 @@
+asset_id,category,filename_or_pattern,quantity,logical_size,format,prototype_priority,notes
+BG_TITLE,background,backgrounds/title_war_council.webp,1,640x480,WebP,P0,Crop/adapt approved council concept; preserve title-safe dark region
+BG_COUNCIL,background,backgrounds/council_chamber.webp,1,640x480,WebP,P0,Reusable political decision background
+MAP_CAMPAIGN,map,maps/japan_sekigahara_campaign.webp,1,460x380,WebP,P0,Accurate central/eastern Honshu geography required
+MAP_LOCATION_ICONS,map,maps/location-icons.png,1 atlas,16x16 each,PNG,P0,Castle road bridge camp port and warning icons
+PORTRAIT_IEYASU,portrait,portraits/ieyasu.png,1,96x96,PNG,P0,Locked character anchor
+PORTRAIT_CAST,portrait,portraits/{character_id}.png,5-7,96x96,PNG,P0,Core retainers rivals and uncertain ally
+PORTRAIT_HONDA,portrait,portraits/honda_tadakatsu.png,1,96x96,PNG,P0,Military and logistics adviser
+PORTRAIT_II,portrait,portraits/ii_naomasa.png,1,96x96,PNG,P0,Eastern field commander
+PORTRAIT_FUKUSHIMA,portrait,portraits/fukushima_masanori.png,1,96x96,PNG,P0,Eastern coalition commander
+PORTRAIT_KURODA,portrait,portraits/kuroda_nagamasa.png,1,96x96,PNG,P0,Intelligence and diplomacy adviser
+PORTRAIT_ISHIDA,portrait,portraits/ishida_mitsunari.png,1,96x96,PNG,P0,Principal Western rival
+PORTRAIT_OTANI,portrait,portraits/otani_yoshitsugu.png,1,96x96,PNG,P0,Western field commander
+PORTRAIT_KOBAYAKAWA,portrait,portraits/kobayakawa_hideaki.png,1,96x96,PNG,P0,Politically uncertain auxiliary commander
+EVENT_PLATES,event,events/{event_id}.webp,9,320x180,WebP,P1,Reusable with separate code-rendered text
+EVENT_CH1_REGENTS,event,events/ch1_regents.webp,1,320x180,WebP,P0,Regency balance chronicle
+EVENT_CH2_AIZU,event,events/ch2_aizu.webp,1,320x180,WebP,P0,Northern march chronicle
+EVENT_CH3_FUSHIMI,event,events/ch3_fushimi.webp,1,320x180,WebP,P0,Western rising and Fushimi chronicle
+EVENT_CH4_MINO,event,events/ch4_mino.webp,1,320x180,WebP,P0,Convergence in Mino chronicle
+EVENT_CRISIS_FAMINE,event,events/crisis_famine.webp,1,320x180,WebP,P1,Reusable famine plate
+EVENT_CRISIS_REBELLION,event,events/crisis_rebellion.webp,1,320x180,WebP,P1,Reusable rebellion plate
+EVENT_CRISIS_FLOOD,event,events/crisis_flood.webp,1,320x180,WebP,P1,Reusable flood plate
+EVENT_CRISIS_PLAGUE,event,events/crisis_plague.webp,1,320x180,WebP,P1,Reusable illness plate without graphic suffering
+EVENT_CRISIS_RAID,event,events/crisis_raid.webp,1,320x180,WebP,P1,Reusable depot raid plate
+TILE_TERRAIN,battle,battle/terrain-atlas.png,1 atlas,32x32 each,PNG,P0,Fields mud roads forest hills stream bridge camp walls village
+UNIT_EAST,battle,battle/east-units.png,1 atlas,32x32 frames,PNG,P0,Commander spearmen arquebusiers cavalry reserve
+UNIT_WEST,battle,battle/west-units.png,1 atlas,32x32 frames,PNG,P0,Distinct palette silhouettes and verified symbols
+UNIT_AUXILIARY,battle,battle/auxiliary-units.png,1 atlas,32x32 frames,PNG,P0,Kobayakawa unit supports either side palette overlay
+FX_BATTLE,battle,battle/effects.png,1 atlas,16x16 to 64x64,PNG,P1,Rain fog smoke flash fire arrows hit rout
+ICONS_RESOURCES,ui,ui/resource-icons.png,1 atlas,16x16 and 24x24,PNG,P0,Grain treasury materials authority troops morale supply
+ICONS_COMMANDS,ui,ui/command-icons.png,1 atlas,24x24,PNG,P0,Govern develop diplomacy march chronicle end turn
+ICONS_BATTLE,ui,ui/battle-command-icons.png,1 atlas,24x24,PNG,P0,Move attack defend tactic withdraw
+FRAME_UI,ui,ui/frame-nine-slice.png,1 atlas,variable nine-slice,PNG,P0,Lacquer panels gold rules focus and disabled states
+CURSORS,ui,ui/cursors.png,1 atlas,16x16 and 24x24,PNG,P1,Mouse selected reachable target hostile invalid
+ENDING_GOOD,ending,endings/good.webp,1,640x480,WebP,P1,Stable realm and earned victory
+ENDING_NORMAL,ending,endings/normal.webp,1,640x480,WebP,P1,Realm survives with visible costs
+ENDING_BAD,ending,endings/bad.webp,1,640x480,WebP,P1,Collapse fragmentation or defeat without gore
+TITLE_MARK,branding,ui/title-mark.png,1,variable,PNG,P1,Original title treatment; do not bake into key art
+FONT_DISPLAY,font,fonts/display.woff2,1,subset WOFF2,WOFF2,P1,Locally bundled compact bitmap display face
+FONT_BODY,font,fonts/body.woff2,1,subset WOFF2,WOFF2,P1,Readable body/math face with tabular numerals

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://math-civilization.local/schemas/math-templates.schema.json",
+  "title": "Math & Civilization Math Templates",
+  "type": "object",
+  "required": ["schemaVersion", "id", "templates"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string" },
+    "templates": {
+      "type": "array",
+      "minItems": 24,
+      "items": {
+        "type": "object",
+        "required": ["id", "operation", "skillTags", "promptStringId", "answerFields", "unitStringId", "variants", "hintStringIds", "workedMethod"],
+        "properties": {
+          "id": { "type": "string" },
+          "operation": {
+            "enum": ["ratio_share", "percent_of", "unit_rate", "proportion", "elapsed_time", "area_rectangle", "perimeter", "budget_remainder", "table_compare", "multi_field_allocation"]
+          },
+          "skillTags": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "promptStringId": { "type": "string" },
+          "answerFields": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "unitStringId": { "type": "string" },
+          "stateBindings": { "type": "array", "items": { "type": "string" } },
+          "variants": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": ["id", "operands", "answer"],
+              "properties": {
+                "id": { "type": "string" },
+                "operands": { "type": "object" },
+                "answer": { "type": "object" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "hintStringIds": { "type": "array", "minItems": 2, "items": { "type": "string" } },
+          "workedMethod": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,314 @@
+[
+  {
+    "id": "BG_TITLE",
+    "category": "background",
+    "priority": "P0",
+    "source": "backgrounds/title_war_council.webp",
+    "status": "final",
+    "implementation": "public/art/BG_TITLE.webp"
+  },
+  {
+    "id": "BG_COUNCIL",
+    "category": "background",
+    "priority": "P0",
+    "source": "backgrounds/council_chamber.webp",
+    "status": "final",
+    "implementation": "public/art/BG_COUNCIL.webp"
+  },
+  {
+    "id": "MAP_CAMPAIGN",
+    "category": "map",
+    "priority": "P0",
+    "source": "maps/japan_sekigahara_campaign.webp",
+    "status": "placeholder",
+    "implementation": "Data-driven schematic route view, visibly labeled SCHEMATIC"
+  },
+  {
+    "id": "MAP_LOCATION_ICONS",
+    "category": "map",
+    "priority": "P0",
+    "source": "maps/location-icons.png",
+    "status": "placeholder",
+    "implementation": "Functional HTML/CSS/canvas fallback"
+  },
+  {
+    "id": "PORTRAIT_IEYASU",
+    "category": "portrait",
+    "priority": "P0",
+    "source": "portraits/ieyasu.png",
+    "status": "final",
+    "implementation": "public/art/PORTRAIT_IEYASU.webp"
+  },
+  {
+    "id": "PORTRAIT_CAST",
+    "category": "portrait",
+    "priority": "P0",
+    "source": "portraits/{character_id}.png",
+    "status": "unused",
+    "implementation": "Individual stable IDs supply this group"
+  },
+  {
+    "id": "PORTRAIT_HONDA",
+    "category": "portrait",
+    "priority": "P0",
+    "source": "portraits/honda_tadakatsu.png",
+    "status": "final",
+    "implementation": "public/art/PORTRAIT_HONDA.webp"
+  },
+  {
+    "id": "PORTRAIT_II",
+    "category": "portrait",
+    "priority": "P0",
+    "source": "portraits/ii_naomasa.png",
+    "status": "final",
+    "implementation": "public/art/PORTRAIT_II.webp"
+  },
+  {
+    "id": "PORTRAIT_FUKUSHIMA",
+    "category": "portrait",
+    "priority": "P0",
+    "source": "portraits/fukushima_masanori.png",
+    "status": "final",
+    "implementation": "public/art/PORTRAIT_FUKUSHIMA.webp"
+  },
+  {
+    "id": "PORTRAIT_KURODA",
+    "category": "portrait",
+    "priority": "P0",
+    "source": "portraits/kuroda_nagamasa.png",
+    "status": "final",
+    "implementation": "public/art/PORTRAIT_KURODA.webp"
+  },
+  {
+    "id": "PORTRAIT_ISHIDA",
+    "category": "portrait",
+    "priority": "P0",
+    "source": "portraits/ishida_mitsunari.png",
+    "status": "final",
+    "implementation": "public/art/PORTRAIT_ISHIDA.webp"
+  },
+  {
+    "id": "PORTRAIT_OTANI",
+    "category": "portrait",
+    "priority": "P0",
+    "source": "portraits/otani_yoshitsugu.png",
+    "status": "final",
+    "implementation": "public/art/PORTRAIT_OTANI.webp"
+  },
+  {
+    "id": "PORTRAIT_KOBAYAKAWA",
+    "category": "portrait",
+    "priority": "P0",
+    "source": "portraits/kobayakawa_hideaki.png",
+    "status": "final",
+    "implementation": "public/art/PORTRAIT_KOBAYAKAWA.webp"
+  },
+  {
+    "id": "EVENT_PLATES",
+    "category": "event",
+    "priority": "P1",
+    "source": "events/{event_id}.webp",
+    "status": "unused",
+    "implementation": "Individual stable IDs supply this group"
+  },
+  {
+    "id": "EVENT_CH1_REGENTS",
+    "category": "event",
+    "priority": "P0",
+    "source": "events/ch1_regents.webp",
+    "status": "placeholder",
+    "implementation": "public/art/EVENT_CH1_REGENTS.webp"
+  },
+  {
+    "id": "EVENT_CH2_AIZU",
+    "category": "event",
+    "priority": "P0",
+    "source": "events/ch2_aizu.webp",
+    "status": "placeholder",
+    "implementation": "public/art/EVENT_CH2_AIZU.webp"
+  },
+  {
+    "id": "EVENT_CH3_FUSHIMI",
+    "category": "event",
+    "priority": "P0",
+    "source": "events/ch3_fushimi.webp",
+    "status": "placeholder",
+    "implementation": "public/art/EVENT_CH3_FUSHIMI.webp"
+  },
+  {
+    "id": "EVENT_CH4_MINO",
+    "category": "event",
+    "priority": "P0",
+    "source": "events/ch4_mino.webp",
+    "status": "placeholder",
+    "implementation": "public/art/EVENT_CH4_MINO.webp"
+  },
+  {
+    "id": "EVENT_CRISIS_FAMINE",
+    "category": "event",
+    "priority": "P1",
+    "source": "events/crisis_famine.webp",
+    "status": "placeholder",
+    "implementation": "public/art/EVENT_CRISIS_FAMINE.webp"
+  },
+  {
+    "id": "EVENT_CRISIS_REBELLION",
+    "category": "event",
+    "priority": "P1",
+    "source": "events/crisis_rebellion.webp",
+    "status": "placeholder",
+    "implementation": "public/art/EVENT_CRISIS_REBELLION.webp"
+  },
+  {
+    "id": "EVENT_CRISIS_FLOOD",
+    "category": "event",
+    "priority": "P1",
+    "source": "events/crisis_flood.webp",
+    "status": "placeholder",
+    "implementation": "public/art/EVENT_CRISIS_FLOOD.webp"
+  },
+  {
+    "id": "EVENT_CRISIS_PLAGUE",
+    "category": "event",
+    "priority": "P1",
+    "source": "events/crisis_plague.webp",
+    "status": "placeholder",
+    "implementation": "public/art/EVENT_CRISIS_PLAGUE.webp"
+  },
+  {
+    "id": "EVENT_CRISIS_RAID",
+    "category": "event",
+    "priority": "P1",
+    "source": "events/crisis_raid.webp",
+    "status": "placeholder",
+    "implementation": "public/art/EVENT_CRISIS_RAID.webp"
+  },
+  {
+    "id": "TILE_TERRAIN",
+    "category": "battle",
+    "priority": "P0",
+    "source": "battle/terrain-atlas.png",
+    "status": "final",
+    "implementation": "public/art/TILE_TERRAIN.png (shared 4\u00d74 atlas)"
+  },
+  {
+    "id": "UNIT_EAST",
+    "category": "battle",
+    "priority": "P0",
+    "source": "battle/east-units.png",
+    "status": "final",
+    "implementation": "public/art/TILE_TERRAIN.png (shared 4\u00d74 atlas)"
+  },
+  {
+    "id": "UNIT_WEST",
+    "category": "battle",
+    "priority": "P0",
+    "source": "battle/west-units.png",
+    "status": "final",
+    "implementation": "public/art/TILE_TERRAIN.png (shared 4\u00d74 atlas)"
+  },
+  {
+    "id": "UNIT_AUXILIARY",
+    "category": "battle",
+    "priority": "P0",
+    "source": "battle/auxiliary-units.png",
+    "status": "final",
+    "implementation": "public/art/TILE_TERRAIN.png (shared 4\u00d74 atlas)"
+  },
+  {
+    "id": "FX_BATTLE",
+    "category": "battle",
+    "priority": "P1",
+    "source": "battle/effects.png",
+    "status": "placeholder",
+    "implementation": "Functional HTML/CSS/canvas fallback"
+  },
+  {
+    "id": "ICONS_RESOURCES",
+    "category": "ui",
+    "priority": "P0",
+    "source": "ui/resource-icons.png",
+    "status": "placeholder",
+    "implementation": "Functional HTML/CSS/canvas fallback"
+  },
+  {
+    "id": "ICONS_COMMANDS",
+    "category": "ui",
+    "priority": "P0",
+    "source": "ui/command-icons.png",
+    "status": "placeholder",
+    "implementation": "Functional HTML/CSS/canvas fallback"
+  },
+  {
+    "id": "ICONS_BATTLE",
+    "category": "ui",
+    "priority": "P0",
+    "source": "ui/battle-command-icons.png",
+    "status": "placeholder",
+    "implementation": "Functional HTML/CSS/canvas fallback"
+  },
+  {
+    "id": "FRAME_UI",
+    "category": "ui",
+    "priority": "P0",
+    "source": "ui/frame-nine-slice.png",
+    "status": "placeholder",
+    "implementation": "Functional HTML/CSS/canvas fallback"
+  },
+  {
+    "id": "CURSORS",
+    "category": "ui",
+    "priority": "P1",
+    "source": "ui/cursors.png",
+    "status": "placeholder",
+    "implementation": "Functional HTML/CSS/canvas fallback"
+  },
+  {
+    "id": "ENDING_GOOD",
+    "category": "ending",
+    "priority": "P1",
+    "source": "endings/good.webp",
+    "status": "final",
+    "implementation": "public/art/ENDING_GOOD.webp"
+  },
+  {
+    "id": "ENDING_NORMAL",
+    "category": "ending",
+    "priority": "P1",
+    "source": "endings/normal.webp",
+    "status": "final",
+    "implementation": "public/art/ENDING_NORMAL.webp"
+  },
+  {
+    "id": "ENDING_BAD",
+    "category": "ending",
+    "priority": "P1",
+    "source": "endings/bad.webp",
+    "status": "final",
+    "implementation": "public/art/ENDING_BAD.webp"
+  },
+  {
+    "id": "TITLE_MARK",
+    "category": "branding",
+    "priority": "P1",
+    "source": "ui/title-mark.png",
+    "status": "placeholder",
+    "implementation": "Functional HTML/CSS/canvas fallback"
+  },
+  {
+    "id": "FONT_DISPLAY",
+    "category": "font",
+    "priority": "P1",
+    "source": "fonts/display.woff2",
+    "status": "final",
+    "implementation": "public/art/fonts/display.woff2"
+  },
+  {
+    "id": "FONT_BODY",
+    "category": "font",
+    "priority": "P1",
+    "source": "fonts/body.woff2",
+    "status": "final",
+    "implementation": "public/art/fonts/body.woff2"
+  }
+]

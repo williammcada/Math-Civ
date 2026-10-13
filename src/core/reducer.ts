@@ -1,0 +1,78 @@
+import {BUILD_VERSION,ATTEMPT_LIMIT} from './version';
+import {campaign,balance,chapter,order,template} from '../content/registry';
+import type {State,Command,Path,Challenge,Resources,Resource,Answer} from './types';
+import {generate,validAnswer,literal,normalize,exactWhole,estimateQuality,supplyOrderAffordable} from './mathEngine';
+import {battleQuota,planningDividend,rules} from './logistics';
+import {round,sum,clamp} from './fixedPoint';
+import {pay,canPay,delta,event,effects,get} from './effects';
+import {administer} from './economy';
+import {crisisRoll,currentCrisis,crisisType,crisisCost,resolveCrisis,emergencyCost} from './crisis';
+import {strategicAi} from './strategicAi';
+import {createBattle,beginBattle,battleAction,deploy,tacticalTurn,withdraw,battleCouncil,setPlan,convoy,convoyDue} from './battle';
+import {ending} from './scoring';
+import {invariants} from './invariants';
+export function createState(seed=16001021,mode:State['mode']='campaign',time='2026-01-01T00:00:00.000Z'):State {const initial=structuredClone(campaign.startingState);return {...initial,schemaVersion:2,buildVersion:BUILD_VERSION,campaignId:'jp_tokugawa_sekigahara',runId:seed.toString(32)+'-'+time,seed:seed>>>0,rngStep:0,mode,phase:'prologue',chapterIndex:1,commandSeals:3,map:Object.fromEntries(campaign.map.nodes.map(n=>[n.id,n.openingStatus])),playerArmy:{...initial.playerArmy,protectedBattleRice:0,fieldworkTier:0},westernState:{...initial.westernState,troopGain:0,gifuDefense:0,ogakiDefense:0,routeDamaged:false,used:[],signals:[]},projects:[],activeOrder:null,variants:{},usedOrders:[],crises:[],challengeRecords:[],decisions:[],flags:{},battle:null,ending:null,eventLog:[],createdAt:time,updatedAt:time,chapterStart:0,reportSnapshots:[],prep:{rounds:1,equipment:[0,0,0],ammo:0,supply:0},pendingReward:null};}
+const assert=(v:unknown,message='Command is not legal here')=>{if(!v)throw Error(message);};
+function staticCost(o:ReturnType<typeof order>):Partial<Resources>{return Object.fromEntries(Object.entries(o.cost).filter(([k,v])=>k!=='mode'&&typeof v==='number'));}
+export function legalOrder(s:State,id:string){if(s.phase!=='orders'||s.activeOrder||s.pendingReward!==null||s.commandSeals<=0||!chapter(s.chapterIndex).orderIds.includes(id)||s.usedOrders.includes(id))return false;const o=order(id);return canPay(s,staticCost(o))&&(o.cost.mode!=='entered_food'||supplyOrderAffordable(s,o.challengeTemplateId))&&(!o.prerequisites||o.prerequisites.every(p=>Number(get(s,p.path))>=p.min));}
+export const legalOrders=(s:State)=>chapter(s.chapterIndex).orderIds.filter(id=>legalOrder(s,id));
+function archive(s:State,c:Challenge,path:Path,q:number,now:number){const a=balance.attempts[path];s.challengeRecords.push({id:c.id,templateId:c.templateId,variantId:c.variantId,operands:c.operands,skillTags:template(c.templateId).skillTags,path,masteryPoints:a.masteryPoints,effectPerThousand:q,answer:c.answer,entered:c.submitted,hints:c.hints,attempts:c.attempts,chapter:s.chapterIndex,firstSubmissionMs:Math.max(0,(c.firstSubmittedAt??now)-c.openedAt),totalMs:Math.max(0,now-c.openedAt)});c.resolved=true;s.variants[c.id]=structuredClone(c);event(s,'ORDER_RESOLVED',c.orderId,{path,quality:q,answer:c.answer});}
+function complete(s:State,path:Path,now=0){const c=s.activeOrder!;assert(c&&!c.resolved);let q=path==='proceedEstimate'?estimateQuality(c):path==='abandon'?0:(balance.attempts[path] as {effectPerThousand:number}).effectPerThousand;
+ if(path==='adviser')assert(c.adviserShown,'Read the adviser solution first');
+ if(path==='abandon'){for(const [r,v] of Object.entries(c.paid))delta(s,'resources.'+r,round(v!,750,1000),'abandon.refund');if(c.context==='crisis')resolveCrisis(s,currentCrisis(s)!,'accept',0,{});else if(c.context==='provision'){s.prep.supply=0;s.phase='battle_warchest';}else if(c.context==='warchest'){s.prep.equipment=[0,0,0];s.prep.ammo=0;createBattle(s);s.phase='battle_deployment';}}
+ else if(c.context==='order'){
+  const o=order(c.orderId),precision=path==='attempt1',benefit=precision&&o.precisionMode==='refund_primary_cost'?1000:q;
+  let allocation=path==='proceedEstimate'?(c.uncheckedAnswer??c.submitted.at(-1)!):c.answer;
+  if(o.resolutionMode==='persistent_allocation'){assert(c.fields.every(k=>exactWhole(allocation[k])!==null&&exactWhole(allocation[k])!>=0),'Use nonnegative whole workers in an unchecked allocation.');allocation=Object.fromEntries(c.fields.map(k=>[k,exactWhole(allocation[k])!]));assert(sum(c.fields.map(k=>Number(allocation[k])))<=s.edo.estimatedHouseholds*2,'Allocation exceeds registered labor');s.flags.labor_quality=path==='proceedEstimate'?1000:benefit;}
+  if(o.cost.mode==='entered_food'){
+   const entered=exactWhole(path==='proceedEstimate'?(c.uncheckedAnswer??c.submitted.at(-1)!)[c.fields[0]]:c.answer[c.fields[0]]);assert(entered!==null&&entered>=0,'An unchecked Rice spend must be an explicit nonnegative whole amount.');const per=sum(c.operands.issuedRations as number[]);const rice=path==='proceedEstimate'?Math.floor(entered!/per)*per:entered!;assert(rice<=s.resources.food,'Not enough Rice for this plan');pay(s,{food:rice},'commitment');c.paid.food=rice;
+   const reserve=o.id==='c2_march_provisions'?'playerArmy.campaignSupplyReserveRice':'playerArmy.protectedBattleRice';delta(s,reserve,rice,'reserve');effects(s,(o.effects??[]).filter(e=>!('deltaFromCommitted' in e)),benefit,allocation,rice);planningDividend(s,c.id,path,'food',rice);event(s,'SUPPLY_PACKED',c.id,{rice,periods:rice/per,quota:per,context:c.orderId,newlyPaid:rice,protected:0});
+  }else if(o.id==='audit_stores'){s.pendingReward=benefit;}else effects(s,o.effects??[],benefit,allocation);
+  if(precision&&o.id==='c1_repair_tokaido')delta(s,'playerArmy.readiness',5,'precision.road');
+  if(precision&&o.cost.mode!=='entered_food'){if(o.precisionMode==='refund_primary_cost'){const primary=Object.keys(c.paid)[0] as Resource;const refund=round(c.paid[primary]??0,100,1000);delta(s,'resources.'+primary,refund,'precision.refund');event(s,'PRECISION_AWARDED','precision.refund',{resource:primary,amount:refund});}else event(s,'PRECISION_AWARDED','precision.effect',{quality:q});}
+ }else if(c.context==='crisis'){resolveCrisis(s,currentCrisis(s)!,'full',path==='attempt1'?1000:q,c.paid,path==='attempt1');}
+ else if(c.context==='provision'){
+  const per=battleQuota(s.playerArmy.formations.map(u=>u.troops)),entered=exactWhole((c.uncheckedAnswer??c.submitted.at(-1))?.rice??c.answer.rice);assert(path!=='proceedEstimate'||entered!==null&&entered>=0,'An unchecked Rice spend must be an explicit nonnegative whole amount.');const rounds=path==='proceedEstimate'?Math.min(rules.battle.provisionMax,Math.floor(entered!/per)):s.prep.rounds,cost=rounds*per;
+  assert(cost<=s.resources.food+s.playerArmy.protectedBattleRice,'Not enough Rice');const protectedRice=Math.min(cost,s.playerArmy.protectedBattleRice);delta(s,'playerArmy.protectedBattleRice',-protectedRice,'battle.protected');pay(s,{food:cost-protectedRice},'battle.provisions');s.prep.supply=rounds;planningDividend(s,c.id,path,'food',cost);event(s,'SUPPLY_PACKED',c.id,{rice:cost,periods:rounds,quota:per,protected:protectedRice,newlyPaid:cost-protectedRice,context:'battle'});s.phase='battle_warchest';
+ }else if(c.context==='warchest'){
+  const cost={currency:sum(s.prep.equipment)*80,materials:s.prep.ammo*rules.battle.ammoCost};pay(s,cost,'battle.equipment');planningDividend(s,c.id,path,'currency',cost.currency);createBattle(s);s.phase='battle_deployment';
+ }
+ archive(s,c,path,q,now);s.activeOrder=null;
+}
+function startSubmission(s:State,c:Challenge,a:Answer,now:number){assert(c.fields.every(k=>typeof c.answer[k]==='string'?typeof a[k]==='string'&&String(a[k]).length>0:literal(a[k])!==null),'Enter a number, decimal, or simple fraction in every field. Use commas only in groups of three; no attempt was spent.');assert(!c.adviserShown,'Confirm the adviser solution to resolve this order');a=Object.fromEntries(c.fields.map(k=>[k,String(a[k]).trim()]));assert(c.attempts<ATTEMPT_LIMIT,'No attempts remain');if(c.attempts===0){c.firstSubmittedAt=now;if(c.context==='order'){assert(s.commandSeals>0);s.commandSeals--;s.usedOrders.push(c.orderId);const o=order(c.orderId);const cost=o.cost.mode==='entered_food'?{}:staticCost(o);pay(s,cost,c.orderId);c.paid=cost;}}
+ c.attempts++;c.submitted.push(a);event(s,'CHALLENGE_ATTEMPT_RECORDED',c.templateId,{attempt:c.attempts});s.variants[c.id]=structuredClone(c);
+ if(validAnswer(c,a))complete(s,('attempt'+Math.max(c.attempts,c.floor)) as Path,now);
+}
+function resolveWorld(s:State){const key='world_resolved_'+s.chapterIndex;if(s.flags[key])return;strategicAi(s);effects(s,chapter(s.chapterIndex).milestoneEffects.filter(e=>!('phase' in e)));s.flags[key]=true;}
+function advance(s:State){assert(!s.activeOrder&&s.pendingReward===null,'Resolve the current order');switch(s.phase){case 'prologue':s.phase='chronicle';break;case 'chronicle':s.phase='council';break;case 'council':s.phase='policy';break;case 'administration':crisisRoll(s);s.phase=currentCrisis(s)?'crisis':'world';break;case 'world':resolveWorld(s);s.reportSnapshots.push({chapter:s.chapterIndex,resources:{...s.resources}});s.phase='chapter_report';break;case 'chapter_report':if(s.chapterIndex===4){delta(s,'resources.food',round(s.playerArmy.campaignSupplyReserveRice,750,1000),'reserve.return');s.playerArmy.campaignSupplyReserveRice=0;if(s.diplomacy.coalitionCohesion>=70)delta(s,'resources.food',40,'coalition.resolute');s.phase='battle_review';}else{s.chapterIndex++;s.commandSeals=3;s.usedOrders=[];s.chapterStart=s.eventLog.length;effects(s,chapter(s.chapterIndex).openingEffects??[]);s.phase='chronicle';}break;case 'battle_review':for(const f of s.playerArmy.formations)f.troops=Math.round(clamp(f.troops,f.baseTroops/2,Math.floor(f.baseTroops*1.25/10)*10)/10)*10;s.phase='battle_provision';break;case 'convoy_result':s.battle=null;s.phase='orders';break;case 'battle_result':ending(s);break;case 'ending':s.phase='campaign_report';break;case 'battle_round':assert(s.battle?.dispatchPending);s.battle!.dispatchPending=false;break;default:throw Error('No advance in this phase');}}
+export function reduce(state:Readonly<State>,command:Command):{state:State;events:State['eventLog']} {const s:State=structuredClone(state),start=s.eventLog.length;try{
+ switch(command.type){
+ case 'ADVANCE':advance(s);break;
+ case 'POLICY':{assert(s.phase==='policy');const p=chapter(s.chapterIndex).policyChoices.find(p=>p.id===command.id);assert(p);pay(s,p!.cost,'policy');effects(s,p!.effects);s.decisions.push({id:command.id,chapter:s.chapterIndex,events:s.eventLog.slice(start)});s.phase='orders';break;}
+ case 'OPEN_ORDER':assert(legalOrder(s,command.id));s.activeOrder=generate(s,order(command.id).challengeTemplateId,'order',command.id,command.now);break;
+ case 'CLOSE_ORDER':assert(s.activeOrder?.attempts===0&&s.activeOrder.context!=='crisis');s.activeOrder=null;break;
+ case 'ANSWER':assert(s.activeOrder);startSubmission(s,s.activeOrder!,command.answer,command.now??0);break;
+ case 'HINT':assert(s.mode==='guided'&&s.activeOrder);s.activeOrder!.floor=2;s.activeOrder!.hints++;s.variants[s.activeOrder!.id]=structuredClone(s.activeOrder!);break;
+ case 'ADVISER':assert(s.activeOrder&&s.activeOrder.attempts>0);s.activeOrder!.adviserShown=true;break;
+ case 'COMPLETE':assert(s.activeOrder&&s.activeOrder.attempts>0);if(command.path==='proceedEstimate'&&command.answer)s.activeOrder!.uncheckedAnswer=command.answer;complete(s,command.path,command.now);break;
+ case 'AUDIT_REWARD':assert(s.pendingReward!==null);delta(s,'resources.'+command.resource,round(order('audit_stores').rewardOptions![command.resource],s.pendingReward!,1000),'audit.recovery');s.pendingReward=null;break;
+ case 'FORFEIT_SEALS':assert(s.phase==='orders'&&!s.activeOrder&&s.pendingReward===null&&s.commandSeals>0&&legalOrders(s).length===0,'Forfeit is available only when no legal order remains');event(s,'SEALS_FORFEITED','forfeit',{count:s.commandSeals});s.commandSeals=0;break;
+ case 'END_CHAPTER':assert(s.phase==='orders'&&s.commandSeals===0&&!s.activeOrder&&s.pendingReward===null);administer(s);s.phase='administration';break;
+ case 'CRISIS_RESPONSE':{assert(s.phase==='crisis'&&!s.activeOrder);const cr=currentCrisis(s);assert(cr);let cost=crisisCost(cr!,command.response);if(command.emergency){cost=emergencyCost(s,cost,command.emergency);s.flags.emergency_used=true;}pay(s,cost,'crisis.response');if(command.response==='full'){s.activeOrder=generate(s,crisisType(cr!.id).fullResponse.challengeTemplateId,'crisis','crisis_'+cr!.id,command.now);s.activeOrder.paid=cost;}else resolveCrisis(s,cr!,command.response,command.response==='partial'?500:0,cost);break;}
+ case 'PREP_PROVISION':assert(s.phase==='battle_provision'&&!s.activeOrder);assert(Number.isInteger(command.rounds)&&command.rounds>=1&&command.rounds<=rules.battle.provisionMax);assert(battleQuota(s.playerArmy.formations.map(f=>f.troops))*command.rounds<=s.resources.food+s.playerArmy.protectedBattleRice,'Choose fewer rounds or depart without supplies.');s.prep.rounds=command.rounds;delete s.variants[s.chapterIndex+':provision'];s.activeOrder=generate(s,'math_battle_provision','provision','provision',command.now);break;
+ case 'PREP_WARCHEST':assert(s.phase==='battle_warchest'&&!s.activeOrder);assert(command.equipment.length===3&&command.equipment.every(n=>Number.isInteger(n)&&n>=0&&n<=2)&&Number.isInteger(command.ammo)&&command.ammo>=0&&command.ammo<=rules.battle.ammoMax);assert(canPay(s,{currency:sum(command.equipment)*80,materials:command.ammo*rules.battle.ammoCost}));s.prep.equipment=command.equipment;s.prep.ammo=command.ammo;delete s.variants[s.chapterIndex+':warchest'];s.activeOrder=generate(s,'math_battle_warchest','warchest','warchest',command.now);break;
+ case 'CONVOY':convoy(s,command.start);break;
+ case 'PLAN':assert(s.phase==='battle_deployment');setPlan(s,'east',command.plan,command.reserve);break;
+ case 'SKIP_PROVISION':assert(s.phase==='battle_provision'&&!s.activeOrder);s.prep.supply=0;s.phase='battle_warchest';event(s,'PROVISION_SKIPPED','unsupplied');break;
+ case 'BATTLE_COUNCIL':assert(s.phase==='battle_round');battleCouncil(s,command.choice);break;
+ case 'DEPLOY':assert(s.phase==='battle_deployment');deploy(s,command.id,command.point);break;
+ case 'BEGIN_BATTLE':assert(s.phase==='battle_deployment');beginBattle(s);break;
+ case 'BATTLE':assert(s.phase==='battle_round'&&!s.battle!.dispatchPending);assert(s.battle!.formations.find(f=>f.id===command.id)?.side==='east');battleAction(s,command.id,command.action);break;
+ case 'AI_TURN':assert(s.phase==='battle_round'&&!s.battle!.dispatchPending);tacticalTurn(s);break;
+ case 'WITHDRAW':assert(s.phase==='battle_round');withdraw(s);break;
+ }
+ if(s.challengeRecords.length>state.challengeRecords.length){const record=s.challengeRecords.at(-1)!;s.decisions.push({id:record.id,chapter:s.chapterIndex,events:s.eventLog.slice(start)});}
+ if(convoyDue(s))s.phase='convoy_briefing';
+ if(s.phase==='world'&&state.phase!=='world')resolveWorld(s);s.buildVersion=BUILD_VERSION;
+ invariants(s);return {state:s,events:s.eventLog.slice(start)};
+ }catch(err){return {state:state as State,events:[{type:'RULE_VIOLATION',key:err instanceof Error?err.message:'Invalid command',chapter:state.chapterIndex}]};}}
