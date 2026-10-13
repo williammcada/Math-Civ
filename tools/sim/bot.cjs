@@ -1,5 +1,5 @@
 // Campaign and battle bot used by the v0.3.1 audit and v0.4 balance checks.
-const E=require(process.env.SIM_ENGINE||'../../.parity/sim-engine.cjs');
+const E=require('../../.parity/sim-engine.cjs');
 // Adapter: the v0.3.1 audit bot used minified names; map them to the source engine.
 const M={nn:E.reduce,qt:E.createState,y:E.chapter,Xt:E.legalOrders,q:E.battleQuota,Ye:E.activeUnit,et:E.reachable,kt:E.combatPreview,Ke:E.terrain,We:E.alive,d:E.battleData,ct:E.createBattle,rules:E.rules};
 const dist=(a,b)=>Math.abs(a.x-b.x)+Math.abs(a.y-b.y);

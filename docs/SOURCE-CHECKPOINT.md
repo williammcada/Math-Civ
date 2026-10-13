@@ -73,3 +73,7 @@ The rebuilt file is not byte-identical to the shipped file (different bundler an
 ## Next step
 
 v0.4 work starts from this reconciled source, per `docs/change-specs/v0.4.md`.
+
+## Correction (13 Oct 2026, during v0.4 work)
+
+The reconciliation missed 18 text strings present in the shipped v0.3.1 file: four convoy formation names (`formation.convoy_*`, `formation.raider_*`) and fourteen ending clauses (`ending.v03.convoy.*`, `ending.v03.plan.*`, `ending.v03.outcome.*`). Without them the ending screen showed raw keys. The interface parity check did not cover the convoy or ending screens. The strings were copied unchanged from `PLAY-SEKIGAHARA-0.3.1.html` into `src/content/strings.en.json`.

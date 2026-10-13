@@ -7,7 +7,7 @@ import {esc} from './helpers';
 import {mapSvg,stateTokens,zoomTo,march,placeStatus,placeNames,type MapToken} from './campaignMap';
 
 export interface MapStep{wait?:number;highlight?:string[];road?:string;march?:string;via?:string[];ms?:number;zoom?:'all'|'mino';flip?:string;show?:MapToken;when?:string}
-export interface Beat{art?:string;pan?:string;caption:string;speaker?:{name:string;portrait:string};when?:string;tint?:string;map?:{view?:'all'|'mino';tokens:MapToken[]|'state';steps:MapStep[]};cue?:string}
+export interface Beat{art?:string;pan?:string;caption:string;speaker?:{name:string;portrait:string};when?:string;tint?:string;map?:{view?:'all'|'mino'|'minoWide';tokens:MapToken[]|'state';steps:MapStep[]};cue?:string}
 export interface Scene{title:string;task:string;beats:Beat[]}
 export const scenes=(scenesData as unknown as {scenes:Record<string,Scene>}).scenes;
 

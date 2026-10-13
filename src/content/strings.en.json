@@ -168,6 +168,24 @@
     "ending.defeat.title": "The Field Is Lost",
     "ending.defeat.opening": "Sekigahara ends with the Western banners still standing. Your home domain survives, and with it the means to fight another year, but the Eastern coalition must now bargain rather than command.",
     "ending.withdrawal.title": "A Withdrawal to Fight Again",
-    "ending.withdrawal.opening": "You pulled the army back before it broke. No one will call Sekigahara a victory, but the formations that marched home can still defend the realm while both coalitions count their losses."
+    "ending.withdrawal.opening": "You pulled the army back before it broke. No one will call Sekigahara a victory, but the formations that marched home can still defend the realm while both coalitions count their losses.",
+    "formation.convoy_spears": "Escort Spears",
+    "formation.convoy_gunners": "Escort Gunners",
+    "formation.raider_north": "Northern Raiders",
+    "formation.raider_south": "Southern Raiders",
+    "ending.v03.convoy.intact": "The first grain convoy arrived intact. Its reward gave the council more resources for the road ahead.",
+    "ending.v03.convoy.damaged": "The relief convoy arrived damaged, but its remaining grain sustained the realm.",
+    "ending.v03.convoy.lost": "The early convoy was lost. The council continued without the expected cargo.",
+    "ending.v03.convoy.skipped": "The council left the early escort to other hands and governed without its cargo reward.",
+    "ending.v03.plan.standard": "The army fought in a standard line, retaining its available defensive preparations.",
+    "ending.v03.plan.flanking": "The prepared road and access through Gifu brought your reserve onto the field.",
+    "ending.v03.plan.engineer": "Your engineering investment opened a new crossing that either army could use.",
+    "ending.v03.plan.fire_discipline": "Equipped gun crews used disciplined suppressing fire to restrict the enemy.",
+    "ending.v03.plan.unused": "Your selected tactical opportunity remained unused; the outcome came from the orders you actually gave.",
+    "ending.v03.outcome.camp_held": "The battle ended after two consecutive uncontested camp-hold checks.",
+    "ending.v03.outcome.core_rout": "The battle ended when a coalition could no longer keep its main formations fighting.",
+    "ending.v03.outcome.accepted_score": "You accepted the battle council’s assessment of control, broken formations and remaining strength.",
+    "ending.v03.outcome.withdrawal": "You ended the battle by ordering a withdrawal.",
+    "ending.v03.outcome.legacy_result": "This result preserves the battle already completed in the earlier campaign."
   }
 }
