@@ -23,6 +23,9 @@
 
 | File | Use |
 | --- | --- |
+| `00-HOW-TO-USE.txt` | The two attachments and the one line to send |
+| `START-HERE.md` | ChatGPT's operating instructions: setup, queue, per-image self-check, pause and summary |
+| `REFERENCE-BOARD.png` | All style references and the eight portraits on one image, for attaching directly |
 | `STYLE-GUIDE.md` | The style rules and the **style anchor** text pasted with every request |
 | `SHOT-LIST.md` | One ready-to-paste prompt per image, with file name, history notes and checks |
 | `shots.json` | The same list in machine-readable form, used by Claude when wiring scenes |
@@ -30,19 +33,17 @@
 | `references/PORTRAIT_*.png` | The eight existing portraits, for character likeness |
 | `references/MAP-approved-code-drawn.png` | Geography reference only (not to be painted) |
 
-## How to run it in ChatGPT (step by step)
+## How to run it in ChatGPT
 
-1. **Start a new ChatGPT conversation.** Use one conversation per group (Chapter 1, Chapter 2 … Battle, Crises, Portraits), so the style stays fresh and each thread stays short.
-2. **Attach these reference images** at the start of every conversation:
-   - `REF-01_title-war-council.png`
-   - `REF-03_tokaido-convoy.png`
-   - `REF-05_ending-bad.png`
-   - plus `REF-02_council-interior.png` for interior scenes, or `REF-08_portrait-sheet.png` for portraits and any shot with a named character.
-3. **Paste the "Opening message" block** from `STYLE-GUIDE.md` and send it. Wait for ChatGPT to confirm the style.
-4. **Paste one shot prompt at a time** from `SHOT-LIST.md`, for example the block under `CH3-P2`. Generate one image per message.
-5. **Check the image** against that shot's "Accept if" line and the style checklist in `STYLE-GUIDE.md`. If it fails, reply with the matching fix line from the style guide's "Common fixes" (for example "Remove all text and lettering"), and regenerate.
-6. **Download the accepted image** at full size (PNG). Rename it to the shot's file name exactly, e.g. `CH3-P2_fushimi-burning.png`.
-7. **Return the files** by uploading them to the repository folder `art-source/v0.4/` in GitHub (instructions below), or attach them in a chat with Claude.
+ChatGPT runs the job itself; see `00-HOW-TO-USE.txt`.
+
+1. New ChatGPT chat. Attach the zip **and** `REFERENCE-BOARD.png` (separately, so the image generator can see it).
+2. Send: `Read START-HERE.md in the attached zip and follow it exactly.`
+3. ChatGPT locks the style and makes the first image. Reply `next` for each following image, or `redo` to retry one.
+4. ChatGPT pauses after the two test shots (CH3-P2, BAT-KOBA2) so they can be checked with Claude.
+5. Download the images and send them to Claude in order; renaming is optional.
+
+ChatGPT cannot continue on its own between images; one "next" per image is the minimum input. `SHOT-LIST.md` and `STYLE-GUIDE.md` still work for manual prompting if needed.
 
 ### Uploading the finished images to GitHub (web interface)
 

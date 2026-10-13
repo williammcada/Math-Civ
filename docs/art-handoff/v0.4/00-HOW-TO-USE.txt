@@ -1,0 +1,25 @@
+MATH CIV v0.4 ART - HOW TO USE WITH CHATGPT
+
+1. Open a new ChatGPT chat.
+2. Attach TWO files:
+     - this zip file
+     - REFERENCE-BOARD.png (also inside the zip; attach it separately
+       too, so ChatGPT's image generator can see it)
+3. Paste this one line and send it:
+
+     Read START-HERE.md in the attached zip and follow it exactly.
+
+4. After that, just reply "next" each time ChatGPT finishes an image.
+   - Reply "redo" to regenerate the last image.
+   - After the first two images ChatGPT will pause so you can check them
+     with Claude.
+
+5. Download each image you keep. You do not need to rename them;
+   send them to Claude in the order ChatGPT made them, and Claude will
+   match, check, crop and install them.
+
+If ChatGPT's images start to look less like the game, start a new chat,
+attach the same two files, and send:
+
+     Read START-HERE.md in the attached zip and follow it exactly.
+     Continue from shot <ID>.
