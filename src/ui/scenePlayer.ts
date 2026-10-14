@@ -4,7 +4,7 @@ import scenesData from '../content/scenes.v1.json';
 import type {State} from '../core/types';
 import {assetURL} from './assets';
 import {esc} from './helpers';
-import {mapSvg,stateTokens,zoomTo,march,placeStatus,placeNames,type MapToken} from './campaignMap';
+import {mapSvg,stateTokens,zoomTo,march,placeStatus,placeNames,declutter,type MapToken} from './campaignMap';
 
 export interface MapStep{wait?:number;highlight?:string[];road?:string;march?:string;via?:string[];ms?:number;zoom?:'all'|'mino';flip?:string;show?:MapToken;when?:string}
 export interface Beat{art?:string;pan?:string;caption:string;speaker?:{name:string;portrait:string};when?:string;tint?:string;map?:{view?:'all'|'mino'|'minoWide';tokens:MapToken[]|'state';steps:MapStep[]};cue?:string}
@@ -40,7 +40,7 @@ export class ScenePlayer{
   const frame=document.createElement('div');frame.className='scene-frame';
   if(b.map){const tokens=b.map.tokens==='state'?stateTokens(this.s):b.map.tokens;frame.classList.add('map-frame');frame.innerHTML=mapSvg({tokens,view:b.map.view??'all',interactive:true,caption:b.caption});}
   else{const tint=b.tint==='koba'?' tint-'+kobaSide(this.s):'';frame.innerHTML=`<img class="scene-art pan-${b.pan??'in'}${tint}" src="${artURL(b.art!)}" alt="">`;}
-  frames.append(frame);requestAnimationFrame(()=>frame.classList.add('on'));
+  frames.append(frame);requestAnimationFrame(()=>{frame.classList.add('on');const m=frame.querySelector<SVGSVGElement>('svg.geo-map');if(m)declutter(m);});
   const old=[...frames.children].filter(f=>f!==frame);setTimeout(()=>old.forEach(f=>f.remove()),this.o.reduced?0:900);
   const who=this.el.querySelector<HTMLImageElement>('.scene-who')!,strip=this.el.querySelector('.scene-strip')!;
   if(b.speaker){who.src=assetURL(`./art/${b.speaker.portrait}.webp`);who.alt=b.speaker.name;who.hidden=false;}else who.hidden=true;strip.classList.toggle('no-portrait',!b.speaker);

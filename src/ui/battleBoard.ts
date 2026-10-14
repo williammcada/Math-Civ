@@ -5,6 +5,7 @@ import type {App} from './app';
 import type {State,Formation,Point} from '../core/types';
 import {activeUnit,alive,occupant,reachable,canAttack,combatRange,deploymentTiles,supplied,suppressed,pontoonTiles,weather,terrain} from '../core/battle';
 import {text} from '../content/registry';
+import {rules} from '../core/logistics';
 import {assetURL} from './assets';
 import {esc,num,nice} from './helpers';
 import {commandBlocked,portraitFor} from './battleView';
@@ -78,7 +79,7 @@ export function bannerMarkup(app:App){
 
 export function statusMarkup(app:App){
  const s=app.state!,b=s.battle!,convoy=b.scenarioId==='convoy';
- const chips=[`ROUND ${b.round}`,nice(weather(s).id),`RATIONS ${b.supply.east}${b.currentSupply.east?'':' · UNFED'}`,`AMMO ${b.ammo.east}`,convoy?`WAGON ${b.wagon!.integrity}/3`:`CAMP CHECKS: YOU ${b.campChecks.east}/2 · THEM ${b.campChecks.west}/2`];
+ const chips=[`ROUND ${b.round}`,nice(weather(s).id),`RATIONS ${b.supply.east}${b.currentSupply.east?'':' · UNFED'}`,`AMMO ${b.ammo.east}`,convoy?`WAGON ${b.wagon!.integrity}/3 HITS LEFT · FINISH ⚑ COLUMN ${rules.convoy.wagonExit.x+1}`:`CAMP CHECKS: YOU ${b.campChecks.east}/2 · THEM ${b.campChecks.west}/2`];
  return `<div class="bv5-status">${chips.map(c=>`<span>${esc(c)}</span>`).join('')}</div>`;
 }
 
@@ -98,7 +99,7 @@ export function hintMarkup(app:App){
  if(s.phase==='battle_deployment')return 'Tap one of your units, then a green square. Tap Plan to choose a tactic.';
  if(u?.side!=='east'||b.councilPending||b.dispatchPending)return '';
  const m=app.battleMode;
- return m==='move'?'Tap a green square.':m==='rally'?'Tap one of your units to restore its morale.':m==='pontoon'?'Tap the water square to bridge.':['attack','volley','charge','suppress'].includes(m)?'Tap a red enemy.':u.attacked?'Already attacked: move, defend, or end the turn.':'Green: move · Red: attack · Tap your gold unit for more orders.';
+ return m==='move'?'Tap a green square.':m==='rally'?'Tap one of your units to restore its morale.':m==='pontoon'?'Tap the water square to bridge.':['attack','volley','charge','suppress'].includes(m)?'Tap a red enemy.':u.attacked?'Already attacked: move, defend, or end the turn.':'Green: move · Red: attack · Tap your gold unit for more orders.'+(b.scenarioId==='convoy'?' Keep raiders away from the wagon so it can roll on.':'');
 }
 
 /** Plays the last action on the board: units slide from their old square, attackers lunge, losses float up (about 1 s). */

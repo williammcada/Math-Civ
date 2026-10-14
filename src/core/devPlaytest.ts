@@ -19,10 +19,11 @@ const priority=['c1_court_letters','c1_repair_tokaido','c1_tax_register','c1_lab
 let sink:Event[]|null=null;
 function step(s:State,c:Command):State|null{const r=reduce(s,c);if(r.events[0]?.type==='RULE_VIOLATION')return null;sink?.push(...r.events);return r.state;}
 /** Answers any open math step correctly and collects audit rewards: the DEV "no gates" rule. Returns the events produced. */
-export function clearGatesWithEvents(s:State):{state:State;events:Event[]}{const events:Event[]=[],prior=sink;sink=events;try{return {state:clearGates(s),events};}finally{sink=prior;}}
-export function clearGates(s:State):State{
+export function clearGatesWithEvents(s:State,pickReward=true):{state:State;events:Event[]}{const events:Event[]=[],prior=sink;sink=events;try{return {state:clearGates(s,pickReward),events};}finally{sink=prior;}}
+/** pickReward=false (interactive DEV play, v0.5 R12): the owner chooses the audit resource; DEV skips math, not decisions. */
+export function clearGates(s:State,pickReward=true):State{
  for(let guard=0;guard<6;guard++){
-  if(s.pendingReward!==null){s=step(s,{type:'AUDIT_REWARD',resource:'food'})??s;continue;}
+  if(s.pendingReward!==null){if(!pickReward)break;s=step(s,{type:'AUDIT_REWARD',resource:'food'})??s;continue;}
   const o=s.activeOrder;if(!o||o.resolved)break;
   const answer=Object.fromEntries(o.fields.map(f=>[f,String(o.answer[f])]));const next=step(s,{type:'ANSWER',answer,now:0});
   if(!next){const fallback=step(s,{type:'ADVISER'});s=fallback?step(fallback,{type:'COMPLETE',path:'adviser',now:0})??fallback:s;break;}s=next;

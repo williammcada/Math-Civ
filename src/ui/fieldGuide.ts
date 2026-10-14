@@ -95,3 +95,11 @@ export function guideMarkup(tab:GuideTab){
  const body={road,resources,allies,battle,terrain,march}[tab]();
  return `<div class="gd" style="--sprite:url(${assetURL('./art/TILE_TERRAIN.png')})"><div class="tabs gd-tabs" role="tablist">${guideTabs.map(([id,n])=>`<button type="button" role="tab" class="small" data-action="guide:${id}" aria-selected="${id===tab}">${esc(n)}</button>`).join('')}</div><div class="gd-body">${body}</div><div class="row gd-foot"><button type="button" data-action="close" class="primary">Close guide</button></div></div>`;
 }
+
+/** v0.5 R6: the convoy board as a picture: road, the single bridge, wagon start, the finish flag, and both sides' units. */
+export function convoyDiagram(){const c=rules.convoy,cells:string[]=[];
+ for(let y=0;y<c.rows;y++)for(let x=0;x<c.columns;x++){const t=x===c.streamColumn?(y===c.roadRow?'bridge':'stream'):y===c.roadRow?'road':'plain';
+  const unit=(x===1&&y===1)?unitTile('east',1):(x===1&&y===3)?unitTile('east',2):(x===5&&(y===1||y===3))?unitTile('west',1):'';
+  const wagon=x===c.wagonStart.x&&y===c.wagonStart.y?'<span class="cd-mark cd-wagon">▣</span>':'',flag=x===c.wagonExit.x&&y===c.wagonExit.y?'<span class="cd-mark cd-flag">⚑</span>':'';
+  cells.push(`<span class="cd-cell" style="background-position:${pos(frame[t]??0)}">${unit}${wagon}${flag}</span>`);}
+ return `<div class="cd" style="--sprite:url(${assetURL('./art/TILE_TERRAIN.png')});--cols:${c.columns}"><div class="cd-grid">${cells.join('')}</div><div class="cd-key"><span><i class="cd-blue"></i>Your escort</span><span><i class="cd-red"></i>Raiders</span><span>▣ Wagon</span><span>⚑ Finish</span><span>The stream can only be crossed at the bridge.</span></div></div>`;}

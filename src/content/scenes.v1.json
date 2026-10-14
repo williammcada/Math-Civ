@@ -4,7 +4,7 @@
   "scenes": {
     "ch1": {
       "title": "Chapter 1 · The Balance of Regents",
-      "task": "Read the chronicle, then choose your council policy and issue this chapter’s orders.",
+      "task": "Next: your council meets.",
       "beats": [
         { "art": "CH1-P1", "pan": "in", "caption": "Autumn 1598. Hideyoshi is dead, and the regents who swore to protect his young heir now watch one another." },
         { "art": "CH1-P2", "pan": "left", "caption": "At Edo, Ieyasu fills his granaries and repairs his roads. Every bale and bridge may matter when the promises break." },
@@ -18,22 +18,21 @@
     },
     "ch2": {
       "title": "Chapter 2 · The Aizu Question",
-      "task": "Choose your council policy, then decide how to supply the march and protect Edo.",
+      "task": "Next: your council meets.",
       "beats": [
-        { "art": "CH2-P1", "pan": "up", "caption": "Spring 1600. Ishida has been forced out of office, and Ieyasu rules from Osaka in the heir’s name. Far to the north, Uesugi Kagekatsu fortifies Aizu and refuses a summons." },
-        { "art": "CH2-P2", "pan": "left", "caption": "Ieyasu leads the lords north to punish him. Every soldier on the road eats from Edo’s granaries." },
+        { "art": "CH2-P1", "pan": "up", "caption": "Spring 1600. Ishida has been forced out of office, and Ieyasu governs from Osaka in the young heir’s name. Far to the north, Uesugi Kagekatsu fortifies Aizu and refuses a summons." },
+        { "art": "CH2-P2", "pan": "left", "caption": "Ieyasu leaves Osaka for Edo, then leads the lords north to punish Uesugi. Every soldier on the road eats from Edo’s granaries." },
         { "art": "CH2-P3", "pan": "in", "caption": "Behind the marching army, Edo and the western roads are thinly held. Many historians think Ieyasu expected his enemies to move." },
         { "map": { "view": "all", "tokens": [
-            { "id": "ieyasu", "side": "east", "label": "Ieyasu", "place": "edo" },
-            { "id": "uesugi", "side": "west", "label": "Uesugi", "place": "aizu" },
-            { "id": "ishida", "side": "west", "label": "Ishida", "place": "osaka" } ],
-          "steps": [ { "wait": 600 }, { "highlight": ["aizu"] }, { "wait": 700 }, { "march": "ieyasu", "via": ["edo", "oyama"], "ms": 2600 }, { "highlight": ["edo"] } ] },
-          "caption": "Uesugi’s banners rise at Aizu. Your army marches north to Oyama, and Edo is left behind with a small garrison." }
+            { "id": "ieyasu", "side": "east", "label": "Ieyasu", "place": "osaka" },
+            { "id": "uesugi", "side": "west", "label": "Uesugi", "place": "aizu" } ],
+          "steps": [ { "wait": 600 }, { "highlight": ["aizu"] }, { "march": "ieyasu", "via": ["osaka", "fushimi", "sekigahara", "gifu", "kiyosu", "edo"], "ms": 3200 }, { "wait": 300 }, { "march": "ieyasu", "via": ["edo", "oyama"], "ms": 1800 }, { "highlight": ["edo"] } ] },
+          "caption": "Osaka to Edo, then north to Oyama. Edo is left behind with a small garrison." }
       ]
     },
     "ch3": {
       "title": "Chapter 3 · The Western Army Rises",
-      "task": "Choose your council policy, then prepare the march west. Gifu is the gate into Mino.",
+      "task": "Next: your council meets.",
       "beats": [
         { "art": "CH3-P1", "pan": "right", "caption": "Oyama, late summer 1600. Ieyasu’s army is camped on the road north to Aizu when a rider comes in from the west." },
         { "art": "CH3-P2", "pan": "in", "caption": "The Western army has besieged Fushimi Castle. Its keeper, Torii Mototada, holds out for days to buy Ieyasu time. Then the castle falls.", "speaker": { "name": "Torii Mototada", "portrait": "PORTRAIT_TORII" } },
@@ -48,7 +47,7 @@
     },
     "ch4": {
       "title": "Chapter 4 · Roads to Mino",
-      "task": "Choose your council policy, then make the final preparations: fieldworks, granaries, scouts and Kobayakawa.",
+      "task": "Next: your council meets.",
       "beats": [
         { "art": "CH4-P1A", "when": "gifu", "pan": "in", "caption": "Your vanguard storms Gifu. The road into Mino lies open." },
         { "art": "CH4-P1B", "when": "!gifu", "pan": "in", "caption": "Gifu still flies Western banners. Your army must enter Mino by a narrower road, and Gifu’s garrison will join Ishida." },
@@ -56,7 +55,7 @@
         { "art": "CH4-P3", "pan": "in", "tint": "koba", "caption": "On Matsuo hill, Kobayakawa Hideaki waits. Both sides have sent him letters.", "speaker": { "name": "Kobayakawa Hideaki", "portrait": "PORTRAIT_KOBAYAKAWA" } },
         { "map": { "view": "all", "tokens": "state",
           "steps": [ { "wait": 500 }, { "zoom": "mino" }, { "march": "ieyasu", "via": ["kiyosu", "gifu", "momokubari"], "when": "gifu", "ms": 2400 }, { "march": "ieyasu", "via": ["kiyosu", "momokubari"], "when": "!gifu", "ms": 2400 }, { "highlight": ["matsuo"] } ] },
-          "caption": "Both armies converge on Sekigahara. On Matsuo hill above the valley, Kobayakawa has still not declared." }
+          "caption": "Both armies converge on Sekigahara, in the valley below Matsuo hill." }
       ]
     },
     "dawn": {
@@ -94,7 +93,7 @@
     },
     "west": {
       "title": "The Western council",
-      "task": "Read the dispatch, then review the chapter.",
+      "task": "Next: the chapter report.",
       "beats": [
         { "art": "BAT-WEST", "pan": "in", "caption": "At Ōgaki, Ishida’s council plans its next move.", "speaker": { "name": "Ishida Mitsunari", "portrait": "PORTRAIT_ISHIDA" } }
       ]

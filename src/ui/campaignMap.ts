@@ -88,8 +88,8 @@ export const nodeIds=()=>campaign.map.nodes.map(n=>n.id);
 
 /** Animated view-box zoom between the whole map and the Mino close-up. */
 export function zoomTo(svg:SVGSVGElement,view:'all'|'mino'|'minoWide',ms=1800,reduced=false){const to=views[view],from=(svg.getAttribute('viewBox')??'').split(' ').map(Number);svg.classList.toggle('view-mino',view!=='all');svg.classList.toggle('view-all',view==='all');
- if(reduced||from.length!==4){svg.setAttribute('viewBox',to.join(' '));return Promise.resolve();}
- return new Promise<void>(res=>{const t0=performance.now();const step=(now:number)=>{const f=Math.min(1,(now-t0)/ms),e=f<.5?2*f*f:1-Math.pow(-2*f+2,2)/2;svg.setAttribute('viewBox',from.map((a,i)=>a+(to[i]-a)*e).join(' '));if(f<1&&svg.isConnected)requestAnimationFrame(step);else{svg.setAttribute('viewBox',to.join(' '));res();}};requestAnimationFrame(step);});}
+ if(reduced||from.length!==4){svg.setAttribute('viewBox',to.join(' '));declutter(svg);return Promise.resolve();}
+ return new Promise<void>(res=>{const t0=performance.now();const step=(now:number)=>{const f=Math.min(1,(now-t0)/ms),e=f<.5?2*f*f:1-Math.pow(-2*f+2,2)/2;svg.setAttribute('viewBox',from.map((a,i)=>a+(to[i]-a)*e).join(' '));if(f<1&&svg.isConnected)requestAnimationFrame(step);else{svg.setAttribute('viewBox',to.join(' '));declutter(svg);res();}};requestAnimationFrame(step);});}
 
 /** Moves a token along a road chain, optionally leaving a dashed trail. */
 export function march(svg:SVGSVGElement,tokenId:string,chain:string[],ms=3000,reduced=false,trail=true):Promise<void>{
@@ -100,4 +100,25 @@ export function march(svg:SVGSVGElement,tokenId:string,chain:string[],ms=3000,re
  const finish=()=>{const p=path.at(-1)!;g.setAttribute('transform',`translate(${p[0]} ${p[1]})`);line?.setAttribute('points',poly(path));};
  if(reduced||total===0){finish();return Promise.resolve();}
  return new Promise(res=>{const t0=performance.now();const step=(now:number)=>{const f=Math.min(1,(now-t0)/ms),[x,y,k]=at(f);g.setAttribute('transform',`translate(${x} ${y})`);line?.setAttribute('points',poly([...path.slice(0,k+1),[x,y]]));if(f<1&&svg.isConnected)requestAnimationFrame(step);else{finish();res();}};requestAnimationFrame(step);});
+}
+
+/** v0.5 R1: keeps map labels from overlapping at any zoom. Each place label tries positions around its marker
+ *  (its usual spot first) and takes the first free one; province, water and road names hide where they would collide. */
+export function declutter(svg:SVGSVGElement){
+ if(!svg.isConnected)return;
+ const placed:DOMRect[]=[],hit=(r:DOMRect)=>placed.some(p=>Math.min(r.right,p.right)-Math.max(r.left,p.left)>1&&Math.min(r.bottom,p.bottom)-Math.max(r.top,p.top)>1);
+ const shown=(e:Element)=>{const r=e.getBoundingClientRect();return r.width>0&&getComputedStyle(e).visibility!=='hidden';};
+ svg.querySelectorAll('.geo-tokens text').forEach(t=>{if(shown(t))placed.push(t.getBoundingClientRect());});
+ svg.querySelectorAll('.geo-place .mark').forEach(m=>{if(shown(m))placed.push(m.getBoundingClientRect());});
+ const spots:[number,number,string][]=[[11,4,'start'],[-11,4,'end'],[0,-10,'middle'],[0,17,'middle'],[9,-8,'start'],[9,15,'start'],[-9,15,'end'],[-9,-8,'end']];
+ const order=['sekigahara','gifu','ogaki','kiyosu','fushimi','osaka','edo','oyama','aizu','ueda','matsuo','momokubari'];
+ const first=(id:string)=>svg.querySelector(`.geo-place[data-place="${id}"]`)?.matches('.highlight,.selected')?0:1;
+ for(const id of [...order].sort((a,b)=>first(a)-first(b))){const t=svg.querySelector<SVGTextElement>(`.geo-place[data-place="${id}"] text.place-label`);if(!t)continue;t.style.visibility='';if(!shown(t))continue;
+  t.dataset.x0??=t.getAttribute('x')!;t.dataset.y0??=t.getAttribute('y')!;t.dataset.a0??=t.getAttribute('text-anchor')!;
+  const tries:[number,number,string][]=[[Number(t.dataset.x0),Number(t.dataset.y0),t.dataset.a0!],...spots];let chosen:DOMRect|null=null;
+  for(const [x,y,a] of tries){t.setAttribute('x',String(x));t.setAttribute('y',String(y));t.setAttribute('text-anchor',a);const r=t.getBoundingClientRect();if(!hit(r)){chosen=r;break;}}
+  // No free spot (a crowded cluster seen from far away): hide this name; its marker stays and the close-up shows it.
+  if(!chosen){t.setAttribute('x',t.dataset.x0!);t.setAttribute('y',t.dataset.y0!);t.setAttribute('text-anchor',t.dataset.a0!);t.style.visibility='hidden';continue;}
+  placed.push(chosen);}
+ svg.querySelectorAll<SVGTextElement>('text.geo-label').forEach(t=>{t.style.visibility='';const r=t.getBoundingClientRect();if(!r.width)return;if(hit(r))t.style.visibility='hidden';else placed.push(r);});
 }
