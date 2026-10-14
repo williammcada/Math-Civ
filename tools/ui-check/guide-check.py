@@ -3,7 +3,7 @@ import asyncio, sys, os, json
 from playwright.async_api import async_playwright
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 W, H = int(sys.argv[1]), int(sys.argv[2])
-FILE = sys.argv[3] if len(sys.argv) > 3 else 'PLAY-SEKIGAHARA-0.5.0-DEV-PLAYTEST.html'
+FILE = sys.argv[3] if len(sys.argv) > 3 else 'PLAY-SEKIGAHARA-0.5.1-DEV-PLAYTEST.html'
 OUT = ROOT + '/.test-out/guide'; os.makedirs(OUT, exist_ok=True)
 async def main():
     async with async_playwright() as p:

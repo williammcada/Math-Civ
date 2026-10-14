@@ -2,7 +2,7 @@
 import asyncio, sys, os
 from playwright.async_api import async_playwright
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-URL = 'file://' + ROOT + '/release/PLAY-SEKIGAHARA-0.5.0-DEV-PLAYTEST.html'
+URL = 'file://' + ROOT + '/release/PLAY-SEKIGAHARA-0.5.1-DEV-PLAYTEST.html'
 OUT = ROOT + '/.test-out/bv5'; os.makedirs(OUT, exist_ok=True)
 W, H = int(sys.argv[1]), int(sys.argv[2])
 async def main():
@@ -24,7 +24,12 @@ async def main():
         board = lambda: pg.evaluate("document.querySelector('.bv5-grid').innerHTML.length+':'+[...document.querySelectorAll('.bu')].map(e=>e.parentElement.dataset.x+','+e.parentElement.dataset.y).join(';')")
         b0 = await board(); await pg.wait_for_timeout(3000); waits = (await board()) == b0 and bool(await pg.query_selector('.bv5-east'))
         await pg.click('.bu-active >> xpath=..'); await pg.wait_for_timeout(500); await shot('3_ring')
-        await pg.click('[data-action="ring-close"]'); await pg.wait_for_timeout(300)
+        blocked = await pg.eval_on_selector_all('.bv5-ring-btn.blocked', 'els=>els.map(e=>e.getAttribute("aria-label"))')
+        await pg.click('[data-action="ring:move"]'); await pg.wait_for_timeout(400)
+        cancel = await pg.query_selector('[data-action="mode-cancel"]'); can = bool(cancel)
+        if cancel: await cancel.click(); await pg.wait_for_timeout(300)
+        back = not await pg.query_selector('[data-action="mode-cancel"]')
+        print(W, 'greyed in ring:', blocked, '· Cancel shown:', can, '· Cancel returns:', back, '· End in banner:', bool(await pg.query_selector('.bv5-banner [data-action="tactic:end"]')))
         tg = await pg.query_selector('.bt-target')
         if tg:
             await tg.click(); await pg.wait_for_timeout(500); await shot('4_attack_sheet'); await pg.click('[data-action="battle-confirm"]'); await pg.wait_for_timeout(1500)

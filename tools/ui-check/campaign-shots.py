@@ -2,7 +2,7 @@
 import asyncio, sys, os
 from playwright.async_api import async_playwright
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-V = sys.argv[3] if len(sys.argv) > 3 else '0.5.0'
+V = sys.argv[3] if len(sys.argv) > 3 else '0.5.1'
 START = sys.argv[4] if len(sys.argv) > 4 else 'ch1'
 URL = 'file://' + ROOT + f'/release/PLAY-SEKIGAHARA-{V}-DEV-PLAYTEST.html'
 OUT = ROOT + '/.test-out/camp'; os.makedirs(OUT, exist_ok=True)

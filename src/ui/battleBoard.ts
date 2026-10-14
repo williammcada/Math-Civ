@@ -40,20 +40,30 @@ export function boardMarkup(app:App){
  const rallyTargets=myTurn&&mode==='rally'?b.formations.filter(f=>f.side==='east'&&alive(f)):[];
  const intents=myTurn||deployment?Object.values(b.intents).map(i=>i.action.kind==='move'?(i.action as {point:Point}).point:null).filter((p):p is Point=>!!p):[];
  const sprite=assetURL('./art/TILE_TERRAIN.png');
+ const gone=app.lastEvents.filter(e=>e.type==='FORMATION_SHATTERED').map(e=>b.formations.find(f=>f.id===e.key)).filter((f):f is Formation=>!!f);
  const tiles=b.terrain.flatMap((row,y)=>row.map((t,x)=>{const p={x,y},f=occupant(s,p),wagon=b.wagon&&!b.wagon.delivered&&b.wagon.x===x&&b.wagon.y===y,start=zone.some(z=>z.x===x&&z.y===y),move=moves.some(z=>z.x===x&&z.y===y),tg=f?targets.get(f.id):undefined,rally=f&&rallyTargets.some(r=>r.id===f.id),intent=!f&&intents.some(z=>z.x===x&&z.y===y),sel=x===app.cursor.x&&y===app.cursor.y;
   const cls=['bt',start?'bt-start':'',move?'bt-move':'',tg?'bt-target':'',rally?'bt-rally':'',intent?'bt-intent':'',t==='mud'?'bt-mud':'',sel?'selected':''].filter(Boolean).join(' ');
-  const unit=f?`<span class="bu ${f.id===u?.id&&!deployment?'bu-active':'bu-'+f.side}${f.routed?' bu-routed':''}${deployment&&f.id===app.selectedUnit?' bu-active':''}" data-unit="${f.id}" style="background-position:${unitSprite(f)}"><span class="bu-bar"><span style="width:${Math.max(4,Math.round(100*f.troops/Math.max(1,f.startTroops)))}%"></span></span>${f.routed?'<span class="bu-flag">!</span>':''}</span>`:'';
+  const ghost=!f?gone.find(g=>g.x===x&&g.y===y):undefined;
+  const unit=ghost?`<span class="bu bu-gone" style="background-position:${unitSprite(ghost)}" aria-hidden="true"></span>`:f?`<span class="bu ${f.id===u?.id&&!deployment?'bu-active':'bu-'+f.side}${f.routed?' bu-routed':''}${deployment&&f.id===app.selectedUnit?' bu-active':''}" data-unit="${f.id}" style="background-position:${unitSprite(f)}"><span class="bu-bar"><span style="width:${Math.max(4,Math.round(100*f.troops/Math.max(1,f.startTroops)))}%"></span></span>${f.routed?'<span class="bu-flag">!</span>':''}</span>`:'';
   const camp=t.endsWith('_camp')?`<span class="bt-camp bt-camp-${t.startsWith('east')?'east':'west'}" aria-hidden="true"></span>`:'';
   const wag=wagon?`<span class="bt-wagon" aria-hidden="true"><svg viewBox="0 0 24 24" width="80%" height="80%"><rect x="3" y="7" width="18" height="9" rx="1" fill="#b8955a" stroke="#2a1d10" stroke-width="1.5"/><circle cx="7" cy="18" r="2.5" fill="#2a1d10"/><circle cx="17" cy="18" r="2.5" fill="#2a1d10"/></svg><b>${b.wagon!.integrity}</b></span>`:'';
   return `<button type="button" role="gridcell" class="${cls}" data-action="tile:${x}:${y}" data-x="${x}" data-y="${y}" tabindex="${sel?0:-1}" style="background-position:${pos(frame[t]??0)}" aria-label="Column ${x+1}, row ${y+1}, ${nice(t)}${f?', '+esc(name(f.id))+', '+f.troops+' troops, morale '+f.morale:''}${wagon?', wagon':''}${start?', starting square':''}${move?', you can move here':''}${tg?', target, about '+tg.loss+' troops':''}">${camp}${wag}${unit}${tg?`<span class="bt-badge">${tg.loss}</span>`:''}</button>`;}));
  return `<div class="bv5-board" style="--cols:${cols};--rows:${rows};--sprite:url(${sprite})"><div class="bv5-grid" role="grid" aria-label="${b.scenarioId==='convoy'?'Convoy escort':'Sekigahara'} battlefield">${tiles.join('')}</div>${ringOpen?ringMarkup(app):''}</div>`;
 }
 
+/** v0.5 R4: a targeting command with nothing to target is greyed out with the reason, so you never get stuck in it. */
+export function noTarget(s:State,u:Formation,k:string):string|null{
+ if(['attack','volley','charge','suppress'].includes(k)){const any=s.battle!.formations.some(t=>alive(t)&&t.side!==u.side&&canAttack(s,u,t,k));
+  if(!any)return k==='volley'||k==='suppress'?'No enemy within 2 squares in a clear straight line.':'No enemy right next to this unit.';}
+ if(k==='move'&&!reachable(s,u).length)return 'No free square this unit can reach.';
+ return null;
+}
 function ringMarkup(app:App){
  const s=app.state!,b=s.battle!,u=activeUnit(s)!,cols=b.terrain[0].length,rows=b.terrain.length;
+ const blockedBy=(k:string)=>commandBlocked(s,k)??noTarget(s,u,k);
  const kinds=Object.keys(icons).filter(k=>always.includes(k)||!commandBlocked(s,k));
  const cx=Math.min(Math.max(u.x+.5,1.9),cols-1.9),cy=Math.min(Math.max(u.y+.5,1.9),rows-1.9);
- return `<button type="button" class="bv5-ring-close" data-action="ring-close" aria-label="Close orders"></button><div class="bv5-ring" style="--cx:${cx};--cy:${cy}">${kinds.map((k,i)=>{const blocked=commandBlocked(s,k),a=-90+i*360/kinds.length,on=app.battleMode===k;
+ return `<button type="button" class="bv5-ring-close" data-action="ring-close" aria-label="Close orders"></button><div class="bv5-ring" style="--cx:${cx};--cy:${cy}">${kinds.map((k,i)=>{const blocked=blockedBy(k),a=-90+i*360/kinds.length,on=app.battleMode===k;
   return `<button type="button" class="bv5-ring-btn${on?' on':''}${blocked?' blocked':''}" style="--a:${a}deg" data-action="ring:${k}" aria-label="${esc(ringLabels[k])}${blocked?': '+esc(blocked):''}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${icons[k]}"/></svg><span>${ringLabels[k]}</span></button>`;}).join('')}</div>`;
 }
 
@@ -62,7 +72,7 @@ export function bannerMarkup(app:App){
  if(deployment)return `<div class="bv5-banner bv5-gold"><strong>DEPLOY YOUR ARMY</strong><span>Tap a unit, then a green square.</span></div>`;
  if(b.councilPending)return `<div class="bv5-banner bv5-gold"><strong>ROUND 12 COUNCIL</strong><span>Choose below.</span></div>`;
  if(b.dispatchPending)return `<div class="bv5-banner bv5-gold"><strong>KOBAYAKAWA DECIDES</strong><span>Read the dispatch below.</span></div>`;
- if(u?.side==='east')return `<div class="bv5-banner bv5-east"><strong>YOUR TURN</strong><span>${esc(name(u.id))}</span><span class="bv5-pips" aria-label="${u.ap} of 2 actions left">${[0,1].map(i=>`<i class="${i<u.ap?'on':''}"></i>`).join('')}</span></div>`;
+ if(u?.side==='east'){const aiming=app.battleMode!=='inspect';return `<div class="bv5-banner bv5-east"><strong>YOUR TURN</strong><span>${esc(name(u.id))}</span><span class="bv5-pips" aria-label="${u.ap} of 2 actions left">${[0,1].map(i=>`<i class="${i<u.ap?'on':''}"></i>`).join('')}</span><span class="bv5-banner-btns">${aiming?`<button type="button" class="bv5-small" data-action="mode-cancel">Cancel ${esc(ringLabels[app.battleMode]??'order')}</button>`:''}<button type="button" class="bv5-small" data-action="tactic:end">End turn</button></span></div>`;}
  return `<div class="bv5-banner bv5-west"><strong>ENEMY TURN</strong><span>${app.enemyPaused?'Paused':esc(u?name(u.id):'The Western army')+' is moving'}</span>${s.flags.battle_lab&&!app.labOptions.automaticEnemy?'':`<button type="button" class="bv5-small" data-action="enemy-pause">${app.enemyPaused?'Resume':'Pause'}</button>`}</div>`;
 }
 
@@ -107,3 +117,6 @@ export function animateBattle(root:HTMLElement,events:State['eventLog'],reduced:
     n.animate([{opacity:0,transform:'translateY(0)'},{opacity:1,transform:'translateY(-30%)',offset:.25},{opacity:0,transform:'translateY(-120%)'}],{duration:fast?300:1100,delay:ms*.45,fill:'forwards'});}}
  }
 }
+
+/** v0.5 R5: a unit that breaks or is destroyed gets a banner and the rout sound in every battle, not only at Sekigahara. */
+export function alertMarkup(app:App){const a=app.battleAlert;if(!a||Date.now()>a.until)return '';return `<div class="bv5-alert bv5-alert-${a.side}${a.fresh?' fresh':''}" role="alert">${esc(a.text)}</div>`;}

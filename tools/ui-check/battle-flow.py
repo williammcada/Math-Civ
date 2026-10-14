@@ -19,7 +19,7 @@ async def main():
         await st("document.querySelector('[data-scene=skip]')?.click()"); await pg.wait_for_timeout(800)
         await pg.screenshot(path=f'{OUT}/{W}_deploy.png')
         await st("window.app.dispatch({type:'BEGIN_BATTLE'})"); await pg.wait_for_timeout(1200)
-        shots = 0
+        shots = 0; alerts = []
         for i in range(400):
             info = await st("(()=>{const s=app.state,b=s.battle;const sc=document.querySelector('.scene-player');return {phase:s.phase,round:b?.round,scene:sc?sc.getAttribute('aria-label')+'|'+(document.querySelector('.scene-caption')?.textContent||''):null,report:document.querySelector('.battle-report')?.textContent||null,dispatch:!!b?.dispatchPending,active:s.phase==='battle_round'?(b.formations.find(f=>f.id===b.queue?.[b.activeIndex])?.side??null):null}})()")
             if info['scene']:
@@ -28,6 +28,8 @@ async def main():
                     seen[k] = seen.get(k, 0) + 1; await pg.screenshot(path=f'{OUT}/{W}_scene_{k.replace(" ","_").replace("’","")}_{seen[k]}.png')
                 await st("document.querySelector('[data-scene=skip]').click()"); await pg.wait_for_timeout(500); continue
             if info['phase'] != 'battle_round': break
+            al = await st("document.querySelector('.bv5-alert')?.textContent||''")
+            if al and al not in alerts: alerts.append(al); await pg.screenshot(path=f'{OUT}/{W}_alert_{len(alerts)}.png')
             if info['dispatch']:
                 await pg.screenshot(path=f'{OUT}/{W}_dispatch_r{info["round"]}.png'); await st("app.dispatch({type:'ADVANCE'})"); await pg.wait_for_timeout(500); continue
             if info['report'] is not None:
@@ -44,5 +46,5 @@ async def main():
             if not await st("!!document.querySelector('.scene-player')"): break
             await st("document.querySelector('[data-scene=next]').click()"); await pg.wait_for_timeout(1300)
         await pg.screenshot(path=f'{OUT}/{W}_ending_screen.png')
-        print('seen', seen, 'final', await st("app.state.battle.result+' '+app.state.phase"), 'errors', errs[:5]); await b.close()
+        print('alerts', alerts, 'seen', seen, 'final', await st("app.state.battle.result+' '+app.state.phase"), 'errors', errs[:5]); await b.close()
 asyncio.run(main())

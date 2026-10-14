@@ -12,7 +12,7 @@ JS = """(()=>{const pick=s=>[...document.querySelectorAll(s)].map(e=>e.innerText
 async def main():
     async with async_playwright() as p:
         b = await p.chromium.launch(); pg = await b.new_page(viewport={'width': W, 'height': H})
-        await pg.goto('file://' + ROOT + '/release/PLAY-SEKIGAHARA-0.5.0-DEV-PLAYTEST.html'); await pg.wait_for_timeout(2000)
+        await pg.goto('file://' + ROOT + '/release/PLAY-SEKIGAHARA-0.5.1-DEV-PLAYTEST.html'); await pg.wait_for_timeout(2000)
         await pg.click('[data-action="dev-start"]'); await pg.wait_for_timeout(1500)
         log = []; last = None
         for i in range(400):

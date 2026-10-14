@@ -268,3 +268,16 @@ dialog.gd-dialog>h2{margin-bottom:6px}
 .phone-layout .gd-tabs button{font-size:12px;min-height:36px;padding:6px 8px}
 .phone-layout .gd-chip{font-size:13px}.phone-layout .gd-chip small{font-size:11px}
 .phone-layout .bv5-controls{flex-wrap:wrap}.phone-layout .bv5-controls button{flex:1 1 40%}
+/* v0.5 R4/R5 */
+.bv5-banner-btns{display:flex;gap:4px;margin-left:auto}
+.bv5-alert{position:absolute;z-index:6;left:4px;right:4px;top:4px;padding:6px 8px;font:12px/1.35 Chronicle,monospace;border:2px solid;box-shadow:0 2px 10px #000a}
+.bv5-left{position:relative}
+.bv5-alert-east{background:#5a1d14;border-color:#ff9179;color:#ffe0d6}
+.bv5-alert-west{background:#1b2c3c;border-color:#9dcaf3;color:#e6f2ff}
+.bv5-alert.fresh{animation:bv5-alert-in .45s ease-out}
+@keyframes bv5-alert-in{0%{transform:translateY(-8px) scale(1.04);opacity:0}100%{transform:none;opacity:1}}
+.bu-gone{animation:bu-gone 1.6s ease-in forwards;filter:grayscale(1)}
+@keyframes bu-gone{0%{opacity:.9}100%{opacity:0;transform:translateY(-6px)}}
+.bv5-ring-btn.blocked{opacity:.4;filter:grayscale(1)}
+.phone-layout .bv5-alert{font-size:15px;position:sticky}
+.reduced-motion .bu-gone{opacity:0}

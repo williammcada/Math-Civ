@@ -7,7 +7,7 @@ async def main():
     async with async_playwright() as p:
         b = await p.chromium.launch(); pg = await b.new_page(viewport={'width': W, 'height': H}); errs = []
         pg.on('pageerror', lambda e: errs.append(str(e)))
-        await pg.goto('file://' + ROOT + '/release/PLAY-SEKIGAHARA-0.5.0.html'); await pg.wait_for_timeout(2500)
+        await pg.goto('file://' + ROOT + '/release/PLAY-SEKIGAHARA-0.5.1.html'); await pg.wait_for_timeout(2500)
         await pg.click('[data-action="lab-config"]'); await pg.wait_for_timeout(400)
         asked = bool(await pg.query_selector('#teacher-password'))
         await pg.fill('#teacher-password', 'wrong'); await pg.click('[data-action="teacher-unlock"]'); await pg.wait_for_timeout(1500)
