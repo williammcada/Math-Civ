@@ -2,7 +2,7 @@
 import asyncio, sys, os
 from playwright.async_api import async_playwright
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-URL = 'file://' + ROOT + '/release/PLAY-SEKIGAHARA-0.4.0-DEV-PLAYTEST.html'
+URL = 'file://' + ROOT + '/release/PLAY-SEKIGAHARA-0.5.0-DEV-PLAYTEST.html'
 OUT = ROOT + '/.test-out/dev'; os.makedirs(OUT, exist_ok=True)
 W, H = (int(sys.argv[1]), int(sys.argv[2])) if len(sys.argv) > 2 else (1180, 820)
 async def main():
@@ -27,7 +27,7 @@ async def main():
                     if await pg.query_selector(sel + ':not([disabled])'): await click(sel + ':not([disabled])', 500); break
                 continue
             card = await pg.query_selector('[data-action^="detail:"]:not([disabled])')
-            if card and await q("app?.state?.phase")=='orders' if False else card and await q("document.querySelector('.eyebrow')?.textContent.includes('REMAINING')"):
+            if card and await q("app?.state?.phase")=='orders' if False else card and await q("document.querySelector('.eyebrow')?.textContent.includes('LEFT THIS CHAPTER')"):
                 await card.click(); await pg.wait_for_timeout(500); continue
             done = False
             for sel in ['[data-action^="policy:"]', '[data-action="advance"]']:

@@ -60,7 +60,7 @@
 .phone-layout .view-mino .geo-label{font-size:4px}
 /* Owner DEV playtest (U-13) */
 .dev-banner{position:absolute;left:0;right:0;bottom:0;z-index:60;background:#7a2f1f;color:#fff3d0;font-family:Chronicle,Courier New,monospace;font-size:8px;letter-spacing:.06em;text-align:center;padding:1px 4px;pointer-events:none}
-.phone-layout .dev-banner{position:sticky;top:0;bottom:auto;font-size:12px;padding:4px}
+.phone-layout .dev-banner{position:relative;top:auto;bottom:auto;font-size:12px;padding:4px}
 
 .dev-setup label{display:block;margin:6px 0}.dev-setup select{margin-left:6px}.dev-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px}.dev-check{font-size:12px}
 .phone-layout .dev-grid{grid-template-columns:1fr}.phone-layout .dev-check{font-size:16px}
@@ -134,3 +134,64 @@
 .phone-layout .bt-badge{font-size:11px}.phone-layout .bv5-ring-btn{font-size:9px}.phone-layout .bv5-pips i{width:14px;height:14px}
 .phone-layout .bv5-small{min-height:36px;font-size:13px}
 .bv5-left{width:calc(var(--cols)*var(--tile) + 2px)}.bv5-ticker{width:100%;box-sizing:border-box}.phone-layout .bv5-left{width:auto}
+
+/* v0.5 less-text campaign screens (spec §2.2): chips, icon cards, mini meters, fact tiles */
+.ico{width:12px;height:12px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px;margin-right:3px}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin:5px 0}
+.chip{display:inline-flex;align-items:center;gap:1px;padding:2px 6px;border:1px solid #665537;background:#211b15;color:#e4d2a8;font:10px/1.4 Chronicle,Courier New,monospace;white-space:nowrap}
+.chip.c-food{color:#f1df9a}.chip.c-currency{color:#f2c46a}.chip.c-materials{color:#c9c0ad}.chip.c-authority{color:#e9a98f}
+.chip.c-free{color:#a7d79a;border-color:#4f6b44}
+.chip.c-gain{color:#b9e3a9;border-color:#4f6b44;background:#1c2418;white-space:normal}
+.chip.c-loss{color:#f0a48f;border-color:#7a3e31;background:#2a1915;white-space:normal}
+.tabs button{display:inline-flex;align-items:center}
+.oc-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.oc-grid.pol{grid-template-columns:repeat(3,1fr)}
+.oc{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-height:92px;padding:8px 8px 6px 8px;background:#241d17;border:1px solid #846836}
+.oc:hover{background:#2f251c}
+.oc .oc-title{color:#f1d894;font:12px/1.25 Chronicle,Courier New,monospace;padding-right:24px}
+.oc .oc-pay{color:#c9b892;font:10px/1.35 Ledger,Georgia,serif}
+.oc .fam{position:absolute;top:6px;right:6px}
+.oc.used{opacity:.55}.oc.locked{border-style:dashed}
+.oc .stamp{position:absolute;bottom:6px;right:6px;color:#e5b85c;border:1px solid #e5b85c;padding:0 4px;font:9px Chronicle,monospace;transform:rotate(-6deg)}
+.fam{display:inline-grid;place-items:center;width:22px;height:22px;border:1px solid #846836;background:#151311;color:#e5b85c}
+.fam .ico{margin:0;width:13px;height:13px}
+.fam-diplomacy{color:#9dcaf3}.fam-march{color:#ffb09b}.fam-develop{color:#ace9a2}
+.rail-head{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.rail .rail-head .portrait{width:44px;height:44px;margin:0}
+.rail-head .eyebrow{margin-bottom:4px}
+.mm{margin:6px 0;font-size:10px}
+.mm span{color:#c5b390;display:block;font-family:Chronicle,monospace}
+.mm b{color:#f1d894;font:10px/1.4 Ledger,Georgia,serif;display:block}
+.mm i{display:block;height:5px;background:#322a21;border:1px solid #665537;margin-top:2px}
+.mm i em{display:block;height:100%;background:#c49a4a}
+.mm.good i em{background:#6fae5d}.mm.warn i em{background:#d79b3c}.mm.bad i em{background:#c4553e}
+.rail-note{border-left:2px solid #846836;padding-left:6px;font-size:10px!important;line-height:1.35;color:#d4c3a0}
+.rail details p{font-size:10px}
+.lead{font-size:14px}
+.small-note{font-size:11px!important}
+.dl-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:8px;margin:8px 0}
+.dl-box{border:1px solid #665537;background:#211b15;padding:8px}
+.dl-box h3{margin-top:0;display:flex;align-items:center}
+.dl-box.gain{border-color:#4f6b44;background:#1c2418}
+.dl-box p{margin:0;font-size:13px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:8px 0}
+.fact{display:flex;gap:5px;align-items:flex-start;border:1px solid #4f6b44;background:#1c2418;padding:6px}
+.fact.no{border-color:#7a3e31;background:#2a1915}
+.fact .ico{width:14px;height:14px;margin-top:1px}
+.fact.ok .ico{color:#a6e797}.fact.no .ico{color:#ff9179}
+.fact b{display:block;color:#f1d894;font:10px/1.3 Chronicle,monospace}
+.fact small{display:block;font-size:9px;line-height:1.3}
+.phone-layout .oc-grid,.phone-layout .oc-grid.pol,.phone-layout .dl-grid{grid-template-columns:1fr}
+.phone-layout .facts{grid-template-columns:1fr 1fr}
+.phone-layout .oc .oc-title{font-size:16px}.phone-layout .oc .oc-pay{font-size:14px}
+.phone-layout .chip{font-size:13px;padding:3px 7px}
+.phone-layout .mm,.phone-layout .mm b{font-size:14px}
+.phone-layout .rail-note{font-size:14px!important}
+.phone-layout .fact b{font-size:14px}.phone-layout .fact small{font-size:13px}
+.phone-layout .ico{width:15px;height:15px}
+.phone-layout .small-note{font-size:14px!important}
+.plate.short{height:104px;object-position:center 55%}
+.rail summary{font-size:11px;min-height:22px}
+.council-actions{margin-top:6px}
+.phone-layout .rail summary{font-size:15px;min-height:36px}
+.report-chips .chip{font-size:12px;padding:4px 8px}.chapter-outcomes h3{display:flex;align-items:center}
