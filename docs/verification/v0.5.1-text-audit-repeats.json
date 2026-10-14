@@ -1,0 +1,102 @@
+[
+ {
+  "similar": 1.0,
+  "first": "#5 SCREEN CHAPTER 1 · The Balance of Regents: How supplies helpFuture tactical plansView Map",
+  "again": "#7 SCREEN  3 ORDERS LEFT THIS CHAPTER: How supplies helpFuture tactical plansView Map"
+ },
+ {
+  "similar": 1.0,
+  "first": "#17 DIALOG Order complete: 12 Materials saved through accurate planning",
+  "again": "#80 DIALOG Order complete: 12 Materials saved through accurate planning"
+ },
+ {
+  "similar": 1.0,
+  "first": "#28 SCREEN CHAPTER 2 · The Aizu Question: March north to Aizu without leaving Edo helpless",
+  "again": "#30 SCREEN  3 ORDERS LEFT THIS CHAPTER: March north to Aizu without leaving Edo helpless"
+ },
+ {
+  "similar": 1.0,
+  "first": "#28 SCREEN CHAPTER 2 · The Aizu Question: Edo defense 58: if you march now, 400 soldiers must stay home to watch Uesugi.",
+  "again": "#30 SCREEN  3 ORDERS LEFT THIS CHAPTER: Edo defense 58: if you march now, 400 soldiers must stay home to watch Uesugi."
+ },
+ {
+  "similar": 1.0,
+  "first": "#30 SCREEN  3 ORDERS LEFT THIS CHAPTER: Up to 400 soldiers march instead of guarding Edo",
+  "again": "#33 SCREEN  2 ORDERS LEFT THIS CHAPTER: Up to 400 soldiers march instead of guarding Edo"
+ },
+ {
+  "similar": 1.0,
+  "first": "#42 SCENE The Western council: Kiyosu: western scouts threaten the route.",
+  "again": "#63 SCENE The Western council: Kiyosu: western scouts threaten the route."
+ },
+ {
+  "similar": 1.0,
+  "first": "#42 SCENE The Western council: Matsuo hill: Ishida’s letters reach Kobayakawa.",
+  "again": "#63 SCENE The Western council: Matsuo hill: Ishida’s letters reach Kobayakawa."
+ },
+ {
+  "similar": 1.0,
+  "first": "#64 SCREEN CHAPTER 3 · COUNCIL REPORT: Again: Ishida writes to Kobayakawa (-3 support)",
+  "again": "#85 SCREEN CHAPTER 4 · COUNCIL REPORT: Again: Ishida writes to Kobayakawa (-3 support)"
+ },
+ {
+  "similar": 1.0,
+  "first": "#72 SCREEN  3 ORDERS LEFT THIS CHAPTER: Full-strength Volleys in the opening rain",
+  "again": "#75 SCREEN  2 ORDERS LEFT THIS CHAPTER: Full-strength Volleys in the opening rain"
+ },
+ {
+  "similar": 0.98,
+  "first": "#17 DIALOG Order complete: 12 Materials saved through accurate planning",
+  "again": "#35 DIALOG Order complete: 10 Materials saved through accurate planning"
+ },
+ {
+  "similar": 0.98,
+  "first": "#35 DIALOG Order complete: 10 Materials saved through accurate planning",
+  "again": "#80 DIALOG Order complete: 12 Materials saved through accurate planning"
+ },
+ {
+  "similar": 0.9,
+  "first": "#32 DIALOG Order complete: 288 Rice packed: 0 from protected stores + 288 newly paid.",
+  "again": "#77 DIALOG Order complete: 360 Rice packed: 0 from protected stores + 360 newly paid."
+ },
+ {
+  "similar": 0.85,
+  "first": "#62 SCENE The Western council: At Ōgaki, Ishida’s council decides: Western scouts threaten the route; Ogaki prepares its defenses; Ishida writes again to Kobayakawa.",
+  "again": "#83 SCENE The Western council: At Ōgaki, Ishida’s council decides: Western scouts threaten the route; Western raiders strike your stores; Ishida writes again to Kobayakawa."
+ },
+ {
+  "similar": 0.78,
+  "first": "#41 SCENE The Western council: At Ōgaki, Ishida’s council decides: Ogaki prepares its defenses; Western scouts threaten the route; Ishida writes again to Kobayakawa.",
+  "again": "#62 SCENE The Western council: At Ōgaki, Ishida’s council decides: Western scouts threaten the route; Ogaki prepares its defenses; Ishida writes again to Kobayakawa."
+ },
+ {
+  "similar": 0.76,
+  "first": "#41 SCENE The Western council: At Ōgaki, Ishida’s council decides: Ogaki prepares its defenses; Western scouts threaten the route; Ishida writes again to Kobayakawa.",
+  "again": "#83 SCENE The Western council: At Ōgaki, Ishida’s council decides: Western scouts threaten the route; Western raiders strike your stores; Ishida writes again to Kobayakawa."
+ },
+ {
+  "similar": 0.71,
+  "first": "#20 SCENE The Western council: At Ōgaki, Ishida’s council decides: Western envoys court Kobayakawa; Ogaki prepares its defenses.",
+  "again": "#62 SCENE The Western council: At Ōgaki, Ishida’s council decides: Western scouts threaten the route; Ogaki prepares its defenses; Ishida writes again to Kobayakawa."
+ },
+ {
+  "similar": 0.7,
+  "first": "#21 SCENE The Western council: Matsuo hill: western envoys court Kobayakawa.",
+  "again": "#42 SCENE The Western council: Matsuo hill: Ishida’s letters reach Kobayakawa."
+ },
+ {
+  "similar": 0.64,
+  "first": "#13 SCREEN CHAPTER 1 · ESCORT ENCOUNTER · OPTIONAL: The wagon reaches the flag, or both raider units flee.",
+  "again": "#13 SCREEN CHAPTER 1 · ESCORT ENCOUNTER · OPTIONAL: Raiders hit the wagon 3 times, or both your units flee."
+ },
+ {
+  "similar": 0.64,
+  "first": "#28 SCREEN CHAPTER 2 · The Aizu Question: Edo defense 58: if you march now, 400 soldiers must stay home to watch Uesugi.",
+  "again": "#34 DIALOG Reinforce Edo: If Edo is weakly defended when you march west, part of your army must stay home to watch him."
+ },
+ {
+  "similar": 0.62,
+  "first": "#0 SCREEN HOW THE GAME WORKS: Materials build defenses and buy ammunition.",
+  "again": "#16 DIALOG Repair the Tōkaidō Stores Road: Materials used here cannot be kept for defenses or gun ammunition."
+ }
+]

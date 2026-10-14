@@ -18,8 +18,8 @@ async def run(w, h):
         for k in range(2, 5):
             await click('[data-scene="next"]', 1400); await shot(f'ch1_beat{k}')
         await pg.wait_for_timeout(3000); await shot('ch1_map_end')
-        await click('[data-scene="next"]', 900); await shot('chronicle_after')
-        await click('[data-action="advance"]', 800); await click('[data-action="map"]', 1200); await shot('map_all')
+        await click('[data-scene="next"]', 900); await shot('council_after_scene')
+        await click('[data-action="map"]', 1200); await shot('map_all')  # v0.5.1: the scene now leads straight to the council
         await pg.click('.geo-map [data-place="osaka"] .hit', force=True); await pg.wait_for_timeout(700); await shot('map_osaka')
         await click('[data-action="map-zoom"]', 1500); await shot('map_mino')
         print(w, 'errors:', errs[:8]); await b.close()
