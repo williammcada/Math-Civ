@@ -55,7 +55,7 @@ Known feedback: Submit Revision after wrong answer, troop movement/deployment am
 | Historical claim versus current source | Inspect exact source; keep historical claim labeled until verified. |
 | Proposed next scope versus working baseline | Use the approved version-specific specification; do not silently promote proposals. |
 | Other project rules | Do not import AAC quotas, other-game retry counts, or a shared backend without explicit scope. |
-| Handbook proposals | No additional exception or proposal is adopted by this brief. |
+| Handbook proposals | No additional proposal is adopted by this brief. Approved exceptions are listed in “Exceptions to universal rules” below. |
 
 ## 7. Verification contract
 
@@ -88,3 +88,11 @@ Shared principles do not establish shared code, accounts or interfaces. MathQues
 ## Owner DEV playtest mode (U-13)
 
 Standalone file `PLAY-SEKIGAHARA-<version>-DEV-PLAYTEST.html`, built with `npm run build:dev` from the same source as the classroom file. Setup panel: starting point (Chapters 1–4, battle preparation, Sekigahara), campaign preparations (Gifu, Tōkaidō, weather scouts, Hidetada, ample stores, fully supplied army, Kobayakawa band, fieldworks, scout information) and story scenes on/off; scene gallery. No math dialog appears and no save or record is written. Banner: "DEV PLAYTEST · The Road to Sekigahara v<version> · no questions, no records". Added in v0.4 (§3.7 of the v0.4 spec).
+
+## Exceptions to universal rules
+
+| Shared rule | Math Civ requirement or exception | Reason | Approval |
+| --- | --- | --- | --- |
+| U-14 (math from the Math Engine) | Math Civ does not use the Math Engine. It keeps its own contextual, story-bound math content (`src/content/math-templates.v1.json`, `src/core/mathEngine.ts`). | The math is written for the campaign's situations (rations, ledgers, ratios tied to the story), not drawn from a general skill bank. | William McAda, 14 Oct 2026: “Math engine is not used in math civilization products. It's just an exception.” |
+| U-13 boundary (DEV owner-only) | Battle Practice stays in the classroom file behind a teacher password (default `admin123`, changeable on the device, as in Chrono Circuit). The full DEV playtest is only in the separate DEV file. | Math Civ reaches students through Math Arcade; teachers can still open Battle Practice there. | William McAda, 14 Oct 2026. |
+
