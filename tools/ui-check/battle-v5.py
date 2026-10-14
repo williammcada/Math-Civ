@@ -21,6 +21,8 @@ async def main():
             if await pg.query_selector('.bv5-east'): break
             await pg.wait_for_timeout(700)
         await shot('2_your_turn')
+        board = lambda: pg.evaluate("document.querySelector('.bv5-grid').innerHTML.length+':'+[...document.querySelectorAll('.bu')].map(e=>e.parentElement.dataset.x+','+e.parentElement.dataset.y).join(';')")
+        b0 = await board(); await pg.wait_for_timeout(3000); waits = (await board()) == b0 and bool(await pg.query_selector('.bv5-east'))
         await pg.click('.bu-active >> xpath=..'); await pg.wait_for_timeout(500); await shot('3_ring')
         await pg.click('[data-action="ring-close"]'); await pg.wait_for_timeout(300)
         tg = await pg.query_selector('.bt-target')
@@ -35,5 +37,15 @@ async def main():
             if e: await e.click(); await pg.wait_for_timeout(500)
             if await pg.query_selector('.scene-player'): await pg.evaluate("document.querySelector('[data-scene=skip]').click()"); await pg.wait_for_timeout(300)
         await pg.wait_for_timeout(600); await shot('6_enemy_turn')
+        paused = stepped = None
+        if await pg.query_selector('[data-action="enemy-pause"]'):
+            await pg.click('[data-action="enemy-pause"]'); await pg.wait_for_timeout(400)
+            p0 = await board(); t0 = await pg.inner_text('.bv5-ticker'); await pg.wait_for_timeout(3000)
+            paused = (await board()) == p0 and (await pg.inner_text('.bv5-ticker')) == t0
+            nx = await pg.query_selector('[data-action="enemy-next"]')
+            if nx:
+                await nx.click(); await pg.wait_for_timeout(1500); stepped = (await pg.inner_text('.bv5-ticker')) != t0 or (await board()) != p0
+            if await pg.query_selector('[data-action="enemy-pause"]'): await pg.click('[data-action="enemy-pause"]')
+        print(W, 'player turn waits:', waits, '· pause holds the enemy:', paused, '· next-step works:', stepped)
         print(W, 'errors:', errs[:5]); await b.close()
 asyncio.run(main())

@@ -3,7 +3,7 @@ Usage: python3 tools/ui-check/v04-ui.py [width height] -> .test-out/v04/"""
 import asyncio, sys, os
 from playwright.async_api import async_playwright
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-URL = 'file://' + ROOT + '/release/PLAY-SEKIGAHARA-0.4.0.html'
+URL = 'file://' + ROOT + '/release/PLAY-SEKIGAHARA-0.5.0.html'
 OUT = ROOT + '/.test-out/v04'
 async def run(w, h):
     async with async_playwright() as p:

@@ -267,3 +267,4 @@ dialog.gd-dialog>h2{margin-bottom:6px}
 .phone-layout dialog.gd-dialog{max-height:calc(var(--visible-height,100vh) - 24px)}
 .phone-layout .gd-tabs button{font-size:12px;min-height:36px;padding:6px 8px}
 .phone-layout .gd-chip{font-size:13px}.phone-layout .gd-chip small{font-size:11px}
+.phone-layout .bv5-controls{flex-wrap:wrap}.phone-layout .bv5-controls button{flex:1 1 40%}
