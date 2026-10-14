@@ -116,7 +116,8 @@ function startRound(s:State){const b=s.battle!;
   if(s.flags.hidetada_arrives&&b.round>=rules.hidetada.entryRound&&!b.formations.some(u=>u.id==='aux_hidetada')){const p=entryTile(s,rules.hidetada.entry,'east');if(p){const h=rules.hidetada;b.formations.push({id:'aux_hidetada',side:'east',archetype:'spears',baseTroops:h.troops,troops:h.troops,startTroops:h.troops,morale:h.morale,equipmentPoints:0,commanderRating:h.commanderRating,move:2,range:1,...p,ap:0,attacked:false,brace:false,forced:false,routed:false,exited:false,shattered:false,auxiliary:true,auxiliaryRounds:12});event(s,'RESERVE_ENTERED','aux_hidetada',{round:b.round,side:'east',source:'hidetada'});}}
  }
  allocateRound(s);
- const list=b.formations.filter(alive).sort((a,b)=>a.id.localeCompare(b.id)).map(f=>({id:f.id,score:f.commanderRating*50+f.morale+5*((b.round===1?(f.side==='east'?(s.playerArmy.routeState==='prepared'?5:0)+(s.flags.battle_initiative_plus_one?1:0)+(s.flags.main_force_tokaido?3:0):(!s.flags.gifu_controlled?5:0)):0)+(terrain(s,f)==='road'?3:0)+roll(s,0,2))}));
+ // v0.5 (F3): the Gifu bonus applies only at Sekigahara; the convoy escort, warned of the raiders, acts first in round 1.
+ const list=b.formations.filter(alive).sort((a,b)=>a.id.localeCompare(b.id)).map(f=>({id:f.id,score:f.commanderRating*50+f.morale+5*((b.round===1?(f.side==='east'?(s.playerArmy.routeState==='prepared'?5:0)+(s.flags.battle_initiative_plus_one?1:0)+(s.flags.main_force_tokaido?3:0):(b.scenarioId==='sekigahara'&&!s.flags.gifu_controlled?5:0)):0)+(terrain(s,f)==='road'?3:0)+roll(s,0,2))+(b.scenarioId==='convoy'&&b.round===1&&f.side==='east'?1000:0)}));
  list.sort((a,b)=>b.score-a.score||a.id.localeCompare(b.id));b.queue=list.map(f=>f.id);b.activeIndex=0;
  for(const f of b.formations.filter(f=>f.side==='west'&&alive(f)&&!f.routed))b.intents[f.id]=chooseIntent(s,{...f,ap:2,attacked:false,defended:false,brace:false,forced:false});
  activate(s);

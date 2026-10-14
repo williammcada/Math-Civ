@@ -32,7 +32,7 @@ async def main():
                 await pg.screenshot(path=f'{OUT}/{W}_dispatch_r{info["round"]}.png'); await st("app.dispatch({type:'ADVANCE'})"); await pg.wait_for_timeout(500); continue
             if info['report'] is not None:
                 if shots < 3: shots += 1; await pg.screenshot(path=f'{OUT}/{W}_enemy_{shots}.png'); print('report:', info['report'])
-                await st("document.querySelector('[data-action=enemy-next]').click()"); await pg.wait_for_timeout(1300); continue
+                await pg.wait_for_timeout(1300); continue  # v0.5: the enemy moves by itself
             council = await st("!!app.state.battle.councilPending")
             if council: await st("app.dispatch({type:'BATTLE_COUNCIL',choice:'accept'})"); await pg.wait_for_timeout(500); continue
             await st("(()=>{const s=app.state,b=s.battle,u=b.formations.find(f=>f.id===b.queue[b.activeIndex]);if(!u||u.side!=='east')return;const t=b.formations.filter(f=>f.side==='west'&&!f.routed&&!f.shattered&&!f.exited);for(const k of ['volley','attack']){for(const x of t){const r=window.app; const before=s.eventLog.length; r.dispatch({type:'BATTLE',id:u.id,action:{kind:k,target:x.id}}); if(r.state.eventLog.length>before&&r.state.eventLog.at(-1).type!=='RULE_VIOLATION')return;}} app.dispatch({type:'BATTLE',id:u.id,action:{kind:'defend'}}); if(app.state.battle.formations.find(f=>f.id===u.id)?.ap>0) app.dispatch({type:'BATTLE',id:u.id,action:{kind:'end'}});})()")
