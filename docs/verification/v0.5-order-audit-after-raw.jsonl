@@ -1,0 +1,21 @@
+{"label":"DEFAULT (diplomacy first)","win":"87","realm":"69","good":"80","bad":"13","crises":"0.17","koba":"65","troops":"10161","morale":"88","order":"78"}
+{"label":"ch1 WITHOUT c1_court_letters","win":"60","realm":"64","good":"50","bad":"27","crises":"0.17","koba":"61","troops":"10161","morale":"86","order":"78"}
+{"label":"ch1 WITHOUT c1_repair_tokaido","win":"87","realm":"68","good":"63","bad":"13","crises":"0.20","koba":"65","troops":"10161","morale":"88","order":"79"}
+{"label":"ch1 WITHOUT c1_tax_register","win":"87","realm":"69","good":"80","bad":"13","crises":"0.17","koba":"65","troops":"10161","morale":"88","order":"76"}
+{"label":"ch1 c1_labor_ledger instead of c1_tax_register","win":"87","realm":"69","good":"80","bad":"13","crises":"0.17","koba":"65","troops":"10161","morale":"88","order":"76"}
+{"label":"ch1 audit_stores instead of c1_tax_register","win":"87","realm":"69","good":"83","bad":"13","crises":"0.17","koba":"65","troops":"10161","morale":"88","order":"76"}
+{"label":"ch2 WITHOUT c2_secure_allies","win":"93","realm":"69","good":"80","bad":"7","crises":"0.17","koba":"56","troops":"10561","morale":"86","order":"78"}
+{"label":"ch2 WITHOUT c2_march_provisions","win":"100","realm":"71","good":"90","bad":"0","crises":"0.17","koba":"65","troops":"10561","morale":"87","order":"78"}
+{"label":"ch2 WITHOUT c2_muster_bands","win":"70","realm":"67","good":"70","bad":"27","crises":"0.17","koba":"65","troops":"9600","morale":"88","order":"82"}
+{"label":"ch2 c2_reinforce_edo instead of c2_muster_bands","win":"70","realm":"67","good":"70","bad":"27","crises":"0.17","koba":"65","troops":"9600","morale":"88","order":"82"}
+{"label":"ch2 kobayakawa_letter instead of c2_muster_bands","win":"67","realm":"66","good":"67","bad":"33","crises":"0.20","koba":"71","troops":"9200","morale":"87","order":"82"}
+{"label":"ch3 WITHOUT c3_secure_gifu","win":"80","realm":"71","good":"77","bad":"13","crises":"0.23","koba":"65","troops":"10166","morale":"88","order":"92"}
+{"label":"ch3 WITHOUT c3_kiyosu_stores","win":"87","realm":"61","good":"0","bad":"13","crises":"0.30","koba":"65","troops":"10164","morale":"88","order":"92"}
+{"label":"ch3 WITHOUT c3_oyama_march","win":"77","realm":"68","good":"77","bad":"23","crises":"0.20","koba":"65","troops":"10161","morale":"86","order":"92"}
+{"label":"ch3 c3_home_relief instead of c3_oyama_march","win":"77","realm":"68","good":"77","bad":"23","crises":"0.20","koba":"65","troops":"10161","morale":"86","order":"92"}
+{"label":"ch3 kobayakawa_letter instead of c3_oyama_march","win":"70","realm":"66","good":"67","bad":"30","crises":"0.23","koba":"71","troops":"10161","morale":"86","order":"79"}
+{"label":"ch4 WITHOUT c4_kobayakawa","win":"37","realm":"58","good":"30","bad":"63","crises":"0.20","koba":"36","troops":"10161","morale":"90","order":"78"}
+{"label":"ch4 WITHOUT c4_forward_granaries","win":"87","realm":"68","good":"70","bad":"13","crises":"0.17","koba":"65","troops":"10161","morale":"88","order":"78"}
+{"label":"ch4 WITHOUT c4_fieldworks","win":"87","realm":"69","good":"80","bad":"13","crises":"0.17","koba":"65","troops":"10161","morale":"88","order":"78"}
+{"label":"ch4 c4_weather_scouts instead of c4_fieldworks","win":"87","realm":"69","good":"80","bad":"13","crises":"0.17","koba":"65","troops":"10161","morale":"88","order":"78"}
+{"label":"ch4 kobayakawa_letter instead of c4_fieldworks","win":"77","realm":"66","good":"63","bad":"23","crises":"0.23","koba":"71","troops":"10161","morale":"87","order":"79"}

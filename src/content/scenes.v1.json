@@ -20,9 +20,9 @@
       "title": "Chapter 2 · The Aizu Question",
       "task": "Choose your council policy, then decide how to supply the march and protect Edo.",
       "beats": [
-        { "art": "CH2-P1", "pan": "up", "caption": "Far to the north, Uesugi Kagekatsu fortifies Aizu. Ieyasu calls it defiance and prepares to march." },
-        { "art": "CH2-P2", "pan": "left", "caption": "The army marches north toward Aizu. Every soldier on the road eats from Edo’s granaries." },
-        { "art": "CH2-P3", "pan": "in", "caption": "Behind the marching army, Edo’s walls are thinly held." },
+        { "art": "CH2-P1", "pan": "up", "caption": "Spring 1600. Ishida has been forced out of office, and Ieyasu rules from Osaka in the heir’s name. Far to the north, Uesugi Kagekatsu fortifies Aizu and refuses a summons." },
+        { "art": "CH2-P2", "pan": "left", "caption": "Ieyasu leads the lords north to punish him. Every soldier on the road eats from Edo’s granaries." },
+        { "art": "CH2-P3", "pan": "in", "caption": "Behind the marching army, Edo and the western roads are thinly held. Many historians think Ieyasu expected his enemies to move." },
         { "map": { "view": "all", "tokens": [
             { "id": "ieyasu", "side": "east", "label": "Ieyasu", "place": "edo" },
             { "id": "uesugi", "side": "west", "label": "Uesugi", "place": "aizu" },

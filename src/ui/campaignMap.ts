@@ -66,7 +66,7 @@ export function placeStatus(s:State,id:string):string{
  return '';
 }
 /** Orders (by id) whose effects concern each place, for map pins and the info card. */
-export const orderPlaces:Record<string,string>={c1_labor_ledger:'edo',c1_tax_register:'edo',c1_repair_tokaido:'kiyosu',c1_court_letters:'osaka',c2_march_provisions:'oyama',c2_reinforce_edo:'edo',c2_muster_bands:'edo',c2_secure_allies:'oyama',c3_oyama_march:'oyama',c3_kiyosu_stores:'kiyosu',c3_secure_gifu:'gifu',c3_home_relief:'edo',c4_kobayakawa:'matsuo',c4_forward_granaries:'kiyosu',c4_fieldworks:'sekigahara',c4_weather_scouts:'sekigahara',audit_stores:'edo'};
+export const orderPlaces:Record<string,string>={c1_labor_ledger:'edo',c1_tax_register:'edo',c1_repair_tokaido:'kiyosu',c1_court_letters:'osaka',c2_march_provisions:'oyama',c2_reinforce_edo:'edo',c2_muster_bands:'edo',c2_secure_allies:'oyama',c3_oyama_march:'oyama',c3_kiyosu_stores:'kiyosu',c3_secure_gifu:'gifu',c3_home_relief:'edo',c4_kobayakawa:'matsuo',c4_forward_granaries:'kiyosu',c4_fieldworks:'sekigahara',c4_weather_scouts:'sekigahara',kobayakawa_letter:'matsuo',audit_stores:'edo'};
 
 const westTroops=(s:State)=>{const momentum=Math.max(0,Math.min(rules.westernMomentum.maxTroops,(s.threats.westernMomentum-rules.westernMomentum.neutral)*rules.westernMomentum.troopsPerPoint));return battleData.formations.filter(f=>f.side==='west').reduce((t,f)=>t+f.baseTroops,0)+rules.westernMomentum.baseTroops+s.westernState.troopGain+momentum;};
 /** Tokens for both sides as they stand in the current chapter. */

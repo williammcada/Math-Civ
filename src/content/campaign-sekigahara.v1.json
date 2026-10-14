@@ -146,7 +146,7 @@
           "effects": [{ "path": "resources.authority", "delta": -5 }, { "path": "diplomacy.intelligence", "delta": 12 }, { "path": "threats.uesugiPressure", "delta": 8 }]
         }
       ],
-      "orderIds": ["c2_march_provisions", "c2_reinforce_edo", "c2_muster_bands", "c2_secure_allies", "audit_stores"],
+      "orderIds": ["c2_march_provisions", "c2_reinforce_edo", "c2_muster_bands", "c2_secure_allies", "kobayakawa_letter", "audit_stores"],
       "milestoneEffects": [
         { "path": "playerArmy.locationId", "set": "oyama" },
         { "path": "playerArmy.active", "set": true },
@@ -186,7 +186,7 @@
           "effects": [{ "path": "resources.food", "delta": 50 }, { "path": "threats.westernMomentum", "delta": 10 }, { "path": "playerArmy.readiness", "delta": 3 }]
         }
       ],
-      "orderIds": ["c3_oyama_march", "c3_kiyosu_stores", "c3_secure_gifu", "c3_home_relief", "audit_stores"],
+      "orderIds": ["c3_oyama_march", "c3_kiyosu_stores", "c3_secure_gifu", "c3_home_relief", "kobayakawa_letter", "audit_stores"],
       "milestoneEffects": [{ "path": "playerArmy.locationId", "set": "kiyosu" }]
     },
     {
@@ -216,7 +216,7 @@
           "effects": [{ "path": "edo.publicOrder", "delta": 5 }, { "path": "resources.authority", "delta": 3 }, { "path": "playerArmy.readiness", "delta": -5 }]
         }
       ],
-      "orderIds": ["c4_kobayakawa", "c4_forward_granaries", "c4_fieldworks", "c4_weather_scouts", "audit_stores"],
+      "orderIds": ["c4_kobayakawa", "c4_forward_granaries", "c4_fieldworks", "c4_weather_scouts", "kobayakawa_letter", "audit_stores"],
       "milestoneEffects": [{ "path": "playerArmy.locationId", "set": "sekigahara" }, { "phase": "battle_review" }],
       "openingEffects": [{ "flag": "heavy_rain", "value": true }]
     }
@@ -419,6 +419,16 @@
       "resolutionMode": "scale_positive",
       "precisionMode": "extra_effect",
       "effects": [{ "path": "diplomacy.intelligence", "delta": 20, "scalable": true }, { "flagAtEffectPerThousand": { "min": 650, "flag": "weather_scouted", "value": true } }]
+    },
+    {
+      "id": "kobayakawa_letter",
+      "titleStringId": "order.kobayakawa_letter.title",
+      "family": "diplomacy",
+      "challengeTemplateId": "math_kobayakawa_letter",
+      "cost": { "currency": 40, "authority": 3 },
+      "resolutionMode": "scale_positive",
+      "precisionMode": "extra_effect",
+      "effects": [{ "path": "diplomacy.kobayakawaCommitment", "delta": 6, "scalable": true }]
     },
     {
       "id": "audit_stores",

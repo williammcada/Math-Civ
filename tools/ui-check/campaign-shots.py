@@ -32,7 +32,7 @@ async def main():
             done = False
             for sel in ['[data-action^="policy:"]', '[data-action="advance"]', '[data-action="end"]']:
                 if await pg.query_selector(sel + ':not([disabled])'): await pg.click(sel + ':not([disabled])'); await pg.wait_for_timeout(600); done = True; break
-            stop = 'BATTLE PREPARATION' if START == 'ch4' else 'CHAPTER 2'
+            stop = {'ch1': 'CHAPTER 2 /', 'ch2': 'CHAPTER 3 /', 'ch3': 'CHAPTER 4 /'}.get(START, 'BATTLE PREPARATION')
             if not done or stop in (await q("document.body.innerText")).upper()[:400]: break
         print(W, 'errors:', errs)
 asyncio.run(main())

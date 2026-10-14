@@ -203,6 +203,21 @@
       "workedMethod": "ratio_share"
     },
     {
+      "id": "math_kobayakawa_letter",
+      "operation": "elapsed_time",
+      "skillTags": ["rate", "elapsed_time"],
+      "promptStringId": "math.kobayakawa_letter.prompt",
+      "answerFields": ["days"],
+      "unitStringId": "unit.days",
+      "variants": [
+        { "id": "a", "operands": { "distance": 360, "distancePerDay": 90 }, "answer": { "days": 4 } },
+        { "id": "b", "operands": { "distance": 420, "distancePerDay": 70 }, "answer": { "days": 6 } },
+        { "id": "c", "operands": { "distance": 300, "distancePerDay": 60 }, "answer": { "days": 5 } }
+      ],
+      "hintStringIds": ["hint.rate.distance_over_rate", "hint.elapsed.check_units"],
+      "workedMethod": "distance_rate_time"
+    },
+    {
       "id": "math_c4_granaries",
       "operation": "proportion",
       "skillTags": ["unit_rate", "proportion"],

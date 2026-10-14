@@ -52,7 +52,7 @@
     "prosperityFactorBasePerThousand": 750,
     "prosperityFactorStatDivisor": 400,
     "farmRicePer100EffectiveLabor": 8,
-    "workshopMaterialsPer100EffectiveLabor": 6,
+    "workshopMaterialsPer100EffectiveLabor": 4,
     "worksProgressPer100EffectiveLabor": 2,
     "worksMaintenanceLaborPerInfrastructure": 800,
     "maxPassiveInfrastructureGain": 2,

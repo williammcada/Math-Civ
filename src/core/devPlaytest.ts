@@ -15,7 +15,7 @@ export const devStartNames:Record<DevStart,string>={ch1:'Chapter 1 · The Balanc
 export const kobaValues:Record<KobaBand,number>={east_full:85,east_late:67,holds:52,west_late:37,west_full:20};
 export const kobaNames:Record<KobaBand,string>={east_full:'Joins you in force (85)',east_late:'Joins you late (67)',holds:'Stays on the hill (52)',west_late:'Turns against you late (37)',west_full:'Attacks you in force (20)'};
 
-const priority=['c1_court_letters','c1_repair_tokaido','c1_tax_register','c1_labor_ledger','c2_secure_allies','c2_march_provisions','c2_muster_bands','c2_reinforce_edo','c3_secure_gifu','c3_kiyosu_stores','c3_oyama_march','c3_home_relief','c4_kobayakawa','c4_forward_granaries','c4_fieldworks','c4_weather_scouts','audit_stores'];
+const priority=['c1_court_letters','c1_repair_tokaido','c1_tax_register','c1_labor_ledger','c2_secure_allies','c2_muster_bands','c2_reinforce_edo','c2_march_provisions','c3_secure_gifu','c3_kiyosu_stores','c3_oyama_march','c3_home_relief','c4_kobayakawa','c4_forward_granaries','c4_fieldworks','c4_weather_scouts','audit_stores'];
 let sink:Event[]|null=null;
 function step(s:State,c:Command):State|null{const r=reduce(s,c);if(r.events[0]?.type==='RULE_VIOLATION')return null;sink?.push(...r.events);return r.state;}
 /** Answers any open math step correctly and collects audit rewards: the DEV "no gates" rule. Returns the events produced. */

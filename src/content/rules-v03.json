@@ -35,6 +35,7 @@
     "math_c3_gifu",
     "math_c3_relief",
     "math_c4_kobayakawa",
+    "math_kobayakawa_letter",
     "math_c4_granaries",
     "math_c4_fieldworks",
     "math_c4_weather",
@@ -97,5 +98,6 @@
   },
   "westernMomentum": { "neutral": 50, "troopsPerPoint": 25, "maxTroops": 1200, "baseTroops": 800 },
   "gifu": { "garrisonTroops": 600 },
+  "edoWatch": { "threshold": 66, "troopsPerPoint": 50, "maxTroops": 400 },
   "intelligence": { "precise": 60, "broad": 35 }
 }

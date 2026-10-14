@@ -5,6 +5,7 @@ import {pressure,chance} from '../../src/core/crisis';
 import {floor,ceil,round} from '../../src/core/fixedPoint';
 import {solve,normalize} from '../../src/core/mathEngine';
 import {math} from '../../src/content/registry';
+import {validateContent} from '../../src/content/loader';
 import {tierFor} from '../../src/core/scoring';
 import {rng32} from '../../src/core/rng';
 import type {State,Command} from '../../src/core/types';
@@ -14,7 +15,8 @@ describe('Foundation checkpoint',()=>{
  it('adviser answer cannot be resubmitted for a higher reward',()=>{let s=go(orders(),{type:'OPEN_ORDER',id:'c1_tax_register'});s=go(s,{type:'ANSWER',answer:{households:0}});s=go(s,{type:'ADVISER'});expect(reduce(s,{type:'ANSWER',answer:s.activeOrder!.answer}).state).toBe(s);s=go(s,{type:'COMPLETE',path:'adviser'});expect(s.challengeRecords[0].masteryPoints).toBe(25);});
  it('formatted numeric input remains a valid actual allocation when proceeding',()=>{let s=go(orders(),{type:'OPEN_ORDER',id:'c1_labor_ledger'});s=go(s,{type:'ANSWER',answer:{farms:'2,000',workshops:'1,000',works:'500'}});s=go(s,{type:'COMPLETE',path:'proceedEstimate'});expect(s.edo.laborAllocation).toEqual({farms:2000,workshops:1000,works:500});expect(s.challengeRecords[0].masteryPoints).toBe(0);});
  it('fixed point and negative half-up',()=>{expect(floor(5,1,2)).toBe(2);expect(ceil(5,1,2)).toBe(3);expect(round(5,1,2)).toBe(3);expect(round(-5,1,2)).toBe(-3);expect([1100,850,650,500].map(q=>round(120,q,1000))).toEqual([132,102,78,60]);});
- it('starting economy matches P0-011',()=>{expect(forecast(createState())).toMatchObject({labor:{farms:2244,workshops:1346,works:897},rice:176,materials:78,progress:16,infrastructure:1,taxable:2148,treasury:215,civilian:120,garrison:8,wages:96});});
+ it('all content passes the same schema check the game runs at start-up (v0.5)',()=>{expect(()=>validateContent()).not.toThrow();});
+ it('starting economy matches P0-011',()=>{expect(forecast(createState())).toMatchObject({labor:{farms:2244,workshops:1346,works:897},rice:176,materials:52 /* v0.5 §2.5: workshop output 6→4 per 100 labor (was 78) */,progress:16,infrastructure:1,taxable:2148,treasury:215,civilian:120,garrison:8,wages:96});});
  it('route supplies match P0-012',()=>{const s=createState();s.playerArmy.active=true;for(const [route,need] of [['prepared',96],['unprepared',120],['damaged',144]] as const){s.playerArmy.routeState=route;expect(forecast(s).field).toBe(need);}});
  it('pressure and thresholds',()=>{expect(mandatoryRice(createState())).toBe(128);expect(pressure(createState()).total).toBe(8);expect([24,25,35,50,70,75,100].map(chance)).toEqual([500,1500,1500,3000,3000,5000,5000]);});
  for(const t of math.templates)it('recomputes both variants: '+t.id,()=>{for(const v of t.variants)expect(solve(t.id,v.operands)).toEqual(v.answer);});

@@ -97,7 +97,7 @@
         "eventAssetId": { "type": "string" },
         "openingEffects": { "type": "array" },
         "policyChoices": { "type": "array", "minItems": 3, "maxItems": 3 },
-        "orderIds": { "type": "array", "minItems": 5, "maxItems": 5, "items": { "type": "string" } },
+        "orderIds": { "type": "array", "minItems": 5, "maxItems": 6, "items": { "type": "string" } },
         "milestoneEffects": { "type": "array" }
       },
       "additionalProperties": false

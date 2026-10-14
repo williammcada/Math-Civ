@@ -44,3 +44,8 @@ export function kobaShort(bands:{min:number;max:number;side:string;entryRound:nu
  const b=bands.find(b=>c>=b.min&&c<=b.max)??bands.at(-1)!;
  return b.side==='inactive'?'Stays on his hill':(b.side==='east'?'Joins you':'Attacks you')+` · round ${b.entryRound}`+(b.troopsPerThousand<1000?' · part of his army':' · in force');
 }
+/** "At Sekigahara" and "At home" tag rows for an order. */
+export function tagRows(t:{field:string[];home:string[]}){
+ const row=(k:string,label:string,list:string[])=>list.length?`<span class="tagrow tag-${k}">${icon(k)}<b>${label}</b>${list.map(x=>`<span class="tag">${esc(x)}</span>`).join('')}</span>`:'';
+ return row('field','At Sekigahara',t.field)+row('home','At home',t.home);
+}
