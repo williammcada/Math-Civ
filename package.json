@@ -15,7 +15,8 @@
     "windows:build": "tauri build --target x86_64-pc-windows-msvc",
     "build:local": "vite build --config vite.local.config.ts && node scripts/local-edition.mjs",
     "build:offline": "node scripts/build-offline.mjs",
-    "test:offline": "node scripts/offline-test/run-unit.mjs"
+    "test:offline": "node scripts/offline-test/run-unit.mjs",
+    "build:dev": "DEV=1 node scripts/build-offline.mjs"
   },
   "dependencies": {
     "ajv": "8.20.0",

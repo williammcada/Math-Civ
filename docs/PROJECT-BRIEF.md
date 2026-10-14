@@ -85,3 +85,6 @@ Before substantive implementation retrieve these records, the current source, ap
 
 Shared principles do not establish shared code, accounts or interfaces. MathQuest is engagement, TestForge assessment design, GradePal learner-level evidence, and DataDiver institutional analytics. Integration remains separately specified unless confirmed in source. Other projects remain independent unless their brief explicitly says otherwise.
 
+## Owner DEV playtest mode (U-13)
+
+Standalone file `PLAY-SEKIGAHARA-<version>-DEV-PLAYTEST.html`, built with `npm run build:dev` from the same source as the classroom file. Setup panel: starting point (Chapters 1–4, battle preparation, Sekigahara), campaign preparations (Gifu, Tōkaidō, weather scouts, Hidetada, ample stores, fully supplied army, Kobayakawa band, fieldworks, scout information) and story scenes on/off; scene gallery. No math dialog appears and no save or record is written. Banner: "DEV PLAYTEST · The Road to Sekigahara v<version> · no questions, no records". Added in v0.4 (§3.7 of the v0.4 spec).

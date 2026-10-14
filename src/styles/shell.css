@@ -58,3 +58,11 @@
 .scene-player .view-mino .pl-scale,.scene-player .view-mino .tk-scale{transform:scale(.13)}.scene-player .view-mino .geo-label{font-size:2.6px}.scene-player .view-mino .geo-road polyline{stroke-width:.4}.scene-player .view-mino .geo-trail{stroke-width:.5;stroke-dasharray:1 1}.scene-player .view-mino .geo-land path{stroke-width:.15}
 .phone-layout .geo-place .place-label{font-size:27px}.phone-layout .geo-token .token-label{font-size:21px}.phone-layout .view-mino .pl-scale,.phone-layout .view-mino .tk-scale{transform:scale(.18)}
 .phone-layout .view-mino .geo-label{font-size:4px}
+/* Owner DEV playtest (U-13) */
+.dev-banner{position:absolute;left:0;right:0;top:0;z-index:60;background:#7a2f1f;color:#fff3d0;font-family:Chronicle,Courier New,monospace;font-size:8px;letter-spacing:.06em;text-align:center;padding:1px 4px;pointer-events:none}
+.phone-layout .dev-banner{position:sticky;font-size:12px;padding:4px}
+
+.dev-setup label{display:block;margin:6px 0}.dev-setup select{margin-left:6px}.dev-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px}.dev-check{font-size:12px}
+.phone-layout .dev-grid{grid-template-columns:1fr}.phone-layout .dev-check{font-size:16px}
+.dev-setup .dev-check{display:flex;align-items:center;gap:6px;margin:3px 0}.dev-setup .dev-check input{width:14px;height:14px;min-width:14px;min-height:14px;margin:0;flex:none}
+.phone-layout .dev-setup .dev-check input{width:22px;height:22px;min-width:22px;min-height:22px}
