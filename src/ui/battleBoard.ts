@@ -9,8 +9,8 @@ import {assetURL} from './assets';
 import {esc,num,nice} from './helpers';
 import {commandBlocked,portraitFor} from './battleView';
 
-const frame:Record<string,number>={plain:0,mud:0,forest:1,hill:2,road:3,stream:4,bridge:5,east_camp:6,west_camp:6,fieldworks:7};
-const pos=(f:number)=>`${(f%4)*100/3}% ${Math.floor(f/4)*100/3}%`;
+export const frame:Record<string,number>={plain:0,mud:0,forest:1,hill:2,road:3,stream:4,bridge:5,east_camp:6,west_camp:6,fieldworks:7};
+export const pos=(f:number)=>`${(f%4)*100/3}% ${Math.floor(f/4)*100/3}%`;
 const archIndex=(f:Formation)=>f.archetype==='cavalry'?0:f.archetype==='spears'?1:2;
 export const unitSprite=(f:Formation)=>pos((f.side==='east'?8:12)+archIndex(f));
 const name=(id:string)=>text('formation.'+id);
