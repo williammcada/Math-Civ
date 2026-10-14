@@ -17,7 +17,7 @@
         "properties": {
           "id": { "type": "string" },
           "operation": {
-            "enum": ["ratio_share", "percent_of", "unit_rate", "proportion", "elapsed_time", "area_rectangle", "perimeter", "budget_remainder", "table_compare", "multi_field_allocation"]
+            "enum": ["ratio_share", "percent_of", "unit_rate", "proportion", "elapsed_time", "area_rectangle", "perimeter", "budget_remainder", "table_compare", "multi_field_allocation", "fraction_of", "compare_rates", "volume", "mean", "scale_drawing"]
           },
           "skillTags": { "type": "array", "minItems": 1, "items": { "type": "string" } },
           "promptStringId": { "type": "string" },

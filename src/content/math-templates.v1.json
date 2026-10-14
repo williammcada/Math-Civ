@@ -12,7 +12,9 @@
       "unitStringId": "unit.workers",
       "variants": [
         { "id": "a", "operands": { "total": 4800, "ratio": [5, 2, 1] }, "answer": { "farms": 3000, "workshops": 1200, "works": 600 } },
-        { "id": "b", "operands": { "total": 4800, "ratio": [4, 2, 2] }, "answer": { "farms": 2400, "workshops": 1200, "works": 1200 } }
+        { "id": "b", "operands": { "total": 4800, "ratio": [4, 2, 2] }, "answer": { "farms": 2400, "workshops": 1200, "works": 1200 } },
+        { "id": "c", "operands": { "total": 4800, "ratio": [3, 2, 1] }, "answer": { "farms": 2400, "workshops": 1600, "works": 800 } },
+        { "id": "d", "operands": { "total": 4800, "ratio": [7, 3, 2] }, "answer": { "farms": 2800, "workshops": 1200, "works": 800 } }
       ],
       "hintStringIds": ["hint.ratio.total_parts", "hint.ratio.find_one_part"],
       "workedMethod": "ratio_share"
@@ -26,7 +28,10 @@
       "unitStringId": "unit.households",
       "variants": [
         { "id": "a", "operands": { "whole": 2400, "percent": 15 }, "answer": { "households": 360 } },
-        { "id": "b", "operands": { "whole": 2800, "percent": 12 }, "answer": { "households": 336 } }
+        { "id": "b", "operands": { "whole": 2800, "percent": 12 }, "answer": { "households": 336 } },
+        { "id": "c", "operands": { "whole": 1800, "percent": 20 }, "answer": { "households": 360 } },
+        { "id": "d", "operands": { "whole": 1600, "percent": 25 }, "answer": { "households": 400 } },
+        { "id": "e", "operands": { "whole": 3000, "percent": 8 }, "answer": { "households": 240 } }
       ],
       "hintStringIds": ["hint.percent.as_fraction", "hint.percent.multiply_then_divide"],
       "workedMethod": "percent_of"
@@ -40,7 +45,9 @@
       "unitStringId": "unit.material_bundles",
       "variants": [
         { "id": "a", "operands": { "length": 18, "width": 4, "coveragePerBundle": 6 }, "answer": { "bundles": 12 } },
-        { "id": "b", "operands": { "length": 20, "width": 3, "coveragePerBundle": 5 }, "answer": { "bundles": 12 } }
+        { "id": "b", "operands": { "length": 20, "width": 3, "coveragePerBundle": 5 }, "answer": { "bundles": 12 } },
+        { "id": "c", "operands": { "length": 24, "width": 3, "coveragePerBundle": 8 }, "answer": { "bundles": 9 } },
+        { "id": "d", "operands": { "length": 16, "width": 5, "coveragePerBundle": 4 }, "answer": { "bundles": 20 } }
       ],
       "hintStringIds": ["hint.area.length_width", "hint.unit_rate.divide_coverage"],
       "workedMethod": "area_then_unit_rate"
@@ -54,7 +61,9 @@
       "unitStringId": "unit.treasury",
       "variants": [
         { "id": "a", "operands": { "total": 70, "ratio": [4, 2, 1] }, "answer": { "senior": 40, "military": 20, "court": 10 } },
-        { "id": "b", "operands": { "total": 70, "ratio": [3, 2, 2] }, "answer": { "senior": 30, "military": 20, "court": 20 } }
+        { "id": "b", "operands": { "total": 70, "ratio": [3, 2, 2] }, "answer": { "senior": 30, "military": 20, "court": 20 } },
+        { "id": "c", "operands": { "total": 70, "ratio": [2, 2, 3] }, "answer": { "senior": 20, "military": 20, "court": 30 } },
+        { "id": "d", "operands": { "total": 70, "ratio": [5, 1, 1] }, "answer": { "senior": 50, "military": 10, "court": 10 } }
       ],
       "hintStringIds": ["hint.ratio.total_parts", "hint.allocation.check_total"],
       "workedMethod": "ratio_share"
@@ -83,7 +92,9 @@
       "unitStringId": "unit.length_sections",
       "variants": [
         { "id": "a", "operands": { "length": 28, "width": 18 }, "answer": { "palisade": 92 } },
-        { "id": "b", "operands": { "length": 30, "width": 20 }, "answer": { "palisade": 100 } }
+        { "id": "b", "operands": { "length": 30, "width": 20 }, "answer": { "palisade": 100 } },
+        { "id": "c", "operands": { "length": 25, "width": 15 }, "answer": { "palisade": 80 } },
+        { "id": "d", "operands": { "length": 32, "width": 19 }, "answer": { "palisade": 102 } }
       ],
       "hintStringIds": ["hint.perimeter.all_sides", "hint.perimeter.double_sum"],
       "workedMethod": "rectangle_perimeter"
@@ -97,7 +108,10 @@
       "unitStringId": "unit.troops",
       "variants": [
         { "id": "a", "operands": { "whole": 6000, "percent": 15 }, "answer": { "troops": 900 } },
-        { "id": "b", "operands": { "whole": 7500, "percent": 12 }, "answer": { "troops": 900 } }
+        { "id": "b", "operands": { "whole": 7500, "percent": 12 }, "answer": { "troops": 900 } },
+        { "id": "c", "operands": { "whole": 4500, "percent": 20 }, "answer": { "troops": 900 } },
+        { "id": "d", "operands": { "whole": 3600, "percent": 25 }, "answer": { "troops": 900 } },
+        { "id": "e", "operands": { "whole": 9000, "percent": 10 }, "answer": { "troops": 900 } }
       ],
       "hintStringIds": ["hint.percent.as_fraction", "hint.percent.multiply_then_divide"],
       "workedMethod": "percent_of"
@@ -107,26 +121,44 @@
       "operation": "table_compare",
       "skillTags": ["unit_rate", "data_interpretation", "budget"],
       "promptStringId": "math.c2.allies.prompt",
-      "answerFields": ["choiceId"],
+      "answerFields": ["choiceId", "supportPer10"],
       "unitStringId": "unit.choice",
       "variants": [
         {
           "id": "a",
           "operands": {
             "budget": 100,
-            "options": [{ "id": "plan_a", "cost": 90, "cohesion": 16 }, { "id": "plan_b", "cost": 80, "cohesion": 12 }, { "id": "plan_c", "cost": 110, "cohesion": 22 }],
+            "options": [{ "id": "plan_a", "cost": 80, "cohesion": 20 }, { "id": "plan_b", "cost": 60, "cohesion": 12 }, { "id": "plan_c", "cost": 120, "cohesion": 36 }],
             "criterion": "highest_cohesion_per_cost_affordable"
           },
-          "answer": { "choiceId": "plan_a" }
+          "answer": { "choiceId": "plan_a", "supportPer10": 2.5 }
         },
         {
           "id": "b",
           "operands": {
             "budget": 95,
-            "options": [{ "id": "plan_a", "cost": 90, "cohesion": 16 }, { "id": "plan_b", "cost": 75, "cohesion": 13 }, { "id": "plan_c", "cost": 100, "cohesion": 24 }],
+            "options": [{ "id": "plan_a", "cost": 90, "cohesion": 18 }, { "id": "plan_b", "cost": 50, "cohesion": 15 }, { "id": "plan_c", "cost": 100, "cohesion": 35 }],
             "criterion": "highest_cohesion_per_cost_affordable"
           },
-          "answer": { "choiceId": "plan_a" }
+          "answer": { "choiceId": "plan_b", "supportPer10": 3 }
+        },
+        {
+          "id": "c",
+          "operands": {
+            "budget": 100,
+            "options": [{ "id": "plan_a", "cost": 40, "cohesion": 9 }, { "id": "plan_b", "cost": 80, "cohesion": 20 }, { "id": "plan_c", "cost": 110, "cohesion": 33 }],
+            "criterion": "highest_cohesion_per_cost_affordable"
+          },
+          "answer": { "choiceId": "plan_b", "supportPer10": 2.5 }
+        },
+        {
+          "id": "d",
+          "operands": {
+            "budget": 90,
+            "options": [{ "id": "plan_a", "cost": 60, "cohesion": 21 }, { "id": "plan_b", "cost": 80, "cohesion": 24 }, { "id": "plan_c", "cost": 50, "cohesion": 15 }],
+            "criterion": "highest_cohesion_per_cost_affordable"
+          },
+          "answer": { "choiceId": "plan_a", "supportPer10": 3.5 }
         }
       ],
       "hintStringIds": ["hint.table.remove_unaffordable", "hint.unit_rate.compare"],
@@ -134,45 +166,51 @@
     },
     {
       "id": "math_c3_march",
-      "operation": "elapsed_time",
-      "skillTags": ["rate", "elapsed_time"],
+      "operation": "compare_rates",
+      "skillTags": ["rate", "elapsed_time", "comparison"],
       "promptStringId": "math.c3.march.prompt",
-      "answerFields": ["days"],
+      "answerFields": ["daysSooner"],
       "unitStringId": "unit.days",
       "variants": [
-        { "id": "a", "operands": { "distance": 350, "distancePerDay": 70 }, "answer": { "days": 5 } },
-        { "id": "b", "operands": { "distance": 420, "distancePerDay": 60 }, "answer": { "days": 7 } }
+        { "id": "a", "operands": { "slowKm": 330, "slowKmPerDay": 22, "fastKm": 420, "fastKmPerDay": 35 }, "answer": { "daysSooner": 3 } },
+        { "id": "b", "operands": { "slowKm": 360, "slowKmPerDay": 24, "fastKm": 400, "fastKmPerDay": 40 }, "answer": { "daysSooner": 5 } },
+        { "id": "c", "operands": { "slowKm": 300, "slowKmPerDay": 20, "fastKm": 360, "fastKmPerDay": 36 }, "answer": { "daysSooner": 5 } },
+        { "id": "d", "operands": { "slowKm": 390, "slowKmPerDay": 26, "fastKm": 440, "fastKmPerDay": 44 }, "answer": { "daysSooner": 5 } }
       ],
-      "hintStringIds": ["hint.rate.distance_over_rate", "hint.elapsed.check_units"],
-      "workedMethod": "distance_rate_time"
+      "hintStringIds": ["hint.routes.each_time", "hint.routes.subtract"],
+      "workedMethod": "compare_routes"
     },
     {
       "id": "math_c3_stores",
       "operation": "unit_rate",
-      "skillTags": ["unit_rate", "budget"],
+      "skillTags": ["decimals", "unit_rate", "budget"],
       "promptStringId": "math.c3.stores.prompt",
       "answerFields": ["rice"],
       "unitStringId": "unit.rice",
       "variants": [
-        { "id": "a", "operands": { "budget": 100, "lotCost": 25, "ricePerLot": 55 }, "answer": { "rice": 220 } },
-        { "id": "b", "operands": { "budget": 100, "lotCost": 20, "ricePerLot": 44 }, "answer": { "rice": 220 } }
+        { "id": "a", "operands": { "budget": 100, "price": 2.5, "ricePerBale": 5.5 }, "answer": { "rice": 220 } },
+        { "id": "b", "operands": { "budget": 100, "price": 1.25, "ricePerBale": 2.75 }, "answer": { "rice": 220 } },
+        { "id": "c", "operands": { "budget": 100, "price": 2, "ricePerBale": 4.4 }, "answer": { "rice": 220 } },
+        { "id": "d", "operands": { "budget": 100, "price": 0.5, "ricePerBale": 1.1 }, "answer": { "rice": 220 } }
       ],
-      "hintStringIds": ["hint.budget.find_lots", "hint.unit_rate.multiply_lots"],
-      "workedMethod": "purchase_lots"
+      "hintStringIds": ["hint.decimal.bales", "hint.decimal.multiply"],
+      "workedMethod": "decimal_purchase"
     },
     {
       "id": "math_c3_gifu",
-      "operation": "multi_field_allocation",
-      "skillTags": ["ratio", "whole_number_division"],
+      "operation": "fraction_of",
+      "skillTags": ["fractions", "whole_number_division"],
       "promptStringId": "math.c3.gifu.prompt",
       "answerFields": ["vanguard", "reserve"],
       "unitStringId": "unit.troops",
       "variants": [
-        { "id": "a", "operands": { "total": 6000, "ratio": [3, 2] }, "answer": { "vanguard": 3600, "reserve": 2400 } },
-        { "id": "b", "operands": { "total": 7500, "ratio": [2, 1] }, "answer": { "vanguard": 5000, "reserve": 2500 } }
+        { "id": "a", "operands": { "total": 6000, "numerator": 3, "denominator": 5 }, "answer": { "vanguard": 3600, "reserve": 2400 } },
+        { "id": "b", "operands": { "total": 7500, "numerator": 2, "denominator": 3 }, "answer": { "vanguard": 5000, "reserve": 2500 } },
+        { "id": "c", "operands": { "total": 6400, "numerator": 3, "denominator": 4 }, "answer": { "vanguard": 4800, "reserve": 1600 } },
+        { "id": "d", "operands": { "total": 8000, "numerator": 5, "denominator": 8 }, "answer": { "vanguard": 5000, "reserve": 3000 } }
       ],
-      "hintStringIds": ["hint.ratio.total_parts", "hint.allocation.check_total"],
-      "workedMethod": "ratio_share"
+      "hintStringIds": ["hint.fraction.divide_then_multiply", "hint.remainder.subtract"],
+      "workedMethod": "fraction_remainder"
     },
     {
       "id": "math_c3_relief",
@@ -180,10 +218,12 @@
       "skillTags": ["percent", "remainder"],
       "promptStringId": "math.c3.relief.prompt",
       "answerFields": ["north", "other"],
-      "unitStringId": "unit.rice",
+      "unitStringId": "unit.households",
       "variants": [
-        { "id": "a", "operands": { "total": 100, "firstPercent": 35 }, "answer": { "north": 35, "other": 65 } },
-        { "id": "b", "operands": { "total": 100, "firstPercent": 25 }, "answer": { "north": 25, "other": 75 } }
+        { "id": "a", "operands": { "total": 1400, "firstPercent": 35 }, "answer": { "north": 490, "other": 910 } },
+        { "id": "b", "operands": { "total": 1600, "firstPercent": 25 }, "answer": { "north": 400, "other": 1200 } },
+        { "id": "c", "operands": { "total": 1200, "firstPercent": 40 }, "answer": { "north": 480, "other": 720 } },
+        { "id": "d", "operands": { "total": 1800, "firstPercent": 15 }, "answer": { "north": 270, "other": 1530 } }
       ],
       "hintStringIds": ["hint.percent.find_first", "hint.remainder.subtract"],
       "workedMethod": "percent_and_remainder"
@@ -197,25 +237,28 @@
       "unitStringId": "unit.treasury",
       "variants": [
         { "id": "a", "operands": { "total": 120, "ratio": [6, 3, 1] }, "answer": { "guarantee": 72, "retainers": 36, "messengers": 12 } },
-        { "id": "b", "operands": { "total": 120, "ratio": [5, 3, 2] }, "answer": { "guarantee": 60, "retainers": 36, "messengers": 24 } }
+        { "id": "b", "operands": { "total": 120, "ratio": [5, 3, 2] }, "answer": { "guarantee": 60, "retainers": 36, "messengers": 24 } },
+        { "id": "c", "operands": { "total": 120, "ratio": [4, 4, 2] }, "answer": { "guarantee": 48, "retainers": 48, "messengers": 24 } },
+        { "id": "d", "operands": { "total": 120, "ratio": [7, 4, 1] }, "answer": { "guarantee": 70, "retainers": 40, "messengers": 10 } }
       ],
       "hintStringIds": ["hint.ratio.total_parts", "hint.allocation.check_total"],
       "workedMethod": "ratio_share"
     },
     {
       "id": "math_kobayakawa_letter",
-      "operation": "elapsed_time",
-      "skillTags": ["rate", "elapsed_time"],
+      "operation": "scale_drawing",
+      "skillTags": ["scale", "rate"],
       "promptStringId": "math.kobayakawa_letter.prompt",
       "answerFields": ["days"],
       "unitStringId": "unit.days",
       "variants": [
-        { "id": "a", "operands": { "distance": 360, "distancePerDay": 90 }, "answer": { "days": 4 } },
-        { "id": "b", "operands": { "distance": 420, "distancePerDay": 70 }, "answer": { "days": 6 } },
-        { "id": "c", "operands": { "distance": 300, "distancePerDay": 60 }, "answer": { "days": 5 } }
+        { "id": "a", "operands": { "mapCm": 9, "kmPerCm": 40, "kmPerDay": 60 }, "answer": { "days": 6 } },
+        { "id": "b", "operands": { "mapCm": 8, "kmPerCm": 45, "kmPerDay": 90 }, "answer": { "days": 4 } },
+        { "id": "c", "operands": { "mapCm": 10, "kmPerCm": 30, "kmPerDay": 60 }, "answer": { "days": 5 } },
+        { "id": "d", "operands": { "mapCm": 12, "kmPerCm": 25, "kmPerDay": 60 }, "answer": { "days": 5 } }
       ],
-      "hintStringIds": ["hint.rate.distance_over_rate", "hint.elapsed.check_units"],
-      "workedMethod": "distance_rate_time"
+      "hintStringIds": ["hint.scale.multiply", "hint.rate.distance_over_rate"],
+      "workedMethod": "scale_then_rate"
     },
     {
       "id": "math_c4_granaries",
@@ -234,67 +277,100 @@
     },
     {
       "id": "math_c4_fieldworks",
-      "operation": "area_rectangle",
-      "skillTags": ["area", "unit_rate"],
+      "operation": "volume",
+      "skillTags": ["volume", "unit_rate"],
       "promptStringId": "math.c4.fieldworks.prompt",
       "answerFields": ["materials"],
       "unitStringId": "unit.materials",
       "variants": [
-        { "id": "a", "operands": { "length": 8, "width": 5, "materialsPerSquare": 3 }, "answer": { "materials": 120 } },
-        { "id": "b", "operands": { "length": 10, "width": 4, "materialsPerSquare": 3 }, "answer": { "materials": 120 } }
+        { "id": "a", "operands": { "length": 10, "width": 2, "depth": 2, "materialsPerCube": 3 }, "answer": { "materials": 120 } },
+        { "id": "b", "operands": { "length": 5, "width": 4, "depth": 2, "materialsPerCube": 3 }, "answer": { "materials": 120 } },
+        { "id": "c", "operands": { "length": 6, "width": 5, "depth": 2, "materialsPerCube": 2 }, "answer": { "materials": 120 } },
+        { "id": "d", "operands": { "length": 8, "width": 5, "depth": 1, "materialsPerCube": 3 }, "answer": { "materials": 120 } }
       ],
-      "hintStringIds": ["hint.area.length_width", "hint.unit_rate.multiply"],
-      "workedMethod": "area_times_rate"
+      "hintStringIds": ["hint.volume.multiply", "hint.volume.rate"],
+      "workedMethod": "volume_times_rate"
     },
     {
       "id": "math_c4_weather",
-      "operation": "table_compare",
-      "skillTags": ["percent", "data_interpretation"],
+      "operation": "mean",
+      "skillTags": ["mean", "decimals"],
       "promptStringId": "math.c4.weather.prompt",
-      "answerFields": ["choiceId"],
-      "unitStringId": "unit.choice",
+      "answerFields": ["rain"],
+      "unitStringId": "unit.mm",
       "variants": [
-        {
-          "id": "a",
-          "operands": {
-            "options": [
-              { "id": "report_a", "reliabilityPercent": 80, "rainPercent": 70 },
-              { "id": "report_b", "reliabilityPercent": 90, "rainPercent": 50 },
-              { "id": "report_c", "reliabilityPercent": 60, "rainPercent": 90 }
-            ],
-            "criterion": "highest_product"
-          },
-          "answer": { "choiceId": "report_a" }
-        },
-        {
-          "id": "b",
-          "operands": {
-            "options": [
-              { "id": "report_a", "reliabilityPercent": 75, "rainPercent": 60 },
-              { "id": "report_b", "reliabilityPercent": 85, "rainPercent": 55 },
-              { "id": "report_c", "reliabilityPercent": 65, "rainPercent": 80 }
-            ],
-            "criterion": "highest_product"
-          },
-          "answer": { "choiceId": "report_c" }
-        }
+        { "id": "a", "operands": { "readings": [12.5, 8.0, 14.5, 9.0] }, "answer": { "rain": 11 } },
+        { "id": "b", "operands": { "readings": [6.5, 11.0, 9.5, 13.0] }, "answer": { "rain": 10 } },
+        { "id": "c", "operands": { "readings": [15.5, 9.5, 12.0, 7.0, 11.0] }, "answer": { "rain": 11 } },
+        { "id": "d", "operands": { "readings": [4.5, 7.5, 10.0, 6.0] }, "answer": { "rain": 7 } }
       ],
-      "hintStringIds": ["hint.table.multiply_percent_pairs", "hint.table.compare_products"],
-      "workedMethod": "percent_product_compare"
+      "hintStringIds": ["hint.mean.add", "hint.mean.divide"],
+      "workedMethod": "mean_of_readings"
     },
     {
       "id": "math_audit_stores",
       "operation": "budget_remainder",
-      "skillTags": ["whole_number_operations", "ledger"],
+      "skillTags": ["integers", "ledger"],
       "promptStringId": "math.audit.prompt",
-      "answerFields": ["closingBalance"],
-      "unitStringId": "unit.resource",
+      "answerFields": ["lowestBalance", "closingBalance"],
+      "unitStringId": "unit.rice",
       "variants": [
-        { "id": "a", "operands": { "opening": 720, "inflow": 215, "outflow": 128 }, "answer": { "closingBalance": 807 } },
-        { "id": "b", "operands": { "opening": 520, "inflow": 120, "outflow": 96 }, "answer": { "closingBalance": 544 } }
+        {
+          "id": "a",
+          "operands": {
+            "opening": 60,
+            "entries": [
+              { "label": "Households fed", "amount": -128 },
+              { "label": "Garrison fed", "amount": -8 },
+              { "label": "Harvest", "amount": 176 },
+              { "label": "Stores bought", "amount": 55 }
+            ]
+          },
+          "answer": { "lowestBalance": -76, "closingBalance": 155 }
+        },
+        {
+          "id": "b",
+          "operands": {
+            "opening": 40,
+            "entries": [
+              { "label": "Soldiers fed", "amount": -96 },
+              { "label": "Merchant loan repaid", "amount": -20 },
+              { "label": "Harvest", "amount": 210 },
+              { "label": "Relief sent", "amount": -35 }
+            ]
+          },
+          "answer": { "lowestBalance": -76, "closingBalance": 99 }
+        },
+        {
+          "id": "c",
+          "operands": {
+            "opening": 120,
+            "entries": [
+              { "label": "Households fed", "amount": -150 },
+              { "label": "Harvest", "amount": 188 },
+              { "label": "Raid losses", "amount": -45 },
+              { "label": "Audit recovery", "amount": 60 }
+            ]
+          },
+          "answer": { "lowestBalance": -30, "closingBalance": 173 }
+        },
+        {
+          "id": "d",
+          "operands": {
+            "opening": 25,
+            "entries": [
+              { "label": "Garrison fed", "amount": -60 },
+              { "label": "Households fed", "amount": -110 },
+              { "label": "Harvest", "amount": 240 },
+              { "label": "Stores bought", "amount": 44 },
+              { "label": "March rations", "amount": -96 }
+            ]
+          },
+          "answer": { "lowestBalance": -145, "closingBalance": 43 }
+        }
       ],
-      "hintStringIds": ["hint.ledger.add_inflow", "hint.ledger.subtract_outflow"],
-      "workedMethod": "ledger_balance"
+      "hintStringIds": ["hint.ledger.running", "hint.ledger.lowest"],
+      "workedMethod": "ledger_lines"
     },
     {
       "id": "math_crisis_famine",

@@ -20,7 +20,15 @@ function independent(id:string,o:Record<string,any>):Answer{const t=template(id)
  case 'formation_supply':n=o.troops.map((x:number)=>Math.trunc(x/o.troopsPerRice)+(x%o.troopsPerRice?1:0)).reduce((a:number,b:number)=>a+b,0)*o.rounds;break;
  case 'ledger_balance':n=o.opening+o.inflow-o.outflow;break;
  case 'purchase_remainder':n=o.opening-o.itemCount*o.itemCost;break;
- case 'affordable_unit_rate_compare':n=o.options.filter((x:any)=>x.cost<=o.budget).sort((a:any,b:any)=>b.cohesion/b.cost-a.cohesion/a.cost)[0].id;break;
+ case 'affordable_unit_rate_compare':{const best=o.options.filter((x:any)=>x.cost<=o.budget).sort((a:any,b:any)=>b.cohesion/b.cost-a.cohesion/a.cost)[0];if(f[1])return {[f[0]]:best.id,[f[1]]:Math.round(best.cohesion/best.cost*1000)/100};n=best.id;break;}
+ // v0.5 methods, solved a second way (repeated addition / per-unit steps) to cross-check the engine
+ case 'fraction_remainder':{const part=o.total/o.denominator;let v=0;for(let i=0;i<o.numerator;i++)v+=part;return {[f[0]]:v,[f[1]]:o.total-v};}
+ case 'decimal_purchase':{let money=o.budget*4,bales=0;const price=o.price*4;while(money>=price-1e-9){money-=price;bales++;}n=Math.round(bales*o.ricePerBale*100)/100;break;}
+ case 'mean_of_readings':n=Math.round(o.readings.reduce((a:number,b:number)=>a+b,0)/o.readings.length*1000)/1000;break;
+ case 'volume_times_rate':n=o.materialsPerCube*o.depth*o.width*o.length;break;
+ case 'scale_then_rate':n=o.mapCm/o.kmPerDay*o.kmPerCm;break;
+ case 'compare_routes':n=o.slowKm/o.slowKmPerDay-o.fastKm/o.fastKmPerDay;break;
+ case 'ledger_lines':{const bal=o.entries.map((_:any,i:number)=>o.opening+o.entries.slice(0,i+1).reduce((a:number,e:any)=>a+e.amount,0));return {[f[0]]:Math.min(o.opening,...bal),[f[1]]:bal.at(-1)};}
  case 'percent_product_compare':n=o.options.sort((a:any,b:any)=>b.rainPercent/100*b.reliabilityPercent/100-a.rainPercent/100*a.reliabilityPercent/100)[0].id;break;
  default:throw Error(t.workedMethod);
  }return {[f[0]]:n};}

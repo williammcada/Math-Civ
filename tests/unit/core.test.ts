@@ -4,7 +4,7 @@ import {forecast,mandatoryRice} from '../../src/core/economy';
 import {pressure,chance} from '../../src/core/crisis';
 import {floor,ceil,round} from '../../src/core/fixedPoint';
 import {solve,normalize} from '../../src/core/mathEngine';
-import {math} from '../../src/content/registry';
+import {math,chapter as chapterOf} from '../../src/content/registry';
 import {validateContent} from '../../src/content/loader';
 import {devStart,defaultDev} from '../../src/core/devPlaytest';
 import {edoWatchTroops} from '../../src/core/reducer';
@@ -22,6 +22,7 @@ describe('Foundation checkpoint',()=>{
   const sum=(st:ReturnType<typeof createState>)=>st.playerArmy.formations.reduce((n,f)=>n+f.troops,0);
   const guarded=devStart({...defaultDev,start:'battle_prep',edoGuarded:true},7),open=devStart({...defaultDev,start:'battle_prep',edoGuarded:false},7);
   expect(guarded.eventLog.some(e=>e.type==='EDO_WATCH')).toBe(false);expect(open.eventLog.find(e=>e.type==='EDO_WATCH')?.detail?.troops).toBe(400);expect(sum(guarded)-sum(open)).toBe(400);});
+ it('Audit Stores uses last chapter\'s real Rice ledger from Chapter 2 on (v0.5 M1)',()=>{let real=0,total=0;for(let seed=1;seed<=12;seed++){let s=devStart({...defaultDev,start:'ch3',scenes:false},seed);while(s.phase!=='orders')s=reduce(s,s.phase==='policy'?{type:'POLICY',id:chapterOf(s.chapterIndex).policyChoices[0].id}:{type:'ADVANCE'}).state;const r=reduce(s,{type:'OPEN_ORDER',id:'audit_stores',now:0}).state;const c=r.activeOrder!;total++;const e=c.operands.entries as {label:string;amount:number}[];expect(e.length).toBeGreaterThanOrEqual(3);expect(e.every(x=>x.amount!==0)).toBe(true);if(e.some(x=>x.label==='Harvest'))real++;}expect(real).toBe(total);});
  it('starting economy matches P0-011',()=>{expect(forecast(createState())).toMatchObject({labor:{farms:2244,workshops:1346,works:897},rice:176,materials:52 /* v0.5 §2.5: workshop output 6→4 per 100 labor (was 78) */,progress:16,infrastructure:1,taxable:2148,treasury:215,civilian:120,garrison:8,wages:96});});
  it('route supplies match P0-012',()=>{const s=createState();s.playerArmy.active=true;for(const [route,need] of [['prepared',96],['unprepared',120],['damaged',144]] as const){s.playerArmy.routeState=route;expect(forecast(s).field).toBe(need);}});
  it('pressure and thresholds',()=>{expect(mandatoryRice(createState())).toBe(128);expect(pressure(createState()).total).toBe(8);expect([24,25,35,50,70,75,100].map(chance)).toEqual([500,1500,1500,3000,3000,5000,5000]);});
